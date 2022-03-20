@@ -1,0 +1,10 @@
+
+**/appsettings.json
+
+
+API/.vs
+API/bin
+API/obj
+
+
+.DS_Store
