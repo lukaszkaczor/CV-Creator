@@ -2,10 +2,12 @@
 **/appsettings.json
 
 
-API/.vs
-API/.vscode
+**/.vs
+**/.vscode
 API/bin
 API/obj
-
+**/node_modules/
+**/.editorconfig
+**/.browserslistrc
 
 .DS_Store
