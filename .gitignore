@@ -9,5 +9,6 @@ API/obj
 **/node_modules/
 **/.editorconfig
 **/.browserslistrc
+**/.angular/
 
 .DS_Store
