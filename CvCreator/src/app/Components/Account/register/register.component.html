@@ -1,0 +1,107 @@
+<!-- <button (click)="toggle()" style="position: absolute; top: 0; left: 0">
+  toggle errors
+</button> -->
+
+<form action="" class="form" autocomplete="off">
+  <h1 class="form__header">register</h1>
+  <div class="input-group">
+    <label for="email" class="input-group__label">email</label>
+    <div class="input-group__input-box">
+      <input
+        class="input-group__input"
+        type="email"
+        name="email"
+        id="email"
+        placeholder="email@example.com"
+        autofocus
+      />
+    </div>
+    <!-- <div class="input-group__errors" *ngIf="visible">
+      <p class="error">Something went wrong</p>
+    </div> -->
+  </div>
+
+  <div class="input-group">
+    <label for="password" class="input-group__label">password</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="password"
+      name="password"
+      id="password"
+      placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+      autocomplete="on"
+    />
+    <!-- <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-eye"
+        viewBox="0 0 16 16"
+      ></svg> -->
+    <!-- <img src="../../../../assets/Icons/show.png" alt="" /> -->
+    <!-- </div> -->
+  </div>
+  <div class="input-group">
+    <label for="password" class="input-group__label">confirm password</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="password"
+      name="password"
+      id="password"
+      placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+      autocomplete="on"
+    />
+    <!-- </div> -->
+  </div>
+
+  <div class="input-group flex_direction--row flex-align--center">
+    <input
+      class="input-group__input--checkbox"
+      type="checkbox"
+      name="privacyPolicy"
+      id="privacyPolicy"
+    />
+    <label class="privacy-policy" for="privacyPolicy"
+      >I agree to the terms and conditions of <strong>Privacy Policy</strong>
+    </label>
+  </div>
+
+  <button type="submit" class="button">register</button>
+
+  <div class="icon-group">
+    <h5 class="icon-group__label">or register with</h5>
+    <div class="icon-group__icons">
+      <a href="">
+        <img
+          class="icon-group__icons__icon"
+          src="../login/../../../../assets/Icons/apple-logo.png"
+          alt=""
+        />
+      </a>
+      <a href="">
+        <img
+          class="icon-group__icons__icon"
+          src="../login/../../../../assets/Icons/google.png"
+          alt=""
+        />
+      </a>
+      <a href="">
+        <img
+          class="icon-group__icons__icon"
+          src="../login/../../../../assets/Icons/linkedin.png"
+          alt=""
+        />
+      </a>
+    </div>
+  </div>
+
+  <div class="link-group">
+    <p>
+      Already have an account?
+      <a href="#" class="link-group__link">Sign in here</a>
+    </p>
+  </div>
+</form>
