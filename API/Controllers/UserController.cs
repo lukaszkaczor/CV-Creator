@@ -1,0 +1,41 @@
+using API.Models;
+using API.Models.DTOs;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
+namespace API.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class UserController : ControllerBase
+{
+    private UserManager<ApplicationUser> _userManager;
+    private readonly IMapper _mapper;
+
+    public UserController(UserManager<ApplicationUser> manager, IMapper mapper)
+    {
+        _userManager = manager;
+        _mapper = mapper;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostAsync([FromBody] CreditentialsDTO data)
+    {
+        var user = _mapper.Map<ApplicationUser>(data);
+
+        var result = await _userManager.CreateAsync(user, data.Password);
+        return Ok(result);
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteAsync([FromBody] string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user is null) return NotFound();
+
+        var status = await _userManager.DeleteAsync(user);
+        return Ok(status);
+    }
+}

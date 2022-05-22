@@ -4,6 +4,5 @@ namespace API.Models
 {
     public class ApplicationUser : IdentityUser
     {
-
     }
 }
