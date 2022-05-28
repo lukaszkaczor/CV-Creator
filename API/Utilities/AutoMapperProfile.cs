@@ -3,13 +3,12 @@ using API.Models;
 using API.Models.DTOs;
 using AutoMapper;
 
-namespace API.Utilities
+namespace API.Utilities;
+
+public class AutoMapperProfile : Profile
 {
-    public class AutoMapperProfile : Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<CreditentialsDTO, ApplicationUser>().ReverseMap();
-        }
+        CreateMap<CreditentialsDTO, ApplicationUser>().ReverseMap();
     }
 }

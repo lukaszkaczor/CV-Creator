@@ -10,7 +10,7 @@ namespace API.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
-    private UserManager<ApplicationUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IMapper _mapper;
 
     public UserController(UserManager<ApplicationUser> manager, IMapper mapper)

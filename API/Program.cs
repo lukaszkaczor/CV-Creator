@@ -4,7 +4,6 @@ using API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,31 +28,28 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
-builder.Services
-    .AddIdentity<ApplicationUser, IdentityRole>(options =>
+// For Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+    options =>
         {
             options.SignIn.RequireConfirmedAccount = true;
+            options.SignIn.RequireConfirmedEmail = true;
+            options.Lockout.AllowedForNewUsers = false;
             options.User.RequireUniqueEmail = true;
-        })
-      .AddEntityFrameworkStores<CvCreatorDbContext>();
+        }
+)
+    .AddEntityFrameworkStores<CvCreatorDbContext>()
+    .AddDefaultTokenProviders();
+
+// Adding Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+});
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-// builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
-// {
-//     options.SignIn.RequireConfirmedAccount = false;
-//     options.Password.RequireNonAlphanumeric = false;
-//     options.Password.RequireDigit = false;
-//     options.Password.RequireUppercase = false;
-//     options.Password.RequireLowercase = false;
-//     options.Password.RequiredLength = 8;
-
-// }).AddEntityFrameworkStores<CvCreatorDbContext>();
-
-// builder.Services.AddIdentityServer().AddApiAuthorization<ApplicationUser, CvCreatorDbContext>();
-
-
-// builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
 builder.Services.AddMvc();
 
@@ -81,7 +77,7 @@ app.UseCors(options =>
     // .AllowAnyOrigin();
 });
 
-// app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();
+app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();
 
 
 app.UseHttpsRedirection();

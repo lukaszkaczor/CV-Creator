@@ -8,7 +8,7 @@ namespace API.Controllers
     [Route("[controller]")]
     public class TestController : ControllerBase
     {
-        private CvCreatorDbContext _context;
+        private readonly CvCreatorDbContext _context;
         public TestController(CvCreatorDbContext context)
         {
             _context = context;
@@ -24,6 +24,7 @@ namespace API.Controllers
 
 
         [HttpGet("Public")]
+        [Authorize]
         public IActionResult GetPublicData()
         {
             var ss = _context.Roles.ToList();

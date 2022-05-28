@@ -2,62 +2,76 @@ using System.CodeDom.Compiler;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using API.Data;
 using API.Models;
-using IdentityModel.Client;
+using API.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class AuthController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AuthController : ControllerBase
+    private readonly IConfiguration _config;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly CvCreatorDbContext _context;
+
+
+    public AuthController(IConfiguration config, UserManager<ApplicationUser> manager,
+      SignInManager<ApplicationUser> signInManager, CvCreatorDbContext context)
     {
-        private IConfiguration _config;
+        _config = config;
+        _userManager = manager;
+        // _mapper = mapper;
+        _signInManager = signInManager;
+        _context = context;
+    }
 
-        public AuthController(IConfiguration config)
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> Login([FromBody] CreditentialsDTO creditentials)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(d => d.Email == creditentials.Email);
+
+        if (user is null) return NotFound();
+
+        var result = await _signInManager.PasswordSignInAsync(creditentials.Email, creditentials.Password, true, false);
+
+        if (result.Succeeded)
+            return Ok(await GenerateTokenAsync(creditentials, user));
+
+        return Unauthorized(result);
+    }
+
+    private async Task<string> GenerateTokenAsync(CreditentialsDTO creditentials, ApplicationUser user)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var claims = new List<Claim>()
         {
-            _config = config;
-        }
+            new Claim(ClaimTypes.Name, creditentials.Email)
+        };
 
+        foreach (var role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
 
-        [HttpPost]
-        [AllowAnonymous]
-        public IActionResult Login([FromBody] UserLogin login)
-        {
+        var token = new JwtSecurityToken(
+            _config["Jwt:Issuer"],
+            _config["Jwt:Audience"],
+            claims,
+            expires: DateTime.Now.AddMinutes(1500),
+            signingCredentials: signingCredentials
+            );
 
-            if (login.Login == "asd" && login.Password == "asd")
-            {
-                var token = Generate();
-                return Ok(token);
-            }
-
-            return NotFound("User not found");
-        }
-
-        private string Generate()
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, "asd"),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-
-
-            var token = new JwtSecurityToken(
-                _config["Jwt:Issuer"],
-                _config["Jwt:Audience"],
-                claims,
-                expires: DateTime.Now.AddMinutes(15),
-                signingCredentials: credentials
-                );
-
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
