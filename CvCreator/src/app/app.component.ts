@@ -11,8 +11,9 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
   ngOnInit(): void {
-    this.http.get('https://localhost:7184/test/public').subscribe((data) => {
-      this.title = JSON.stringify(data);
-    });
+    // this.http.get('https://localhost:7184/test/public').subscribe((data) => {
+    //   this.title = JSON.stringify(data);
+    //   console.log(JSON.stringify(data));
+    // });
   }
 }

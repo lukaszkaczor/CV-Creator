@@ -2,7 +2,7 @@
   toggle errors
 </button>
 
-<form action="" class="form" autocomplete="off">
+<form action="" class="form" autocomplete="off" [formGroup]="form">
   <h1 class="form__header">login</h1>
   <div class="input-group">
     <label for="email" class="input-group__label">email</label>
@@ -14,6 +14,7 @@
       id="email"
       placeholder="email@example.com"
       autofocus
+      formControlName="email"
     />
     <!-- </div> -->
     <div class="input-group__errors" *ngIf="visible">
@@ -31,6 +32,7 @@
       id="password"
       placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
       autocomplete="on"
+      formControlName="password"
     />
     <!-- </div> -->
   </div>
@@ -47,7 +49,7 @@
     </label>
   </div>
 
-  <button type="submit" class="button">login</button>
+  <button type="submit" class="button" (click)="submit()">login</button>
 
   <div class="icon-group">
     <h5 class="icon-group__label">or login with</h5>

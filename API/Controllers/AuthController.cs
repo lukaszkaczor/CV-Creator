@@ -20,17 +20,14 @@ public class AuthController : ControllerBase
     private readonly IConfiguration _config;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly CvCreatorDbContext _context;
 
 
     public AuthController(IConfiguration config, UserManager<ApplicationUser> manager,
-      SignInManager<ApplicationUser> signInManager, CvCreatorDbContext context)
+      SignInManager<ApplicationUser> signInManager)
     {
         _config = config;
         _userManager = manager;
-        // _mapper = mapper;
         _signInManager = signInManager;
-        _context = context;
     }
 
 
@@ -38,7 +35,7 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] CreditentialsDTO creditentials)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(d => d.Email == creditentials.Email);
+        var user = await _userManager.FindByEmailAsync(creditentials.Email);
 
         if (user is null) return NotFound();
 
@@ -68,7 +65,7 @@ public class AuthController : ControllerBase
             _config["Jwt:Issuer"],
             _config["Jwt:Audience"],
             claims,
-            expires: DateTime.Now.AddMinutes(1500),
+            expires: DateTime.Now.AddMinutes(5),
             signingCredentials: signingCredentials
             );
 

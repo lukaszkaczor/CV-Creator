@@ -24,7 +24,7 @@ namespace API.Controllers
 
 
         [HttpGet("Public")]
-        [Authorize]
+        // [Authorize]
         public IActionResult GetPublicData()
         {
             var ss = _context.Roles.ToList();

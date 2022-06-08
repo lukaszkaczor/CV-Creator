@@ -49,6 +49,17 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 });
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200/",
+                                "https://localhost:4200/");
+        });
+});
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddMvc();
@@ -69,12 +80,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// app.UseCors();
 app.UseCors(options =>
 {
     options.WithOrigins("http://localhost:4200/")
     .AllowAnyHeader()
-    .AllowAnyMethod();
-    // .AllowAnyOrigin();
+    .AllowAnyMethod()
+    .AllowAnyOrigin();
 });
 
 app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();
