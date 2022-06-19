@@ -1,7 +1,9 @@
-import { ErrorCode } from './../../../Models/ErrorCode';
+import { LoginCreditentials } from './../../../Models/LoginCreditentials';
+import { FormApiManager } from './../../../Utilities/FormApiManager';
+import { FormManager } from './../../../Utilities/FormManager';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,30 +11,29 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-  public form: FormGroup;
-
+export class LoginComponent
+  extends FormManager<LoginCreditentials>
+  implements OnInit
+{
   visible = false;
   constructor(
     private builder: FormBuilder,
     private router: Router,
     private http: HttpClient
   ) {
-    this.form = builder.group({
+    super(new FormApiManager(http));
+    this._form = builder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this._form.setValue({ email: '@asd', password: 'asd' });
+  }
 
   toggle() {
     this.visible = !this.visible;
-  }
-
-  submit() {
-    console.log(this.form);
-    this.login();
   }
 
   login() {
@@ -55,15 +56,15 @@ export class LoginComponent implements OnInit {
       );
   }
 
-  get email() {
-    return this.form.get('email');
+  get email(): FormControl {
+    return this._form.get('email') as FormControl;
   }
   set email(val) {
     this.email?.setValue(val);
   }
 
-  get password() {
-    return this.form.get('password');
+  get password(): FormControl {
+    return this._form.get('password') as FormControl;
   }
   set password(val) {
     this.password?.setValue(val);

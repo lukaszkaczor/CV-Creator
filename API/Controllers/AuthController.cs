@@ -42,7 +42,8 @@ public class AuthController : ControllerBase
         var result = await _signInManager.PasswordSignInAsync(creditentials.Email, creditentials.Password, true, false);
 
         if (result.Succeeded)
-            return Ok(await GenerateTokenAsync(creditentials, user));
+            return Ok(new { token = await GenerateTokenAsync(creditentials, user) });
+        // return Ok(await GenerateTokenAsync(creditentials, user));
 
         return Unauthorized(result);
     }

@@ -17,8 +17,20 @@
       formControlName="email"
     />
     <!-- </div> -->
-    <div class="input-group__errors" *ngIf="visible">
-      <p class="error">Something went wrong</p>
+    <div
+      class="input-group__errors"
+      *ngIf="
+        (email.touched && email.invalid && email.errors) ||
+        (formSubmitted && email.errors)
+      "
+    >
+      <p class="error" *ngIf="email.errors['required']">
+        Email nie może być pusty
+      </p>
+
+      <p class="error" *ngIf="email.touched && email.errors['email'] == true">
+        Email musi mieć format example@email.com
+      </p>
     </div>
   </div>
 
@@ -34,6 +46,18 @@
       autocomplete="on"
       formControlName="password"
     />
+
+    <div
+      class="input-group__errors"
+      *ngIf="
+        (password.touched && password.invalid && password.errors) ||
+        (formSubmitted && password.errors)
+      "
+    >
+      <p class="error" *ngIf="password.errors['required']">
+        Hasło nie moze być puste
+      </p>
+    </div>
     <!-- </div> -->
   </div>
 
