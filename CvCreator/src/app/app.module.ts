@@ -11,6 +11,8 @@ import { RegisterComponent } from './Components/Account/register/register.compon
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestComponent } from './Components/test/test.component';
 import { AuthInterceptor } from 'src/Interceptors/auth.interceptor';
+import { BasicInfoComponent } from './Components/Creator/basic-info/basic-info.component';
+import { PersonalDataComponent } from './Components/Creator/personal-data/personal-data.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -23,6 +25,8 @@ export function tokenGetter() {
     HomeComponent,
     RegisterComponent,
     TestComponent,
+    BasicInfoComponent,
+    PersonalDataComponent,
   ],
   imports: [
     BrowserModule,

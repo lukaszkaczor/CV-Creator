@@ -15,19 +15,12 @@ export class FormManager<T> {
   }
 
   public async submit<T>(): Promise<void> {
-    // console.log(this._form.controls);
-    // this.formSubmitted = true;
-    // if (!this.formIsValid()) console.log(this._form.controls['email'].errors);
-    if (this.formIsValid())
-      console.log(await this._dataManager.save(this._form.value));
-    // else console.log('error');
-    // console.log(this._form.controls);
-    // console.log(this._form.get('email')?.value);
-    // console.log(this._form.value as T);
-    // const s: T = this.form.value as T;
-    // console.log(typeof s);
-    // // console.log(keys);
-    // this.test = this.form.value;
+    console.log(this.form);
+
+    if (this.formIsValid()) {
+      const result = await this._dataManager.save(this._form.value);
+      console.log(result);
+    }
   }
 
   public get form(): FormGroup {

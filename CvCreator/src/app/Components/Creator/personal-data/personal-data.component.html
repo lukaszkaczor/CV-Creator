@@ -1,0 +1,30 @@
+<form [formGroup]="form">
+  <div class="input-group">
+    <label for="firstName" class="input-group__label">firstName</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="firstName"
+      name="firstName"
+      id="firstName"
+      autofocus
+      formControlName="firstName"
+    />
+  </div>
+  <div class="input-group">
+    <label for="lastName" class="input-group__label">lastName</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="lastName"
+      name="lastName"
+      id="lastName"
+      autofocus
+      formControlName="lastName"
+    />
+  </div>
+
+  <input type="hidden" formControlName="cvIdentifier" />
+
+  <button type="submit" class="button" (click)="submit()">send/save</button>
+</form>

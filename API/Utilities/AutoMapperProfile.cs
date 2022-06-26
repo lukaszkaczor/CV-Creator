@@ -10,5 +10,6 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<CreditentialsDTO, ApplicationUser>().ReverseMap();
+        CreateMap<UserLoginDTO, UserLogin>().ReverseMap();
     }
 }

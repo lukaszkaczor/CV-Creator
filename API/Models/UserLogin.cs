@@ -1,13 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace API.Models;
 
 public class UserLogin
 {
-    public UserLogin(string login, string password)
-    {
-        this.Login = login;
-        this.Password = password;
-
-    }
+    public int Id { get; set; }
     public string Login { get; set; }
     public string Password { get; set; }
 

@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(CvCreatorDbContext))]
-    partial class CvCreatorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220621120328_AddCurriculumVitaesAndCvPersonalDataTables")]
+    partial class AddCurriculumVitaesAndCvPersonalDataTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,7 +105,7 @@ namespace API.Data.Migrations
                     b.HasIndex("PersonalDataId")
                         .IsUnique();
 
-                    b.ToTable("CurriculumVitaes", (string)null);
+                    b.ToTable("CurriculumVitaes");
                 });
 
             modelBuilder.Entity("API.Models.CvPersonalData", b =>
@@ -127,7 +129,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CvPersonalData", (string)null);
+                    b.ToTable("CvPersonalData");
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -213,7 +215,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("Use");
 
-                    b.ToTable("Keys", (string)null);
+                    b.ToTable("Keys");
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
