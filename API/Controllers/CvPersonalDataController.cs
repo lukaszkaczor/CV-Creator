@@ -1,6 +1,8 @@
 
 using API.Data;
 using API.Models;
+using API.Models.DTOs;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,46 +11,26 @@ namespace API.Controllers;
 public class CvPersonalDataController : Controller
 {
     private readonly CvCreatorDbContext _context;
-    // private readonly xIMapper _mapper;
-    public CvPersonalDataController(CvCreatorDbContext context)
+    private readonly IMapper _mapper;
+    public CvPersonalDataController(CvCreatorDbContext context, IMapper mapper)
     {
         this._context = context;
-        // _mapper = mapper;
+        _mapper = mapper;
 
     }
-    // private readonly ILogger<CvPersonalData> _logger;
-
-    // public CvPersonalDataController()
-    // {
-    //     // _logger = logger;
-    // }
 
     [HttpGet]
     public IActionResult Get()
     {
-        var result = _context.Test.ToList();
-        return Ok(result);
+        return Ok();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] UserLoginDTO data)
+    public async Task<IActionResult> Post([FromBody] CvPersonalDataDTO data)
     {
-        // var mappedData = _mapper.Map<UserLogin>(data);
-        // var first = await _context.Test.AddAsync(mappedData);
-        // if (!ModelState.IsValid) return NotFound();
-
-        // var ssd = await _context.Test.AddAsync(data);
-        // await _context.SaveChangesAsync();
-        // var ctx = _context.CvPersonalData.Add(new CvPersonalData()
-        // {
-        //     FirstName = "Jeden",
-        //     CurriculumVitaeId = 1
-        // });
-
-
-        // var dd = _context.SaveChanges();
-        // var ss = _mapper.Map<UserLoginDTO>(first.Entity);
-
-        return Ok();
+        var personalData = _mapper.Map<CvPersonalData>(data);
+        var result = await _context.AddAsync(personalData);
+        await _context.SaveChangesAsync();
+        return Ok(new { personalData = result.Entity });
     }
 }

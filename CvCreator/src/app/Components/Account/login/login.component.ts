@@ -21,7 +21,7 @@ export class LoginComponent
     private router: Router,
     private http: HttpClient
   ) {
-    super(new FormApiManager(http));
+    super(new FormApiManager(http, 'https://localhost:7184/auth'));
     this._form = builder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],

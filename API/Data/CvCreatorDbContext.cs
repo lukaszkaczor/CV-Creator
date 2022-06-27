@@ -12,7 +12,6 @@ namespace API.Data
     {
         public DbSet<CurriculumVitae> CurriculumVitaes { get; set; }
         public DbSet<CvPersonalData> CvPersonalData { get; set; }
-        public DbSet<UserLogin> Test { get; set; }
         public CvCreatorDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
@@ -21,22 +20,6 @@ namespace API.Data
         {
             base.OnModelCreating(builder);
             new CvPersonalDataConfiguration().Configure(builder.Entity<CvPersonalData>());
-
-            builder.Entity<UserLogin>().Property(d => d.Password).IsRequired();
-            builder.Entity<UserLogin>().Property(d => d.Login).HasMaxLength(5);
-
-
-
-            // builder.Entity<CvPersonalData>()
-            // .HasOne<CurriculumVitae>(d => d.CurriculumVitae)
-            // .WithOne(d => d.PersonalData)
-            // .HasForeignKey<CurriculumVitae>(d => d.PersonalDataId);
-
-            // builder.Entity<CurriculumVitae>()
-            // .HasOne<CvPersonalData>(d => d.PersonalData)
-            // .WithOne(d => d.CurriculumVitae)
-            // .HasForeignKey<CvPersonalData>(d => d.CurriculumVitae);
-
 
         }
     }

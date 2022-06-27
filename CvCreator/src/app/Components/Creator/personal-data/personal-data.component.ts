@@ -18,7 +18,7 @@ export class PersonalDataComponent
   // cvId = 1;
 
   constructor(http: HttpClient, builder: FormBuilder) {
-    super(new FormApiManager(http));
+    super(new FormApiManager(http, 'https://localhost:7184/CvPersonalData'));
     this._form = builder.group({
       firstName: ['', [Validators.minLength(2)]],
       lastName: ['', [Validators.minLength(2)]],

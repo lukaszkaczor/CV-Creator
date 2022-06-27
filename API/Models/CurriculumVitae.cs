@@ -11,4 +11,7 @@ public class CurriculumVitae
 
     public CvPersonalData PersonalData { get; set; }
     public int PersonalDataId { get; set; }
+
+    // public ApplicationUser ApplicationUser { get; set; }
+    // public int MyProperty { get; set; }
 }
