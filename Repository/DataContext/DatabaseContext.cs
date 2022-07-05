@@ -3,12 +3,13 @@ using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Repository.EntityConfiguration;
 
 namespace Repository.DataContext;
 
 public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
 {
-    public DbSet<Test> Tests { get; set; }
+    public DbSet<CurriculumVitae> CurriculumVitaes { get; set; }
 
     public DatabaseContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
     {
@@ -17,6 +18,8 @@ public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.ApplyConfiguration(new CurriculumVitaeTypeConfiguration());
     }
 
 

@@ -2,6 +2,7 @@ namespace Repository.Interfaces;
 
 public interface IUnitOfWork : IDisposable
 {
-    ITestRepository Tests { get; }
-    int Complete();
+    // ITestRepository Tests { get; }
+    ICurriculumVitaeRepository CurriculumVitaes { get; }
+    Task<int> Complete();
 }

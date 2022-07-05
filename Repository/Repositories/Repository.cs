@@ -13,14 +13,16 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         Context = context;
     }
 
-    public void Add(TEntity entity)
+    public async Task<TEntity> AddAsync(TEntity entity)
     {
-        Context.Set<TEntity>().Add(entity);
+        await Context.Set<TEntity>().AddAsync(entity);
+        return entity;
     }
 
-    public void AddRange(IEnumerable<TEntity> entities)
+    public async Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities)
     {
-        Context.Set<TEntity>().AddRange(entities);
+        await Context.Set<TEntity>().AddRangeAsync(entities);
+        return entities;
     }
 
     public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
@@ -28,14 +30,14 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         return Context.Set<TEntity>().Where(predicate);
     }
 
-    public TEntity Get(Guid id)
+    public async Task<TEntity> GetAsync(Guid id)
     {
-        return Context.Set<TEntity>().Find(id);
+        return await Context.Set<TEntity>().FindAsync(id);
     }
 
-    public IEnumerable<TEntity> GetAll()
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return Context.Set<TEntity>().ToList();
+        return await Context.Set<TEntity>().ToListAsync();
     }
 
     public void Remove(TEntity entity)

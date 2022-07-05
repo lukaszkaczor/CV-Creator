@@ -19,8 +19,11 @@ export class TestComponent implements OnInit {
     //     this.admin = data;
     //   });
 
-    this.http.get('https://localhost:7184/test/public').subscribe((data) => {
+    this.http.get('https://localhost:7184/cv').subscribe((data) => {
       this.public = JSON.stringify(data);
     });
+    // this.http.get('https://localhost:7184/test/public').subscribe((data) => {
+    //   this.public = JSON.stringify(data);
+    // });
   }
 }

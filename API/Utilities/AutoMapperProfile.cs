@@ -11,6 +11,6 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<CreditentialsDTO, ApplicationUser>().ForMember(d => d.UserName, s => s.MapFrom(d => d.Email)).ReverseMap();
-        CreateMap<CvPersonalDataDTO, CvPersonalData>();
+        // CreateMap<CvPersonalDataDTO, CvPersonalData>();
     }
 }

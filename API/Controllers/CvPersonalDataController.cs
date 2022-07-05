@@ -3,6 +3,7 @@ using API.Models;
 using API.Models.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Models;
 
 namespace API.Controllers;
 [ApiController]
@@ -24,12 +25,12 @@ public class CvPersonalDataController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CvPersonalDataDTO data)
+    public IActionResult Post([FromBody] CvPersonalDataDTO data)
     {
-        // var personalData = _mapper.Map<CvPersonalData>(data);
+        var personalData2 = _mapper.Map<ApplicationUser>(data);
         // var result = await _context.AddAsync(personalData);
         // await _context.SaveChangesAsync();
 
-        return Ok(new { personalData = "result.Entity" });
+        return Ok(new { personalData = personalData2 });
     }
 }

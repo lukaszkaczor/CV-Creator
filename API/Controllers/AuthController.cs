@@ -57,7 +57,7 @@ public class AuthController : ControllerBase
 
         var claims = new List<Claim>()
         {
-            new Claim(ClaimTypes.Name, creditentials.Email)
+            new Claim(ClaimTypes.Name, user.Id)
         };
 
         foreach (var role in roles) claims.Add(new Claim(ClaimTypes.Role, role));

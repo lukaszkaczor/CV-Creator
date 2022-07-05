@@ -7,17 +7,19 @@ namespace Repository;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly DatabaseContext _context;
-    public ITestRepository Tests { get; private set; }
+    public ICurriculumVitaeRepository CurriculumVitaes { get; private set; }
+    // public ITestRepository Tests { get; private set; }
 
     public UnitOfWork(DatabaseContext context)
     {
         _context = context;
-        Tests = new TestRepository(_context);
+        CurriculumVitaes = new CurriculumVitaeRepository(_context);
+        // Tests = new TestRepository(_context);
     }
 
-    public int Complete()
+    public async Task<int> Complete()
     {
-        return _context.SaveChanges();
+        return await _context.SaveChangesAsync();
     }
 
     public void Dispose()
