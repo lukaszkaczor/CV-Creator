@@ -7,15 +7,20 @@ export class FormApiManager<T> implements FormDataManager<T> {
   get(id: number): Promise<T> {
     throw new Error('Method not implemented.');
   }
-  save(data: T): Promise<T> {
+
+  save(data: T): Promise<T | string> {
     return new Promise((resolve, rejects) => {
-      this.http
-        .post(this.enpoint, data, { responseType: 'json' })
-        .subscribe((response) => {
+      this.http.post(this.enpoint, data, { responseType: 'json' }).subscribe(
+        (response) => {
           resolve(response as T);
-        });
+        },
+        (err) => {
+          resolve(err);
+        }
+      );
     });
   }
+
   update(id: number, data: T): Promise<T> {
     throw new Error('Method not implemented.');
   }

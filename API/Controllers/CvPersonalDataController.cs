@@ -1,5 +1,4 @@
 
-using API.Data;
 using API.Models;
 using API.Models.DTOs;
 using AutoMapper;
@@ -10,11 +9,10 @@ namespace API.Controllers;
 [Route("[controller]")]
 public class CvPersonalDataController : Controller
 {
-    private readonly CvCreatorDbContext _context;
+    // private readonly CvCreatorDbContext _context;
     private readonly IMapper _mapper;
-    public CvPersonalDataController(CvCreatorDbContext context, IMapper mapper)
+    public CvPersonalDataController(IMapper mapper)
     {
-        this._context = context;
         _mapper = mapper;
 
     }
@@ -28,9 +26,10 @@ public class CvPersonalDataController : Controller
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CvPersonalDataDTO data)
     {
-        var personalData = _mapper.Map<CvPersonalData>(data);
-        var result = await _context.AddAsync(personalData);
-        await _context.SaveChangesAsync();
-        return Ok(new { personalData = result.Entity });
+        // var personalData = _mapper.Map<CvPersonalData>(data);
+        // var result = await _context.AddAsync(personalData);
+        // await _context.SaveChangesAsync();
+
+        return Ok(new { personalData = "result.Entity" });
     }
 }

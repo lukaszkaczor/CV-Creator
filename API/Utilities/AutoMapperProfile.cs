@@ -1,7 +1,8 @@
-using API.Data;
+
 using API.Models;
 using API.Models.DTOs;
 using AutoMapper;
+using Repository.Models;
 
 namespace API.Utilities;
 

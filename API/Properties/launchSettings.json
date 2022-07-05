@@ -23,6 +23,8 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
+      "windowsAuthentication": "true",
+      "anonymousAuthentication": "false",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

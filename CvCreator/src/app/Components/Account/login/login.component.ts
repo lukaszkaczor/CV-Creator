@@ -38,8 +38,8 @@ export class LoginComponent
 
   login() {
     const creditentials = {
-      email: 'test@test.pl',
-      password: '',
+      email: this.email.value,
+      password: this.password.value,
     };
     this.http
       .post('https://localhost:7184/auth', creditentials, {

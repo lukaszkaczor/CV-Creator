@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -13,11 +13,11 @@ export class TestComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.http
-      .get('https://localhost:7184/test/Admins', { responseType: 'text' })
-      .subscribe((data) => {
-        this.admin = data;
-      });
+    // this.http
+    //   .get('https://localhost:7184/test/Admins', { responseType: 'text' })
+    //   .subscribe((data) => {
+    //     this.admin = data;
+    //   });
 
     this.http.get('https://localhost:7184/test/public').subscribe((data) => {
       this.public = JSON.stringify(data);

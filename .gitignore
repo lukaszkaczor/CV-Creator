@@ -1,11 +1,11 @@
-
 **/appsettings.json
-
 
 **/.vs
 **/.vscode
 API/bin
 API/obj
+Repository/bin
+Repository/obj
 **/node_modules/
 **/.editorconfig
 **/.browserslistrc

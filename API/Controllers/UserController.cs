@@ -3,6 +3,7 @@ using API.Models.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Models;
 
 namespace API.Controllers;
 
