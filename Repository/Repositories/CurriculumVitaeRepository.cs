@@ -10,6 +10,7 @@ namespace Repository.Repositories
         {
         }
 
+
         public IEnumerable<CurriculumVitae> GetUserCvListWithDependencies(string userId)
         {
             return Context.Set<CurriculumVitae>()
@@ -18,6 +19,10 @@ namespace Repository.Repositories
             .ToList();
         }
 
+        public CurriculumVitae GetUsersCv(string userId, string cvId)
+        {
+            return GetUserCvListWithDependencies(userId).FirstOrDefault(d => d.Id == Guid.Parse(cvId));
+        }
         // public override CurriculumVitae Get(Guid id)
         // {
         //     return new CurriculumVitae();

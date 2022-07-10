@@ -1,3 +1,4 @@
+import { DocumentListComponent } from './Components/document-list/document-list.component';
 import { BasicInfoComponent } from './Components/Creator/basic-info/basic-info.component';
 
 import { AuthGuard } from './Guards/auth.guard';
@@ -14,7 +15,12 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'test', component: TestComponent, canActivate: [AuthGuard] },
-  { path: 'basic', component: BasicInfoComponent },
+  { path: 'basic/:id', component: BasicInfoComponent },
+  {
+    path: 'documents',
+    component: DocumentListComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

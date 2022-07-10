@@ -42,13 +42,13 @@ public class AuthController : ControllerBase
         var result = await _signInManager.PasswordSignInAsync(creditentials.Email, creditentials.Password, true, false);
 
         if (result.Succeeded)
-            return Ok(new { token = await GenerateTokenAsync(creditentials, user) });
+            return Ok(new { token = await GenerateTokenAsync(user) });
         // return Ok(await GenerateTokenAsync(creditentials, user));
 
         return Unauthorized(result);
     }
 
-    private async Task<string> GenerateTokenAsync(CreditentialsDTO creditentials, ApplicationUser user)
+    private async Task<string> GenerateTokenAsync(ApplicationUser user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

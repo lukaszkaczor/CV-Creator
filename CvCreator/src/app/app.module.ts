@@ -13,6 +13,7 @@ import { TestComponent } from './Components/test/test.component';
 import { AuthInterceptor } from 'src/Interceptors/auth.interceptor';
 import { BasicInfoComponent } from './Components/Creator/basic-info/basic-info.component';
 import { PersonalDataComponent } from './Components/Creator/personal-data/personal-data.component';
+import { DocumentListComponent } from './Components/document-list/document-list.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -27,6 +28,7 @@ export function tokenGetter() {
     TestComponent,
     BasicInfoComponent,
     PersonalDataComponent,
+    DocumentListComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@ using Repository.DataContext;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220705212339_AddCurriculumVitaeTable")]
+    [Migration("20220710084833_AddCurriculumVitaeTable")]
     partial class AddCurriculumVitaeTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -373,16 +373,12 @@ namespace Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModificationDate")
+                    b.Property<DateTime>("ModificationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
 
                     b.HasKey("Id");
 

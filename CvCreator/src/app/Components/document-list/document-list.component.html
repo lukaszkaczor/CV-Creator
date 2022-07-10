@@ -1,0 +1,57 @@
+<div class="background">
+  <div class="templates">
+    <h1 class="caption">Utwórz nowe CV</h1>
+    <div class="template-list">
+      <div class="template-box">
+        <div class="template background--white" (click)="create()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="96"
+            height="96"
+            fill="currentColor"
+            class="bi bi-plus-lg"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+            />
+          </svg>
+        </div>
+        <div class="template-name">Utwórz nowy</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="background background--white">
+  <div class="templates">
+    <h1 class="caption">Ostatnie</h1>
+    <div class="template-list">
+      <div *ngFor="let document of documents" class="template-box">
+        <a
+          href="/basic/{{ document.id }}"
+          class="template background--darkwhite"
+        ></a>
+        <div class="template-name">{{ document.name }}</div>
+        <!-- <h1>{{ i }}</h1> -->
+        <div class="template-date">
+          {{ document.creationDate }} {{ document.creationTime.slice(0, 5) }}
+        </div>
+        <button class="btn-del" (click)="deleteItem(document)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="form-box-background">
+  <div class="form-box">
+    <form action="">
+      <div class="input-box">
+        <label for="name">Wpisz nazwę dla nowego CV</label>
+        <input type="text" name="name" id="name" />
+      </div>
+      <button type="submit">Zapisz</button>
+      <button type="reset">Anuluj</button>
+    </form>
+  </div>
+</div> -->

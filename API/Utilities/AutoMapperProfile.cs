@@ -1,6 +1,7 @@
 
 using API.Models;
 using API.Models.DTOs;
+using API.Utilities.Converters;
 using AutoMapper;
 using Repository.Models;
 
@@ -11,6 +12,12 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<CreditentialsDTO, ApplicationUser>().ForMember(d => d.UserName, s => s.MapFrom(d => d.Email)).ReverseMap();
-        // CreateMap<CvPersonalDataDTO, CvPersonalData>();
+
+        CreateMap<CurriculumVitae, CurriculumVitaeDTO>()
+        .ForMember(d => d.CreationDate,
+        opt => opt.ConvertUsing(new DateFormatter(), src => src.ModificationDate))
+        .ForMember(d => d.CreationTime,
+        opt => opt.ConvertUsing(new TimeFormatter(), src => src.ModificationDate));
+
     }
 }

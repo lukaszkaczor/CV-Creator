@@ -10,15 +10,16 @@ namespace API.Controllers
     {
         // private readonly IUnitOfWork _context;
         // private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        // private readonly IHttpContextAccessor _httpContextAccessor;
 
         public TestController(
         // IUnitOfWork context, UserManager<ApplicationUser> userManager,
-        IHttpContextAccessor httpContextAccessor)
+        // IHttpContextAccessor httpContextAccessor
+        )
         {
             // _context = context;
             // this._userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
+            // _httpContextAccessor = httpContextAccessor;
 
         }
 
@@ -32,17 +33,19 @@ namespace API.Controllers
 
 
         [HttpGet("Public")]
-        [Authorize]
+        // [Authorize]
         public IActionResult GetPublicDataAsync()
         {
             // var accessToken = Request.Headers[HeaderNames.Authorization];
 
             // var user = _httpContextAccessor.HttpContext.User.Identity.Name;
-            var user = CurrentUser.GetCurrentUser(_httpContextAccessor);
+            // var user = CurrentUser.GetCurrentUser(_httpContextAccessor);
+            var dt = DateTime.Now;
+            var dss = DateOnly.FromDateTime(dt);
 
             // var ssd  =HttpContent.Current
 
-            return Ok(new { test = user });
+            return Ok(dss);
         }
     }
 }
