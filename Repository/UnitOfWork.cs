@@ -8,13 +8,11 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly DatabaseContext _context;
     public ICurriculumVitaeRepository CurriculumVitaes { get; private set; }
-    // public ITestRepository Tests { get; private set; }
 
     public UnitOfWork(DatabaseContext context)
     {
         _context = context;
         CurriculumVitaes = new CurriculumVitaeRepository(_context);
-        // Tests = new TestRepository(_context);
     }
 
     public async Task<int> Complete()

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using API.Utilities;
+using Repository.Interfaces;
 
 namespace API.Controllers
 {
@@ -13,7 +14,8 @@ namespace API.Controllers
         // private readonly IHttpContextAccessor _httpContextAccessor;
 
         public TestController(
-        // IUnitOfWork context, UserManager<ApplicationUser> userManager,
+        // IUnitOfWork context
+        // UserManager<ApplicationUser> userManager,
         // IHttpContextAccessor httpContextAccessor
         )
         {
@@ -29,6 +31,16 @@ namespace API.Controllers
         // public IActionResult AdminsEndpoint()
         // {
         //     return Ok("admins works");
+        // }
+
+        // [HttpPost]
+        // public IActionResult Post()
+        // {
+
+        //     var ss = _context.Tests.AddAsync(new Repository.Models.Test() { Name = "test" });
+        //     _context.Complete();
+
+        //     return Ok(ss);
         // }
 
 

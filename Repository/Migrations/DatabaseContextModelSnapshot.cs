@@ -105,7 +105,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("Use");
 
-                    b.ToTable("Keys");
+                    b.ToTable("Keys", (string)null);
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
@@ -382,7 +382,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("CurriculumVitaes");
+                    b.ToTable("CurriculumVitaes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

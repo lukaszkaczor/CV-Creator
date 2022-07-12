@@ -28,22 +28,22 @@ public class CvController : ControllerBase
 
 
     [HttpGet("{id}")]
-    public IActionResult Get(string id)
+    public async Task<IActionResult> Get(string id)
     {
         if (id.IsNullOrEmpty()) return BadRequest();
 
         var userId = CurrentUser.GetCurrentUser(_httpContextAccessor);
-        var cv = UnitOfWork.CurriculumVitaes.GetUsersCv(userId, id);
+        var cv = await UnitOfWork.CurriculumVitaes.GetUsersCvAsync(userId, id);
 
         return Ok(cv);
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
         var userId = CurrentUser.GetCurrentUser(_httpContextAccessor);
 
-        var cvList = UnitOfWork.CurriculumVitaes.GetUserCvListWithDependencies(userId);
+        var cvList = await UnitOfWork.CurriculumVitaes.GetUserCvListWithDependenciesAsync(userId);
         var result = new List<CurriculumVitaeDTO>();
         foreach (var item in cvList) result.Add(_mapper.Map<CurriculumVitaeDTO>(item));
 
@@ -72,15 +72,16 @@ public class CvController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(string id, [FromBody] CurriculumVitaeDTO data)
+    public async Task<IActionResult> Put(string id, [FromBody] CurriculumVitaeDTO data)
     {
         var userId = CurrentUser.GetCurrentUser(_httpContextAccessor);
 
-        var cv = UnitOfWork.CurriculumVitaes.GetUsersCv(userId, id);
+        var cv = await UnitOfWork.CurriculumVitaes.GetUsersCvAsync(userId, id);
 
         cv.Name = data.Name;
+        cv.ModificationDate = DateTime.Now;
 
-        UnitOfWork.Complete();
+        await UnitOfWork.Complete();
 
         return Ok(cv);
     }

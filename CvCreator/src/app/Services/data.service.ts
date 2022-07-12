@@ -1,57 +1,51 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { StatusCode } from './../Models/StatusCode';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root',
-})
 export class DataService<T> {
-  constructor(private _http: HttpClient) {}
-  endpoint = 'https://localhost:7184/cv';
+  constructor(protected _http: HttpClient, protected _endpoint: string) {}
 
   getAll(): Promise<T[]> {
     return new Promise<T[]>((resolve, reject) => {
-      this._http.get<T[]>(this.endpoint).subscribe((data) => {
-        resolve(data);
+      this._http.get<T[]>(this._endpoint).subscribe({
+        next: (response) => resolve(response),
+        error: (error) => resolve(error),
       });
     });
   }
 
   get(id: string | number): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      this._http.get<T>(this.endpoint + '/' + id).subscribe((data) => {
-        resolve(data);
+      this._http.get<T>(`${this._endpoint}/${id}`).subscribe({
+        next: (response) => resolve(response),
+        error: (error) => resolve(error),
       });
     });
   }
 
   post(item?: T): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this._http.post<T>(this.endpoint, item).subscribe((data) => {
-        resolve(data);
-      });
-    });
+    return new Promise<T>((resolve, rejects) =>
+      this._http.post<T>(this._endpoint, item).subscribe({
+        next: (response) => resolve(response),
+        error: (error) => resolve(error),
+      })
+    );
   }
 
-  put(id: string | number, item: T | any): Promise<T> {
-    return new Promise<T>((resolve, rejects) => {
-      this._http.put<T>(this.endpoint + '/' + id, item).subscribe((data) => {
-        resolve(data);
-      });
-    });
+  put(id: string | number, item: any): Promise<T> {
+    return new Promise<T>((resolve, rejects) =>
+      this._http.put<T>(`${this._endpoint}/${id}`, item).subscribe({
+        next: (response) => resolve(response),
+        error: (error) => resolve(error),
+      })
+    );
   }
 
   delete(id: string | number): Promise<any> {
-    return new Promise<any>((resolve, rejects) => {
-      this._http.delete<T>(this.endpoint + '/' + id).subscribe({
-        next: (data) => {
-          // console.log(data);
-          // console.log('success');
-          resolve(data);
-        },
-        error: (error) => {
-          console.log(error.status);
-        },
-      });
-    });
+    return new Promise<any>((resolve, rejects) =>
+      this._http.delete<T>(`${this._endpoint}/${id}`).subscribe({
+        next: () => resolve(StatusCode.NoContent),
+        error: (error: HttpErrorResponse) => resolve(error.status),
+      })
+    );
   }
 }

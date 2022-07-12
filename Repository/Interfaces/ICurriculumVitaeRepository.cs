@@ -8,7 +8,7 @@ namespace Repository.Interfaces
 {
     public interface ICurriculumVitaeRepository : IRepository<CurriculumVitae>
     {
-        IEnumerable<CurriculumVitae> GetUserCvListWithDependencies(string userId);
-        CurriculumVitae GetUsersCv(string userId, string cvId);
+        Task<IEnumerable<CurriculumVitae>> GetUserCvListWithDependenciesAsync(string userId);
+        Task<CurriculumVitae> GetUsersCvAsync(string userId, string cvId);
     }
 }
