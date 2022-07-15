@@ -14,5 +14,8 @@ namespace Repository.Models
 
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
+
+        public PersonalData PersonalData { get; set; }
+        // public Guid PersonalDataId { get; set; }
     }
 }

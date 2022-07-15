@@ -1,3 +1,4 @@
+import { CurriculumVitaeService } from './Services/curriculum-vitae.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -14,6 +15,7 @@ import { AuthInterceptor } from 'src/Interceptors/auth.interceptor';
 import { BasicInfoComponent } from './Components/Creator/basic-info/basic-info.component';
 import { PersonalDataComponent } from './Components/Creator/personal-data/personal-data.component';
 import { DocumentListComponent } from './Components/document-list/document-list.component';
+import { NotFoundComponent } from './Components/not-found/not-found.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -29,6 +31,7 @@ export function tokenGetter() {
     BasicInfoComponent,
     PersonalDataComponent,
     DocumentListComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

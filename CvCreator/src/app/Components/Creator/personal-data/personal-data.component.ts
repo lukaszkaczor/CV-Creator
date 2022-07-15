@@ -1,31 +1,35 @@
+import { PersonalDataService } from './../../../Services/personal-data.service';
 import { PersonalData } from './../../../Models/PersonalData';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { FormApiManager } from './../../../Utilities/FormApiManager';
 import { FormManager } from './../../../Utilities/FormManager';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'personal-data',
   templateUrl: './personal-data.component.html',
   styleUrls: ['./personal-data.component.scss'],
 })
+// extends FormManager<PersonalData>
 export class PersonalDataComponent
   extends FormManager<PersonalData>
   implements OnInit
 {
-  // cvId = 1;
+  @Input() curriculumVitaeId: string;
 
-  constructor(http: HttpClient, builder: FormBuilder) {
-    super(new FormApiManager(http, 'https://localhost:7184/CvPersonalData'));
+  constructor(data: PersonalDataService, builder: FormBuilder) {
+    super(data);
     this._form = builder.group({
+      id: [''],
       firstName: ['', [Validators.minLength(2)]],
       lastName: ['', [Validators.minLength(2)]],
-      cvIdentifier: [1],
+      curriculumVitaeId: [''],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cvId.setValue(this.curriculumVitaeId);
+    this.initFormData(this.curriculumVitaeId);
+  }
 
   get firstName(): FormControl {
     return this._form.get('firstName') as FormControl;
@@ -39,5 +43,12 @@ export class PersonalDataComponent
   }
   set lastName(val) {
     this.lastName?.setValue(val);
+  }
+
+  get cvId(): FormControl {
+    return this._form.get('curriculumVitaeId') as FormControl;
+  }
+  set cvId(val) {
+    this.cvId?.setValue(val);
   }
 }

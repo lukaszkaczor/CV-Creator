@@ -1,7 +1,14 @@
+import { CurriculumVitaeService } from './../../../Services/curriculum-vitae.service';
+import { PersonalData } from './../../../Models/PersonalData';
+import { FormDataManager } from './../../../Interfaces/FormDataManager';
+import { CurriculumVitae } from 'src/app/Models/CurriculumVitae';
+import { DataService } from './../../../Services/data.service';
+import { StatusCode } from './../../../Models/StatusCode';
+import { AuthService } from './../../../Services/auth.service';
 import { LoginCreditentials } from './../../../Models/LoginCreditentials';
 import { FormApiManager } from './../../../Utilities/FormApiManager';
 import { FormManager } from './../../../Utilities/FormManager';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,48 +19,49 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent
-  extends FormManager<LoginCreditentials>
+  extends FormManager<CurriculumVitae>
   implements OnInit
 {
   visible = false;
   constructor(
+    private auth: AuthService,
     private builder: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private ss: CurriculumVitaeService
   ) {
-    super(new FormApiManager(http, 'https://localhost:7184/auth'));
+    super(ss);
     this._form = builder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
-  ngOnInit(): void {
-    // this._form.setValue({ email: '@asd', password: 'asd' });
-  }
+  ngOnInit(): void {}
 
   toggle() {
     this.visible = !this.visible;
   }
 
-  login() {
-    const creditentials = {
+  async login(): Promise<void> {
+    const creditentials: LoginCreditentials = {
       email: this.email.value,
       password: this.password.value,
     };
-    this.http
-      .post('https://localhost:7184/auth', creditentials, {
-        responseType: 'text',
-      })
-      .subscribe(
-        (data) => {
-          console.log(data);
-          localStorage.setItem('jwt', data);
-        },
-        (err: HttpErrorResponse) => {
-          console.log(err);
-        }
-      );
+
+    if (!this._form.valid) return;
+
+    this.auth.authorize(creditentials).subscribe({
+      next: (response) => {
+        console.log(response);
+        localStorage.setItem('jwt', JSON.stringify(response));
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.log(error);
+        this.visible = true;
+      },
+    });
   }
 
   get email(): FormControl {

@@ -10,6 +10,7 @@ namespace Repository.DataContext;
 public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
 {
     public DbSet<CurriculumVitae> CurriculumVitaes { get; set; }
+    public DbSet<PersonalData> PersonalData { get; set; }
 
     public DatabaseContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
     {
@@ -20,6 +21,7 @@ public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
         base.OnModelCreating(builder);
 
         builder.ApplyConfiguration(new CurriculumVitaeTypeConfiguration());
+        builder.ApplyConfiguration(new PersonalDataTypeConfiguration());
     }
 
 

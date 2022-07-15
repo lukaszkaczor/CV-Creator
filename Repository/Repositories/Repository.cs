@@ -49,4 +49,10 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         Context.Set<TEntity>().RemoveRange(entities);
     }
+
+    public void Update(Guid id, TEntity entity)
+    {
+        var entry = Context.Set<TEntity>().Find(id);
+        Context.Entry(entry).CurrentValues.SetValues(entity);
+    }
 }

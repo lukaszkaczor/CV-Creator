@@ -73,10 +73,14 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddMvc();
 
-builder.Services.AddControllers().AddFluentValidation(options =>
+builder.Services.AddControllers()
+// .AddNewtonsoftJson(options =>
+//     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+.AddFluentValidation(options =>
 {
     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-});
+})
+;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -101,7 +105,7 @@ app.UseCors(options =>
     .AllowAnyOrigin();
 });
 
-app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();
+// app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();
 
 
 app.UseHttpsRedirection();

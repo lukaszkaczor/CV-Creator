@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace API.Models.DTOs;
 
-public class CvPersonalDataDTO
+public class PersonalDataDTO
 {
+    public string Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public int CurriculumVitaeId { get; set; }
+    public Guid CurriculumVitaeId { get; set; }
 }

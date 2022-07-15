@@ -1,3 +1,4 @@
+import { CurriculumVitaeService } from './../../../Services/curriculum-vitae.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,18 +11,25 @@ import { CurriculumVitae } from 'src/app/Models/CurriculumVitae';
 })
 export class BasicInfoComponent implements OnInit {
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cvService: CurriculumVitaeService,
+    private router: Router
   ) {}
 
-  sub: any;
-  id: number;
+  curriculumVitaeId: string;
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe((params) => {
-      this.id = params['id'];
+    this.route.params.subscribe((params) => {
+      this.curriculumVitaeId = params['id'];
     });
-    console.log(this.id);
+
+    this.cvService.get(this.curriculumVitaeId).subscribe({
+      next: (data) => {
+        if (data == null) this.router.navigate(['/404']);
+      },
+      error: (err) => {
+        this.router.navigate(['/404']);
+      },
+    });
   }
 }

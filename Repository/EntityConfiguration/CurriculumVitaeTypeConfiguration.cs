@@ -15,5 +15,10 @@ public class CurriculumVitaeTypeConfiguration : IEntityTypeConfiguration<Curricu
         .IsRequired();
 
         builder.Property(d => d.ModificationDate).IsRequired();
+
+        builder
+          .HasOne<PersonalData>(d => d.PersonalData)
+          .WithOne(d => d.CurriculumVitae)
+          .HasForeignKey<PersonalData>(d => d.CurriculumVitaeId);
     }
 }

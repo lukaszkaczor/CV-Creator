@@ -1,3 +1,3 @@
 export interface CvIdentifier {
-  cvIdentifier: number;
+  curriculumVitaeId: string;
 }

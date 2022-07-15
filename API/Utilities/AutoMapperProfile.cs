@@ -19,5 +19,14 @@ public class AutoMapperProfile : Profile
         .ForMember(d => d.CreationTime,
         opt => opt.ConvertUsing(new TimeFormatter(), src => src.ModificationDate));
 
+        CreateMap<PersonalData, PersonalDataDTO>()
+        .ForMember(d => d.Id,
+        opt => opt.ConvertUsing(new GuidToStringConverter(), src => src.Id));
+
+        CreateMap<PersonalDataDTO, PersonalData>()
+        .ForMember(d => d.Id,
+        opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id));
+
+
     }
 }

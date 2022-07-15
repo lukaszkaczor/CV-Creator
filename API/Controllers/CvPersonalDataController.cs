@@ -25,7 +25,7 @@ public class CvPersonalDataController : Controller
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] CvPersonalDataDTO data)
+    public IActionResult Post([FromBody] PersonalDataDTO data)
     {
         var personalData2 = _mapper.Map<ApplicationUser>(data);
         // var result = await _context.AddAsync(personalData);

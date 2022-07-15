@@ -1,3 +1,4 @@
+using Microsoft.Net.Http.Headers;
 using Repository.DataContext;
 using Repository.Interfaces;
 using Repository.Repositories;
@@ -8,11 +9,13 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly DatabaseContext _context;
     public ICurriculumVitaeRepository CurriculumVitaes { get; private set; }
+    public IPersonalDataRepository PersonalData { get; private set; }
 
     public UnitOfWork(DatabaseContext context)
     {
         _context = context;
         CurriculumVitaes = new CurriculumVitaeRepository(_context);
+        PersonalData = new PersonalDataRepository(_context);
     }
 
     public async Task<int> Complete()

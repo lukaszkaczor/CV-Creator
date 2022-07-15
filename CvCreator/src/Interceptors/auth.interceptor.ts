@@ -1,22 +1,3 @@
-// import { Injectable } from '@angular/core';
-// import {
-//   HttpRequest,
-//   HttpHandler,
-//   HttpEvent,
-//   HttpInterceptor
-// } from '@angular/common/http';
-// import { Observable } from 'rxjs';
-
-// @Injectable()
-// export class AuthInterceptor implements HttpInterceptor {
-
-//   constructor() {}
-
-//   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-//     return next.handle(request);
-//   }
-// }
-
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -32,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('jwt'); // you probably want to store it in localStorage or something
+    const token = localStorage.getItem('jwt');
 
     if (!token) {
       return next.handle(req);

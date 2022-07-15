@@ -1,6 +1,6 @@
 import { CvIdentifier } from './../Interfaces/CvIdentifier';
-export class PersonalData implements CvIdentifier {
+export class PersonalData {
   firstName: string;
   lastName: string;
-  cvIdentifier: number;
+  curriculumVitaeId: number;
 }
