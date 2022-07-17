@@ -44,8 +44,6 @@ public class PersonalDataController : ControllerBase
         var userId = CurrentUser.GetCurrentUser(_httpContextAccessor);
 
         var personalData = await _context.PersonalData.GetUsersPersonalData(userId, id);
-
-
         var result = _mapper.Map<PersonalDataDTO>(personalData);
 
         return Ok(result);
@@ -65,11 +63,10 @@ public class PersonalDataController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, PersonalDataDTO data)
     {
-        var list = await _context.PersonalData.GetAllAsync();
-        var personalData = list.Where(d => d.Id == id).FirstOrDefault();
+        var userId = CurrentUser.GetCurrentUser(_httpContextAccessor);
 
+        var personalData = await _context.PersonalData.GetUsersPersonalData(userId, id.ToString());
         var updatedData = _mapper.Map<PersonalData>(data);
-
         _context.PersonalData.Update(personalData.Id, updatedData);
         await _context.Complete();
 

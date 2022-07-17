@@ -1,12 +1,7 @@
 import { CurriculumVitaeService } from './../../../Services/curriculum-vitae.service';
-import { PersonalData } from './../../../Models/PersonalData';
-import { FormDataManager } from './../../../Interfaces/FormDataManager';
 import { CurriculumVitae } from 'src/app/Models/CurriculumVitae';
-import { DataService } from './../../../Services/data.service';
-import { StatusCode } from './../../../Models/StatusCode';
 import { AuthService } from './../../../Services/auth.service';
 import { LoginCreditentials } from './../../../Models/LoginCreditentials';
-import { FormApiManager } from './../../../Utilities/FormApiManager';
 import { FormManager } from './../../../Utilities/FormManager';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
@@ -31,7 +26,7 @@ export class LoginComponent
     private ss: CurriculumVitaeService
   ) {
     super(ss);
-    this._form = builder.group({
+    this.form = builder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
@@ -49,7 +44,7 @@ export class LoginComponent
       password: this.password.value,
     };
 
-    if (!this._form.valid) return;
+    if (!this.form.valid) return;
 
     this.auth.authorize(creditentials).subscribe({
       next: (response) => {
@@ -65,14 +60,14 @@ export class LoginComponent
   }
 
   get email(): FormControl {
-    return this._form.get('email') as FormControl;
+    return this.form.get('email') as FormControl;
   }
   set email(val) {
     this.email?.setValue(val);
   }
 
   get password(): FormControl {
-    return this._form.get('password') as FormControl;
+    return this.form.get('password') as FormControl;
   }
   set password(val) {
     this.password?.setValue(val);

@@ -6,55 +6,47 @@ import { Endpoint } from '../Interfaces/Endpoint';
 import { FormGroup } from '@angular/forms';
 
 export class FormManager<T> {
-  private _dataStatus: DataStatus = DataStatus.None;
-  protected _form: FormGroup;
-  public formSubmitted = false;
-  itemIdentifier: string;
-
+  private _form: FormGroup;
   private _dataManager: Endpoint<T>;
+  private _dataStatus: DataStatus = DataStatus.DoesntExists;
+  private _itemIdentifier: string;
+  private _responseStatus: StatusCode;
+  public formSubmitted = false;
 
   constructor(dataManager: Endpoint<T>) {
     this._dataManager = dataManager;
   }
 
-  initFormData(id: string) {
-    this._dataManager.get(id).subscribe({
-      next: (data) => {
-        if (data == null) {
-          this._dataStatus = DataStatus.DoesntExists;
-          return;
-        }
-        this.itemIdentifier = this.getItemIdentifier(data);
+  initFormData(data: T) {
+    if (data == null) {
+      this._dataStatus = DataStatus.DoesntExists;
+      return;
+    }
 
-        this.form.setValue(data);
-        this._dataStatus = DataStatus.Exists;
-      },
-      error: () => (this._dataStatus = DataStatus.ServerError),
-    });
+    this._form.setValue(data);
+    this._itemIdentifier = this.getItemIdentifier(data);
+    this._dataStatus = DataStatus.Exists;
   }
 
-  public async submit<T>() {
+  public async submit() {
     this.formSubmitted = true;
-    console.log(this.form.value);
 
-    if (!this.formIsValid) return;
+    if (!this.formIsValid()) return;
 
+    await this.runAction();
+    this.setDataStatus();
+
+    if (this._responseStatus == StatusCode.Ok) this.formSubmitted = false;
+  }
+
+  private async runAction() {
     switch (this._dataStatus) {
       case DataStatus.Exists:
-        console.log(this.form.value);
-        const updateResult = await this.update();
-        if (updateResult != StatusCode.Ok) {
-          this.formSubmitted = false;
-          console.log('Something is wrong.');
-        }
+        this._responseStatus = await this.update();
         break;
 
       case DataStatus.DoesntExists:
-        const createResult = await this.create();
-        if (createResult == StatusCode.Ok) {
-          this._dataStatus = DataStatus.Exists;
-          this.formSubmitted = false;
-        }
+        this._responseStatus = await this.create();
         break;
 
       case DataStatus.ServerError:
@@ -67,13 +59,25 @@ export class FormManager<T> {
     }
   }
 
+  private setDataStatus(): void {
+    switch (this._responseStatus) {
+      case StatusCode.Ok:
+        this._dataStatus = DataStatus.Exists;
+        break;
+
+      default:
+        console.log('An error ocurred: ' + this._responseStatus);
+        break;
+    }
+  }
+
   private create(): Promise<StatusCode> {
     return new Promise<StatusCode>((resolve, rejects) => {
       this._dataManager.post(this.form.value).subscribe({
         next: (data) => {
-          console.log(data);
+          this._itemIdentifier = this.getItemIdentifier(data);
+          this._form.setValue(data);
           resolve(StatusCode.Ok);
-          this.itemIdentifier = this.getItemIdentifier(data);
         },
         error: (error: HttpErrorResponse) => resolve(error.status),
       });
@@ -82,7 +86,7 @@ export class FormManager<T> {
 
   private update(): Promise<StatusCode> {
     return new Promise<StatusCode>((resolve, reject) => {
-      this._dataManager.put(this.itemIdentifier, this.form.value).subscribe({
+      this._dataManager.put(this._itemIdentifier, this.form.value).subscribe({
         next: () => resolve(StatusCode.Ok),
         error: (error: HttpErrorResponse) => resolve(error.status),
       });
@@ -95,6 +99,10 @@ export class FormManager<T> {
 
   public get form(): FormGroup {
     return this._form;
+  }
+
+  public set form(data: FormGroup) {
+    if (this._form == null) this._form = data;
   }
 
   public formIsValid(): boolean {

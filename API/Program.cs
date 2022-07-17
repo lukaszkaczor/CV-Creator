@@ -74,8 +74,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddMvc();
 
 builder.Services.AddControllers()
-// .AddNewtonsoftJson(options =>
-//     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+.AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
 .AddFluentValidation(options =>
 {
     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());

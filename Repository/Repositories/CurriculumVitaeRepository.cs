@@ -21,6 +21,7 @@ public class CurriculumVitaeRepository : Repository<CurriculumVitae>, ICurriculu
     public async Task<CurriculumVitae> GetUsersCvAsync(string userId, string cvId)
     {
         return await Context.Set<CurriculumVitae>()
+        .Include(d => d.PersonalData)
         .Where(d => d.ApplicationUserId == userId)
         .FirstOrDefaultAsync(d => d.Id == Guid.Parse(cvId));
     }

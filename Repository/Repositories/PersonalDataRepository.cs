@@ -19,7 +19,7 @@ public class PersonalDataRepository : Repository<PersonalData>, IPersonalDataRep
     {
         return await Context.Set<PersonalData>()
             .Where(d => d.CurriculumVitae.ApplicationUserId == userId)
-            .FirstOrDefaultAsync(d => d.CurriculumVitaeId == Guid.Parse(personalDataId));
+            .FirstOrDefaultAsync(d => d.Id == Guid.Parse(personalDataId));
     }
 
     public async Task<IEnumerable<PersonalData>> GetUsersPersonalDataList(string userId)
