@@ -36,6 +36,7 @@ export class PersonalDataComponent
           Validators.maxLength(32),
         ],
       ],
+      birthday: ['', [Validators.required]],
       curriculumVitaeId: [''],
     });
   }
@@ -62,6 +63,13 @@ export class PersonalDataComponent
   }
   set lastName(val) {
     this.lastName?.setValue(val);
+  }
+
+  get birthday(): FormControl {
+    return this.form.get('birthday') as FormControl;
+  }
+  set birthday(val) {
+    this.birthday?.setValue(val);
   }
 
   get cvId(): FormControl {

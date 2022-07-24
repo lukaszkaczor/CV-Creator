@@ -12,7 +12,7 @@ using Repository.DataContext;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220715124405_AddPersonalDataTable")]
+    [Migration("20220724173559_AddPersonalDataTable")]
     partial class AddPersonalDataTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -395,6 +395,9 @@ namespace Repository.Migrations
 
                     b.Property<Guid>("CurriculumVitaeId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

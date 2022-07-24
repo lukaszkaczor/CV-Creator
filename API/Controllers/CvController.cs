@@ -34,8 +34,9 @@ public class CvController : ControllerBase
 
         var userId = CurrentUser.GetCurrentUser(_httpContextAccessor);
         var cv = await UnitOfWork.CurriculumVitaes.GetUsersCvAsync(userId, id);
+        var result = _mapper.Map<CurriculumVitaeDTO>(cv);
 
-        return Ok(cv);
+        return Ok(result);
     }
 
     [HttpGet]

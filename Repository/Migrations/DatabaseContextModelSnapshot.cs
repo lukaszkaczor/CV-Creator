@@ -394,6 +394,9 @@ namespace Repository.Migrations
                     b.Property<Guid>("CurriculumVitaeId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(32)

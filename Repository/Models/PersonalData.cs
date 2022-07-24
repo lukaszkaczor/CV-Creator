@@ -10,6 +10,7 @@ namespace Repository.Models
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public CurriculumVitae CurriculumVitae { get; set; }
         public Guid CurriculumVitaeId { get; set; }

@@ -1,5 +1,3 @@
-
-using API.Models;
 using API.Models.DTOs;
 using API.Utilities.Converters;
 using AutoMapper;
@@ -21,12 +19,15 @@ public class AutoMapperProfile : Profile
 
         CreateMap<PersonalData, PersonalDataDTO>()
         .ForMember(d => d.Id,
-        opt => opt.ConvertUsing(new GuidToStringConverter(), src => src.Id));
+        opt => opt.ConvertUsing(new GuidToStringConverter(), src => src.Id))
+         .ForMember(d => d.Birthday,
+        opt => opt.ConvertUsing(new DateFormatter(), src => src.DateOfBirth));
+
 
         CreateMap<PersonalDataDTO, PersonalData>()
         .ForMember(d => d.Id,
-        opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id));
-
-
+        opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id))
+        .ForMember(d => d.DateOfBirth,
+        opt => opt.ConvertUsing(new StringToDateTimeConverter(), src => src.Birthday));
     }
 }

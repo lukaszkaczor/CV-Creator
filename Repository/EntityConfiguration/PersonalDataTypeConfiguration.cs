@@ -8,12 +8,6 @@ public class PersonalDataTypeConfiguration : IEntityTypeConfiguration<PersonalDa
 {
     public void Configure(EntityTypeBuilder<PersonalData> builder)
     {
-        // builder
-        // .HasOne>(d=>d.CurriculumVitae)
-        // .HasOne<CurriculumVitae>(d => d.CurriculumVitae)
-        // .WithOne(d => d.PersonalData)
-        // .HasForeignKey<CurriculumVitae>(d => d.);
-
         builder.Property(d => d.FirstName)
         .IsRequired()
         .HasMaxLength(32);
@@ -21,5 +15,8 @@ public class PersonalDataTypeConfiguration : IEntityTypeConfiguration<PersonalDa
         builder.Property(d => d.LastName)
         .IsRequired()
         .HasMaxLength(32);
+
+        builder.Property(d => d.DateOfBirth)
+        .IsRequired();
     }
 }
