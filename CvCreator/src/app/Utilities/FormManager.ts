@@ -33,20 +33,20 @@ export class FormManager<T> {
 
     if (!this.formIsValid()) return;
 
-    await this.runAction();
+    await this.runDataAction();
     this.setDataStatus();
 
     if (this._responseStatus == StatusCode.Ok) this.formSubmitted = false;
   }
 
-  private async runAction() {
+  private async runDataAction() {
     switch (this._dataStatus) {
       case DataStatus.Exists:
-        this._responseStatus = await this.update();
+        this._responseStatus = await this.updateData();
         break;
 
       case DataStatus.DoesntExists:
-        this._responseStatus = await this.create();
+        this._responseStatus = await this.createAndSetValuesToForm();
         break;
 
       case DataStatus.ServerError:
@@ -71,8 +71,8 @@ export class FormManager<T> {
     }
   }
 
-  private create(): Promise<StatusCode> {
-    return new Promise<StatusCode>((resolve, rejects) => {
+  private createAndSetValuesToForm(): Promise<any> {
+    return new Promise<any>((resolve, rejects) => {
       this._dataManager.post(this.form.value).subscribe({
         next: (data) => {
           this._itemIdentifier = this.getItemIdentifier(data);
@@ -84,7 +84,7 @@ export class FormManager<T> {
     });
   }
 
-  private update(): Promise<StatusCode> {
+  private updateData(): Promise<StatusCode> {
     return new Promise<StatusCode>((resolve, reject) => {
       this._dataManager.put(this._itemIdentifier, this.form.value).subscribe({
         next: () => resolve(StatusCode.Ok),
