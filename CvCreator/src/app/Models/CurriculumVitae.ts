@@ -1,3 +1,4 @@
+import { Address } from './Address';
 import { PersonalData } from './PersonalData';
 export class CurriculumVitae {
   id: string;
@@ -6,4 +7,5 @@ export class CurriculumVitae {
   creationTime: string;
 
   personalData?: PersonalData;
+  cvAddress?: Address;
 }

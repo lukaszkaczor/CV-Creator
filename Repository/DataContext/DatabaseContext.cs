@@ -11,6 +11,7 @@ public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
 {
     public DbSet<CurriculumVitae> CurriculumVitaes { get; set; }
     public DbSet<PersonalData> PersonalData { get; set; }
+    public DbSet<CvAddress> CvAddresses { get; set; }
 
     public DatabaseContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
     {
@@ -22,6 +23,7 @@ public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
 
         builder.ApplyConfiguration(new CurriculumVitaeTypeConfiguration());
         builder.ApplyConfiguration(new PersonalDataTypeConfiguration());
+        builder.ApplyConfiguration(new CvAddressTypeConfiguration());
     }
 
 

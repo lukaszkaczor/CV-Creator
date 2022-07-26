@@ -1,0 +1,57 @@
+<!-- <form> -->
+<h1>Address</h1>
+<form [formGroup]="form">
+  <div class="input-group">
+    <label for="towm" class="input-group__label">town</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="town"
+      id="town"
+      autofocus
+      formControlName="town"
+    />
+  </div>
+  <div class="input-group">
+    <label for="lastName" class="input-group__label">zipCode</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="zipCode"
+      id="zipCode"
+      autofocus
+      formControlName="zipCode"
+    />
+  </div>
+  <div class="input-group">
+    <label for="address" class="input-group__label">address</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="address"
+      id="address"
+      autofocus
+      formControlName="address"
+    />
+  </div>
+  <div class="input-group">
+    <label for="houseNumber" class="input-group__label">houseNumber</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="houseNumber"
+      id="houseNumber"
+      autofocus
+      formControlName="houseNumber"
+    />
+  </div>
+
+  <input type="hidden" formControlName="curriculumVitaeId" />
+  <input type="hidden" formControlName="id" />
+
+  <button type="submit" class="button" (click)="submit()">send/save</button>
+</form>

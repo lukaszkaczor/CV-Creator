@@ -29,5 +29,15 @@ public class AutoMapperProfile : Profile
         opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id))
         .ForMember(d => d.DateOfBirth,
         opt => opt.ConvertUsing(new StringToDateTimeConverter(), src => src.Birthday));
+
+        // CreateMap<CvAddressDTO, CvAddress>().ReverseMap();
+
+        CreateMap<CvAddress, CvAddressDTO>()
+       .ForMember(d => d.Id,
+       opt => opt.ConvertUsing(new GuidToStringConverter(), src => src.Id));
+
+        CreateMap<CvAddressDTO, CvAddress>()
+        .ForMember(d => d.Id,
+        opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id));
     }
 }

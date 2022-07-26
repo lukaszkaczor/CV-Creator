@@ -7,4 +7,5 @@ public class CurriculumVitaeDTO
     public string CreationDate { get; set; }
     public string CreationTime { get; set; }
     public PersonalDataDTO PersonalData { get; set; }
+    public CvAddressDTO CvAddress { get; set; }
 }

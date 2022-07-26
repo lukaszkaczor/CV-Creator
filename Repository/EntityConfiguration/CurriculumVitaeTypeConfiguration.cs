@@ -20,5 +20,10 @@ public class CurriculumVitaeTypeConfiguration : IEntityTypeConfiguration<Curricu
           .HasOne<PersonalData>(d => d.PersonalData)
           .WithOne(d => d.CurriculumVitae)
           .HasForeignKey<PersonalData>(d => d.CurriculumVitaeId);
+
+        builder
+          .HasOne<CvAddress>(d => d.CvAddress)
+          .WithOne(d => d.CurriculumVitae)
+          .HasForeignKey<CvAddress>(d => d.CurriculumVitaeId);
     }
 }

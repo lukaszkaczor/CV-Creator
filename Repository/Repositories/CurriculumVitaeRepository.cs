@@ -22,6 +22,7 @@ public class CurriculumVitaeRepository : Repository<CurriculumVitae>, ICurriculu
     {
         return await Context.Set<CurriculumVitae>()
         .Include(d => d.PersonalData)
+        .Include(d => d.CvAddress)
         .Where(d => d.ApplicationUserId == userId)
         .FirstOrDefaultAsync(d => d.Id == Guid.Parse(cvId));
     }

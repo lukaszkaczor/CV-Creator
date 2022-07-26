@@ -16,6 +16,7 @@ import { BasicInfoComponent } from './Components/Creator/basic-info/basic-info.c
 import { PersonalDataComponent } from './Components/Creator/personal-data/personal-data.component';
 import { DocumentListComponent } from './Components/document-list/document-list.component';
 import { NotFoundComponent } from './Components/not-found/not-found.component';
+import { AddressComponent } from './Components/Creator/address/address.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -32,6 +33,7 @@ export function tokenGetter() {
     PersonalDataComponent,
     DocumentListComponent,
     NotFoundComponent,
+    AddressComponent,
   ],
   imports: [
     BrowserModule,
