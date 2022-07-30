@@ -1,0 +1,32 @@
+<!-- <form> -->
+<h1>Contact data</h1>
+<form [formGroup]="form">
+  <div class="input-group">
+    <label for="towm" class="input-group__label">email</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="email"
+      name="email"
+      id="email"
+      autofocus
+      formControlName="email"
+    />
+  </div>
+  <div class="input-group">
+    <label for="phoneNumber" class="input-group__label">phoneNumber</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="phoneNumber"
+      id="phoneNumber"
+      formControlName="phoneNumber"
+    />
+  </div>
+
+  <input type="hidden" formControlName="curriculumVitaeId" />
+  <input type="hidden" formControlName="id" />
+
+  <button type="submit" class="button" (click)="submit()">send/save</button>
+</form>

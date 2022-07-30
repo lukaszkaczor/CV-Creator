@@ -11,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     public ICurriculumVitaeRepository CurriculumVitaes { get; private set; }
     public IPersonalDataRepository PersonalData { get; private set; }
     public ICvAddressRepository CvAddresses { get; private set; }
+    public IContactDataRepository ContactData { get; private set; }
 
     public UnitOfWork(DatabaseContext context)
     {
@@ -18,6 +19,7 @@ public class UnitOfWork : IUnitOfWork
         CurriculumVitaes = new CurriculumVitaeRepository(_context);
         PersonalData = new PersonalDataRepository(_context);
         CvAddresses = new CvAddressRepository(_context);
+        ContactData = new ContactDataRepository(_context);
     }
 
     public async Task<int> Complete()

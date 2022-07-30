@@ -6,5 +6,6 @@ public interface IUnitOfWork : IDisposable
     ICurriculumVitaeRepository CurriculumVitaes { get; }
     IPersonalDataRepository PersonalData { get; }
     ICvAddressRepository CvAddresses { get; }
+    IContactDataRepository ContactData { get; }
     Task<int> Complete();
 }

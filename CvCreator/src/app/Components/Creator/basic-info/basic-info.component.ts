@@ -1,3 +1,4 @@
+import { ContactData } from './../../../Models/ContactData';
 import { Address } from './../../../Models/Address';
 import { PersonalData } from './../../../Models/PersonalData';
 import { CurriculumVitaeService } from './../../../Services/curriculum-vitae.service';
@@ -22,6 +23,7 @@ export class BasicInfoComponent {
   curriculumVitaeId: string;
   personalData: PersonalData;
   cvAddress: Address;
+  contactData: ContactData;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -35,6 +37,7 @@ export class BasicInfoComponent {
 
         this.personalData = data.personalData as PersonalData;
         this.cvAddress = data.cvAddress as Address;
+        this.contactData = data.contactData as ContactData;
       },
       error: (err) => {
         this.router.navigate(['/404']);

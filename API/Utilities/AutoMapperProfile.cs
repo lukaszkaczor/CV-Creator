@@ -39,5 +39,14 @@ public class AutoMapperProfile : Profile
         CreateMap<CvAddressDTO, CvAddress>()
         .ForMember(d => d.Id,
         opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id));
+
+        //----
+        CreateMap<ContactData, ContactDataDTO>()
+       .ForMember(d => d.Id,
+       opt => opt.ConvertUsing(new GuidToStringConverter(), src => src.Id));
+
+        CreateMap<ContactDataDTO, ContactData>()
+        .ForMember(d => d.Id,
+        opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id));
     }
 }

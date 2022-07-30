@@ -12,5 +12,6 @@ public class CurriculumVitae
 
     public PersonalData PersonalData { get; set; }
     public CvAddress CvAddress { get; set; }
+    public ContactData ContactData { get; set; }
     // public Guid PersonalDataId { get; set; }
 }

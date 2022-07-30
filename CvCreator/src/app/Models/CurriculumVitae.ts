@@ -1,3 +1,4 @@
+import { ContactData } from './ContactData';
 import { Address } from './Address';
 import { PersonalData } from './PersonalData';
 export class CurriculumVitae {
@@ -8,4 +9,5 @@ export class CurriculumVitae {
 
   personalData?: PersonalData;
   cvAddress?: Address;
+  contactData?: ContactData;
 }
