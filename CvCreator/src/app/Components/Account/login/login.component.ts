@@ -25,7 +25,7 @@ export class LoginComponent
     private http: HttpClient,
     private ss: CurriculumVitaeService
   ) {
-    super(ss);
+    super(ss, builder);
     this.form = builder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],

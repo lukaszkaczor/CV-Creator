@@ -23,30 +23,23 @@ export class AddressComponent
   @Input() address: Address;
 
   constructor(dataService: CvAddressService, builder: FormBuilder) {
-    super(dataService);
-    this.form = builder.group({
+    super(dataService, builder);
+  }
+  ngOnInit(): void {
+    // console.log(this.form);
+    // this.cvId.setValue(this.curriculumVitaeId);
+    this.initializeForm({
       id: [''],
       town: [''],
       zipCode: [''],
       address: [''],
       houseNumber: [''],
-      curriculumVitaeId: [''],
+      curriculumVitaeId: [this.curriculumVitaeId],
     });
-  }
-  ngOnInit(): void {
-    console.log(this.form);
-    this.cvId.setValue(this.curriculumVitaeId);
   }
 
   ngOnChanges() {
     if (!this.address) return;
     this.initFormData(this.address);
-  }
-
-  get cvId(): FormControl {
-    return this.form.get('curriculumVitaeId') as FormControl;
-  }
-  set cvId(val) {
-    this.cvId?.setValue(val);
   }
 }

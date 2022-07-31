@@ -17,8 +17,13 @@ export class PersonalDataComponent
   @Input() personalData: PersonalData;
 
   constructor(dataService: PersonalDataService, builder: FormBuilder) {
-    super(dataService);
-    this.form = builder.group({
+    super(dataService, builder);
+  }
+
+  ngOnInit(): void {
+    // console.log(this.form);
+    // this.cvId.setValue(this.curriculumVitaeId);
+    this.initializeForm({
       id: [''],
       firstName: [
         '',
@@ -37,13 +42,8 @@ export class PersonalDataComponent
         ],
       ],
       birthday: ['', [Validators.required]],
-      curriculumVitaeId: [''],
+      curriculumVitaeId: [this.curriculumVitaeId],
     });
-  }
-
-  ngOnInit(): void {
-    console.log(this.form);
-    this.cvId.setValue(this.curriculumVitaeId);
   }
 
   ngOnChanges() {
@@ -70,12 +70,5 @@ export class PersonalDataComponent
   }
   set birthday(val) {
     this.birthday?.setValue(val);
-  }
-
-  get cvId(): FormControl {
-    return this.form.get('curriculumVitaeId') as FormControl;
-  }
-  set cvId(val) {
-    this.cvId?.setValue(val);
   }
 }

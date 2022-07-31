@@ -33,7 +33,7 @@ export class BasicInfoComponent {
     this.cvService.get(this.curriculumVitaeId).subscribe({
       next: (data) => {
         if (data == null) this.router.navigate(['/404']);
-        console.log(data);
+        // console.log(data);
 
         this.personalData = data.personalData as PersonalData;
         this.cvAddress = data.cvAddress as Address;

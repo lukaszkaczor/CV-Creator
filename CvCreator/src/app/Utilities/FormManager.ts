@@ -1,9 +1,10 @@
+import { CurriculumVitaeId } from './../Interfaces/CurriculumVitaeId';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusCode } from './../Models/StatusCode';
 import { Identity } from './../Interfaces/Identity';
 import { DataStatus } from './DataStatus';
 import { Endpoint } from '../Interfaces/Endpoint';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 export class FormManager<T> {
   private _form: FormGroup;
@@ -13,8 +14,12 @@ export class FormManager<T> {
   private _responseStatus: StatusCode;
   public formSubmitted = false;
 
-  constructor(dataManager: Endpoint<T>) {
+  constructor(dataManager: Endpoint<T>, private _formBuilder: FormBuilder) {
     this._dataManager = dataManager;
+  }
+
+  initializeForm(data: CurriculumVitaeId) {
+    this._form = this._formBuilder.group(data);
   }
 
   initFormData(data: T) {
@@ -101,11 +106,19 @@ export class FormManager<T> {
     return this._form;
   }
 
+  //set to private
   public set form(data: FormGroup) {
     if (this._form == null) this._form = data;
   }
 
   public formIsValid(): boolean {
     return this._form.valid;
+  }
+
+  get cvId(): FormControl {
+    return this.form.get('curriculumVitaeId') as FormControl;
+  }
+  set cvId(val) {
+    this.cvId?.setValue(val);
   }
 }
