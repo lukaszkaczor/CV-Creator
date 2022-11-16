@@ -81,7 +81,7 @@ export class FormManager<T> {
       this._dataManager.post(this.form.value).subscribe({
         next: (data) => {
           this._itemIdentifier = this.getItemIdentifier(data);
-          this._form.setValue(data);
+          this._form.setValue(data as any);
           resolve(StatusCode.Ok);
         },
         error: (error: HttpErrorResponse) => resolve(error.status),

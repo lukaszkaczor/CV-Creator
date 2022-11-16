@@ -1,3 +1,4 @@
+import { CvContentComponent } from './Components/cv-content/cv-content.component';
 import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { DocumentListComponent } from './Components/document-list/document-list.component';
 import { BasicInfoComponent } from './Components/Creator/basic-info/basic-info.component';
@@ -16,7 +17,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '404', component: NotFoundComponent },
-  { path: 'test', component: TestComponent, canActivate: [AuthGuard] },
+  { path: 'test', component: TestComponent },
+  { path: 'content', component: CvContentComponent },
+  // { path: 'test', component: TestComponent, canActivate: [AuthGuard] },
   { path: 'basic/:id', component: BasicInfoComponent },
   {
     path: 'documents',

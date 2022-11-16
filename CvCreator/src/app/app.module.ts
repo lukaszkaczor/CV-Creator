@@ -18,6 +18,8 @@ import { DocumentListComponent } from './Components/document-list/document-list.
 import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { AddressComponent } from './Components/Creator/address/address.component';
 import { ContactDataComponent } from './Components/Creator/contact-data/contact-data.component';
+import { CvContentComponent } from './Components/cv-content/cv-content.component';
+import { ContentDirective } from './Components/cv-content/content.directive';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -36,6 +38,8 @@ export function tokenGetter() {
     NotFoundComponent,
     AddressComponent,
     ContactDataComponent,
+    CvContentComponent,
+    ContentDirective,
   ],
   imports: [
     BrowserModule,
