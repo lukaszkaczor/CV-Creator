@@ -7,6 +7,7 @@ import { Directive, ElementRef, Renderer2, OnInit, Input } from '@angular/core';
 export class ContentDirective implements OnInit {
   @Input() template: string;
   cvElement: HTMLElement;
+  cvTemplate: HTMLElement;
   pages: HTMLElement[] = [];
 
   dataToInsert = [
@@ -18,235 +19,83 @@ export class ContentDirective implements OnInit {
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit(): void {
+    this.cvElement = this.createNewElement('div', '');
+    this.cvTemplate = this.createNewElement('div', '');
+    this.cvElement.innerHTML = `<div @firstPage class="page">
+                                  <div @pageContent @ten class="page-content"></div>
+                                </div>
+                                
+                                <div @secondPage class="page" style="position: absolute; top: 520px">
+                                  <div @pageContent @ten class="page-content"></div>
+                                </div>
+                                
+                                `;
     this.initializeBox();
 
-    this.cvElement = this.createNewElement('div', '');
-    // this.cvElement = this.renderer.createElement('div');
-    this.cvElement.innerHTML = this.template;
-    this.cvElement.classList.add('container');
+    this.insertDataToTemplate();
 
-    let firstPage = this.getFirstPage();
-    let middlePage = this.getMiddlePage();
-    let content = this.gpc(firstPage);
+    let dataFromTemplate = this.getPageContent(this.cvTemplate);
+    let allElementsFromTemplate = this.getAllElements(dataFromTemplate);
 
-    let allElements = this.getAllElements(this.gpc(firstPage));
-    // console.log(this.gpc(firstPage));
+    let mergedElementsFromTemplate: HTMLElement[] = this.merge(
+      allElementsFromTemplate
+    );
 
-    let temp: HTMLElement[] = [];
-    // let dudu: HTMLElement[] = [];
-    let text = '';
+    let firstPage = this.getFirstPage(this.cvElement);
+    let firstPageContent = this.getPageContent(firstPage);
 
-    for (let i = 0; i < allElements.length; i++) {
-      // console.log(allElements);
+    let lastItem: Node = firstPage;
+    console.log(mergedElementsFromTemplate);
 
-      let element = allElements[i];
+    mergedElementsFromTemplate.forEach((item) => {
+      // console.log(item.outerHTML);
+      // console.log(item);
 
-      this.dataToInsert.forEach((item) => {
-        let itemHasAttribute = this.elementContainsAttribute(
-          element,
-          item.marker
-        );
-        // dudu.push(element);
-        // console.log(itemHasAttribute);
-        if (itemHasAttribute) element.textContent = item.data;
-      });
-      if (!this.contentIsLowerThanPage(firstPage)) {
-        // let clone = this.createClone(element);
-        temp.push(element);
-      }
-    }
+      if (firstPageContent.offsetHeight < firstPage.offsetHeight) {
+        console.log(firstPageContent.offsetHeight, firstPage.offsetHeight);
 
-    //merge children with parents
-    let arr: HTMLElement[] = [];
-    temp.forEach((item) => {
-      if (item.parentElement?.hasAttribute('@pageContent')) {
-        arr.push(item);
-      }
-    });
+        lastItem = this.createClone(item);
 
-    let first = arr[0];
-    let ftext: string = first.textContent as string;
-    console.log(first);
-    let clone = this.createClone(first) as HTMLElement;
-    content.appendChild(clone);
-    console.log(clone.offsetHeight);
+        firstPageContent.appendChild(lastItem);
+        // console.log(item.innerHTML);
+      } else {
+        let lastChild =
+          firstPageContent.children[firstPageContent.children.length - 1];
 
-    console.log(content.offsetHeight);
+        let cutWords = [];
+        while (firstPageContent.offsetHeight > firstPage.offsetHeight) {
+          let result = this.cutLastWord(lastChild.textContent as string);
+          lastChild.textContent = result.text;
+          if (lastChild.textContent == '') lastChild.remove(); //remove last element from page if its empty
 
-    let middleConent = this.gpc(middlePage);
-    console.log(middleConent);
-
-    arr.forEach((item) => {
-      middleConent.appendChild(item);
-    });
-    console.log(content.offsetHeight);
-
-    let arraggio = [];
-
-    while (!this.contentIsLowerThanPage(firstPage)) {
-      console.log('---');
-
-      let b = this.cct(ftext);
-      ftext = b.text;
-      arraggio.push(b.lastWord);
-      clone.textContent = ftext;
-    }
-
-    //fix
-    arraggio = arraggio.filter((e: any) => {
-      return e.replace(/(\r\n|\n|\r)/gm, '');
-    });
-
-    //fix
-    first.textContent = arraggio.reverse().join();
-    // if (middleConent.firstChild?.textContent != null)
-    //   middleConent.firstChild.textContent = arraggio.reverse().join(' ');
-
-    // arraggio.filter((e) => {
-    //   return e == ' ';
-    // });
-
-    console.log(arraggio.reverse().join(' '));
-  }
-
-  // passNodes(from: HTMLElement, to: HTMLElement, elementToPass: HTMLElement) {
-  //   to.appendChild(elementToPass);
-  //   // elementToPass.remove();
-  // }
-
-  createClone(element: HTMLElement) {
-    // console.log(element.outerHTML);
-    // element.cloneNode()
-    let clone = element.cloneNode(true);
-    // console.log(clone);
-
-    return clone;
-  }
-
-  // trimContent(page: HTMLElement) {
-  //   let trimmed: HTMLElement[] = [];
-
-  //   // while(this.contentIsLowerThanPage(page))
-  //   // {
-  //   //   page.
-  //   // }
-
-  //   console.log(page);
-  // }
-
-  insertData() {
-    let firstPage = this.getFirstPage();
-    let middlePage = this.getMiddlePage();
-    let content = this.gpc(firstPage);
-    // let content = this.getPageContent(firstPage);
-    this.dataToInsert.forEach((item) => {
-      const arr = this.searchForElementsWithAttribute(content, item.marker);
-      let clone: Node;
-      let lt: string;
-
-      //first page
-      for (let i = 0; i < arr.length; i++) {
-        let element = arr[i];
-        element.textContent = item.data;
-        clone = this.createClone(element);
-
-        if (!this.contentIsLowerThanPage(firstPage)) {
-          // if (false) {
-          const elementBackup = element;
-          let textBackup = element.textContent;
-          let lastText = this.trimPage(firstPage, element);
-
-          content = this.gpc(middlePage);
-          // content = this.getPageContent(middlePage);
-          clone = this.createClone(element);
-
-          lt = lastText;
-          clone.textContent = lastText;
-          console.log(clone);
-
-          break;
+          if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
         }
+        console.log(cutWords);
+        console.log(lastItem);
+
+        let secondPage = this.getSecondPage(this.cvElement);
+        firstPageContent = this.getPageContent(secondPage); //secondPageContent
+        let continuationOfLastItem = firstPageContent.appendChild(
+          this.createClone(lastItem as HTMLElement)
+        );
+        continuationOfLastItem.textContent = cutWords.reverse().join(' ');
+        let currentItemClone = this.createClone(item);
+        firstPageContent.appendChild(currentItemClone);
+        // if (flag) {
+        //   let g = this.getSecondPage(this.cvElement);
+        //   firstPageContent = this.getPageContent(g);
+        // }
       }
-
-      // console.log(content);
-
-      // const nextPageArr = this.searchForElementsWithAttribute(
-      //   content,
-      //   item.marker
-      // );
-
-      // console.log(middlePage);
-      // // this.renderer.app
-      // nextPageArr.forEach((r) => {
-      //   console.log(clone);
-
-      //   this.renderer.appendChild(middlePage, clone);
-      //   r.textContent = clone.textContent;
-
-      // });
     });
+    console.log(firstPageContent.offsetHeight, firstPage.offsetHeight);
+
+    // for (let i = 0; i < allElements.length; i++) {
+    //   const element = allElements[i];
+    //   this.cvElement.appendChild(this.createClone(element));
+    // }
   }
 
-  trimPage(firstPage: HTMLElement, element: HTMLElement) {
-    const elementBackup = element;
-    const textBackup = element.textContent;
-    let cutWords: any = [];
-
-    while (!this.contentIsLowerThanPage(firstPage)) {
-      let dd = this.clw(element);
-      element.textContent = dd.text;
-      cutWords.push(dd.lastWord);
-    }
-
-    cutWords = cutWords.filter((e: any) => {
-      return e.replace(/(\r\n|\n|\r)/gm, '');
-    });
-    // console.log(cutWords.reverse().join(' '));
-    //
-    return cutWords.reverse().join(' ');
-  }
-
-  clw(element: HTMLElement): { text: string; lastWord: string } {
-    let cutWords = [];
-    let text = element.textContent;
-    if (text == null) return { text: '', lastWord: '' };
-
-    let str = text;
-    let lastIndex = str.lastIndexOf(' ');
-    cutWords.push(str.substring(lastIndex));
-
-    return {
-      text: str.substring(0, lastIndex),
-      lastWord: str.substring(lastIndex + 1),
-    };
-  }
-
-  cutLastWord(element: HTMLElement) {
-    //
-    let cutWords = [];
-    let text = element.textContent;
-    if (text == null) return '';
-
-    let str = text;
-    let lastIndex = str.lastIndexOf(' ');
-    cutWords.push(str.substring(lastIndex));
-
-    return str.substring(0, lastIndex);
-  }
-  cutLastWordFromText(textContent: string) {
-    //
-    let cutWords = [];
-    let text = textContent;
-    if (text == null) return '';
-
-    let str = text;
-    let lastIndex = str.lastIndexOf(' ');
-    cutWords.push(str.substring(lastIndex));
-
-    return str.substring(0, lastIndex);
-  }
-
-  cct(textContent: string): { text: string; lastWord: string } {
+  cutLastWord(textContent: string): { text: string; lastWord: string } {
     let cutWords = [];
     let text = textContent;
     if (text == null) return { text: '', lastWord: '' };
@@ -261,101 +110,86 @@ export class ContentDirective implements OnInit {
     };
   }
 
-  // cutLastWord(text: string | null): string {
-  //   if (text == null) return '';
+  cutLastWordFromText(textContent: string) {
+    //
+    let cutWords = [];
+    let text = textContent;
+    if (text == null) return '';
 
-  //   var str = text;
-  //   var lastIndex = str.lastIndexOf(' ');
-  //   this.cutWords.push(str.substring(lastIndex));
+    let str = text;
+    let lastIndex = str.lastIndexOf(' ');
+    cutWords.push(str.substring(lastIndex));
 
-  //   return str.substring(0, lastIndex);
-  //   // this.c1.nativeElement.innerText
-  // }
+    return str.substring(0, lastIndex);
+  }
 
-  searchForElementsWithAttribute(element: HTMLElement, attribute: string) {
+  merge(elements: HTMLCollectionOf<HTMLElement>) {
+    let arr: HTMLElement[] = [];
+
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      if (element.parentElement?.hasAttribute('@pageContent')) {
+        arr.push(element);
+      }
+    }
+    return arr;
+  }
+
+  createClone(element: HTMLElement) {
+    return element.cloneNode(true);
+  }
+
+  getFirstPage(element: HTMLElement): HTMLElement {
     let allElements = this.getAllElements(element);
 
-    let elements: HTMLElement[] = [];
+    for (let i = 0; i < allElements.length; i++) {
+      const element = allElements[i];
+
+      if (element.hasAttribute('@firstPage')) {
+        console.log('ddd');
+        return element;
+      }
+    }
+
+    return element;
+    // return this.cvElement
+    //   .getElementsByTagName('*')
+    //   .namedItem('first-page') as HTMLElement;
+  }
+  getSecondPage(element: HTMLElement): HTMLElement {
+    let allElements = this.getAllElements(element);
 
     for (let i = 0; i < allElements.length; i++) {
-      this.elementContainsAttribute(allElements[i], attribute)
-        ? elements.push(allElements[i])
-        : null;
+      const element = allElements[i];
+
+      if (element.hasAttribute('@secondPage')) {
+        return element;
+      }
     }
-    // console.log(elements);
 
-    // console.log(allElements);
-    // console.log(element);
-
-    // console.log(this.elementsContainsAttribute(element, attribute));
-
-    return elements;
+    return element;
+    // return this.cvElement
+    //   .getElementsByTagName('*')
+    //   .namedItem('first-page') as HTMLElement;
   }
 
   elementContainsAttribute(element: HTMLElement, name: string) {
     return element.attributes.getNamedItem(name) != null;
   }
 
-  contentIsLowerThanPage(page: HTMLElement): boolean {
-    const contentHeight = this.gpc(page).clientHeight;
-    const pageHeight = page.offsetHeight;
-
-    return contentHeight < pageHeight;
-  }
-
-  getContentHeight(content: HTMLElement) {
-    console.log(content.offsetHeight);
-
-    return content.clientHeight;
-  }
-
-  getFirstPage(): HTMLElement {
-    return this.cvElement
-      .getElementsByTagName('*')
-      .namedItem('first-page') as HTMLElement;
-  }
-  getMiddlePage(): HTMLElement {
-    return this.cvElement
-      .getElementsByTagName('*')
-      .namedItem('middle-page') as HTMLElement;
-  }
-
-  getLastElement(content: HTMLElement): HTMLElement {
-    return content.lastChild as HTMLElement;
-  }
-
-  // getPageContent(page: HTMLElement): HTMLElement {
-  //   // return page.hasAttribute
-  //   //    as HTMLElement;
-  //   return page
-  //     .getElementsByTagName('*')
-  //     .namedItem('page-content') as HTMLElement;
-  //   return page;
-  // }
-
-  gpc(page: HTMLElement): HTMLElement {
-    // console.log(page);
-    let elements = page.getElementsByTagName('*');
-
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i];
-      // console.log(element.hasAttribute('@pageContent'));
-      if (element.hasAttribute('@pageContent')) return element as HTMLElement;
-    }
-    //FIX
-    return page;
-  }
-
-  getChildren(element: HTMLElement): HTMLCollection {
-    return element.children;
-  }
-
   getAllElements(element: HTMLElement): HTMLCollectionOf<HTMLElement> {
     return element.getElementsByTagName('*') as HTMLCollectionOf<HTMLElement>;
   }
 
-  getChild(element: HTMLElement, name: string): HTMLElement {
-    return this.getAllElements(element).namedItem(name) as HTMLElement;
+  getPageContent(page: HTMLElement): HTMLElement {
+    let elements = page.getElementsByTagName('*');
+
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      if (element.hasAttribute('@pageContent')) return element as HTMLElement;
+    }
+    //FIX
+    return page;
   }
 
   initializeBox() {
@@ -363,17 +197,43 @@ export class ContentDirective implements OnInit {
     this.renderer.setStyle(this.el.nativeElement, 'width', '350px');
     this.renderer.setStyle(this.el.nativeElement, 'min-height', '500px');
     this.renderer.setStyle(this.el.nativeElement, 'height', 'auto');
-    this.renderer.setStyle(this.el.nativeElement, 'margin-left', '300px');
+    this.renderer.setStyle(this.el.nativeElement, 'margin-left', '400px');
+    this.renderer.setStyle(this.el.nativeElement, 'position', 'relative');
+
+    this.renderer.setStyle(this.cvElement, 'border', '1px solid blue');
+    this.renderer.setStyle(this.cvElement, 'width', '350px');
+    // this.renderer.setStyle(this.cvElement, 'min-height', '500px');
+    // this.renderer.setStyle(this.cvElement, 'height', 'auto');
+    this.renderer.setStyle(this.cvElement, 'margin-left', '-370px');
+    this.renderer.setStyle(this.cvElement, 'position', 'absolute');
+
+    this.cvTemplate.innerHTML = this.template;
+    this.cvTemplate.classList.add('container');
+    this.cvElement.classList.add('container');
   }
 
   createNewElement(element: string, content: string) {
     const pNode = this.renderer.createElement(element);
     const txtNode = this.renderer.createText(content);
-
-    // this.renderer.setStyle(pNode, 'color', 'red');
-    // this.renderer.addClass(pNode, ['asd']);
     this.renderer.appendChild(pNode, txtNode);
     this.renderer.appendChild(this.el.nativeElement, pNode);
     return pNode;
+  }
+
+  insertDataToTemplate() {
+    let templateContent = this.getPageContent(this.cvTemplate);
+    let allTemplateElements = this.getAllElements(templateContent);
+
+    for (let i = 0; i < allTemplateElements.length; i++) {
+      const element = allTemplateElements[i];
+
+      this.dataToInsert.forEach((item) => {
+        let itemHasAttribute = this.elementContainsAttribute(
+          element,
+          item.marker
+        );
+        if (itemHasAttribute) element.textContent = item.data;
+      });
+    }
   }
 }
