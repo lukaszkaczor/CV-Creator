@@ -4,7 +4,6 @@ namespace Repository.DataContext.Configuration;
 
 public class AppConfiguration
 {
-
     public string SqlConnectionString { get; set; }
 
     public AppConfiguration()
@@ -16,5 +15,4 @@ public class AppConfiguration
         var appsetting = root.GetSection("ConnectionStrings:DefaultConnection");
         SqlConnectionString = appsetting.Value;
     }
-
 }

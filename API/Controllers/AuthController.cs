@@ -21,7 +21,6 @@ public class AuthController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
 
-
     public AuthController(IConfiguration config, UserManager<ApplicationUser> manager,
       SignInManager<ApplicationUser> signInManager)
     {
@@ -29,7 +28,6 @@ public class AuthController : ControllerBase
         _userManager = manager;
         _signInManager = signInManager;
     }
-
 
     [HttpPost]
     [AllowAnonymous]

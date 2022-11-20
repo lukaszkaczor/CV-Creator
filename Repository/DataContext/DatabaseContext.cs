@@ -28,7 +28,6 @@ public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
         builder.ApplyConfiguration(new ContactDataTypeConfiguration());
     }
 
-
     // public static OptionsBuild Options = new OptionsBuild();
 
 }

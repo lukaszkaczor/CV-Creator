@@ -18,7 +18,6 @@ var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DatabaseContext>(x => x.UseSqlServer(connectionString));
 
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -55,7 +54,6 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 });
 
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
@@ -76,16 +74,11 @@ builder.Services.AddMvc();
 builder.Services.AddControllers()
 .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-.AddFluentValidation(options =>
-{
-    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-})
+.AddFluentValidation(options => options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
 ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 
 var app = builder.Build();
 
@@ -106,7 +99,6 @@ app.UseCors(options =>
 });
 
 // app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();
-
 
 app.UseHttpsRedirection();
 

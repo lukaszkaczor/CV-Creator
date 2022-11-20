@@ -15,7 +15,6 @@ public class CvPersonalDataController : Controller
     public CvPersonalDataController(IMapper mapper)
     {
         _mapper = mapper;
-
     }
 
     [HttpGet]

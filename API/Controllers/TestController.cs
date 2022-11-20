@@ -25,7 +25,6 @@ namespace API.Controllers
 
         }
 
-
         // [HttpGet("Admins")]
         // [Authorize(Roles = "Admin")]
         // public IActionResult AdminsEndpoint()
@@ -43,10 +42,9 @@ namespace API.Controllers
         //     return Ok(ss);
         // }
 
-
         [HttpGet("Public")]
         // [Authorize]
-        public IActionResult GetPublicDataAsync()
+        public IActionResult GetPublicData()
         {
             // var accessToken = Request.Headers[HeaderNames.Authorization];
 

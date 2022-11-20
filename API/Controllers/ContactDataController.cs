@@ -17,7 +17,6 @@ public class ContactDataController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-
     public ContactDataController(IUnitOfWork context,
        IMapper mapper,
        IHttpContextAccessor httpContextAccessor

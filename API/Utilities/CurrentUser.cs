@@ -11,6 +11,5 @@ namespace API.Utilities
     {
         public static string GetCurrentUser(IHttpContextAccessor httpContextAccessor)
         => httpContextAccessor.HttpContext.User.Identity.Name;
-
     }
 }

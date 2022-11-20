@@ -23,7 +23,6 @@ public class AutoMapperProfile : Profile
          .ForMember(d => d.Birthday,
         opt => opt.ConvertUsing(new DateFormatter(), src => src.DateOfBirth));
 
-
         CreateMap<PersonalDataDTO, PersonalData>()
         .ForMember(d => d.Id,
         opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id))

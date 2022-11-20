@@ -26,7 +26,6 @@ public class CvController : ControllerBase
         _mapper = mapper;
     }
 
-
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(string id)
     {
@@ -50,7 +49,6 @@ public class CvController : ControllerBase
 
         return Ok(result);
     }
-
 
     [HttpPost]
     public async Task<IActionResult> Post()

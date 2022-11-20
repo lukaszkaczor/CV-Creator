@@ -30,7 +30,6 @@ public class CvAddressController : ControllerBase
         _httpContextAccessor = httpContextAccessor;
     }
 
-
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -77,5 +76,4 @@ public class CvAddressController : ControllerBase
         var result = _mapper.Map<CvAddressDTO>(cvAddress);
         return Ok(result);
     }
-
 }

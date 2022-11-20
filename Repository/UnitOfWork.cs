@@ -8,10 +8,10 @@ namespace Repository;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly DatabaseContext _context;
-    public ICurriculumVitaeRepository CurriculumVitaes { get; private set; }
-    public IPersonalDataRepository PersonalData { get; private set; }
-    public ICvAddressRepository CvAddresses { get; private set; }
-    public IContactDataRepository ContactData { get; private set; }
+    public ICurriculumVitaeRepository CurriculumVitaes { get; }
+    public IPersonalDataRepository PersonalData { get; }
+    public ICvAddressRepository CvAddresses { get; }
+    public IContactDataRepository ContactData { get; }
 
     public UnitOfWork(DatabaseContext context)
     {

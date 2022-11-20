@@ -17,7 +17,6 @@ public class PersonalDataController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-
     public PersonalDataController(IUnitOfWork context,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor
