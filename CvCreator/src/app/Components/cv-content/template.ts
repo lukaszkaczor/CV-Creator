@@ -14,6 +14,13 @@ export class Template {
           <h1 @description style="color: orange"></h1>
           <h2 style="color:red" @description></h2>
           <h2 style="color:green" @description></h2>
+          <h2 style="color:green" @description></h2>
+          <h2 style="color:green" @description></h2>
+          <h2 style="color:green" @description></h2>
+          <h2 style="color:green" @description></h2>
+          <h2 style="color:green" @description></h2>
+          <h2 style="color:green" @description></h2>
+          <h2 style="color:green" @description></h2>
           <h2 style="color:blue" @description></h2>
           <h1 @dede style="color:red"> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
           <h1  style="color:green"> <span @firstName>lukasz</span> - <span @lastName></span> </h1>

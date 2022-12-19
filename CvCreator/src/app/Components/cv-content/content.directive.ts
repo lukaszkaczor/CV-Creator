@@ -18,83 +18,172 @@ export class ContentDirective implements OnInit {
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.cvElement = this.createNewElement('div', '');
     this.cvTemplate = this.createNewElement('div', '');
-    this.cvElement.innerHTML = `<div @firstPage class="page">
-                                  <div @pageContent @ten class="page-content"></div>
+    this.cvElement.innerHTML = `<div @firstPage class="page" >
+                                  <div @pageContent class="page-content"></div>
                                 </div>
                                 
                                 <div @secondPage class="page" style="position: absolute; top: 520px">
-                                  <div @pageContent @ten class="page-content"></div>
+                                  <div @pageContent class="page-content"></div>
+                                </div>
+
+                                <div @lastPage class="page" style="position: absolute; top: 1040px">
+                                  <div @pageContent class="page-content"></div>
                                 </div>
                                 
                                 `;
+                                
+    let cvBackup = this.createNewElement("div", "");
+    cvBackup.innerHTML = this.cvElement.innerHTML;
+    console.log(cvBackup);
+    
+    
     this.initializeBox();
 
     this.insertDataToTemplate();
 
-    let dataFromTemplate = this.getPageContent(this.cvTemplate);
+    let dataFromTemplate = this.getPageContent(this.cvTemplate);    
     let allElementsFromTemplate = this.getAllElements(dataFromTemplate);
 
     let mergedElementsFromTemplate: HTMLElement[] = this.merge(
       allElementsFromTemplate
     );
+    
 
-    let firstPage = this.getFirstPage(this.cvElement);
-    let firstPageContent = this.getPageContent(firstPage);
 
-    let lastItem: Node = firstPage;
-    console.log(mergedElementsFromTemplate);
+    let page = this.getFirstPage(this.cvElement);
+    let pageContent = this.getPageContent(page);
+    let lastItem: Node = page;
 
-    mergedElementsFromTemplate.forEach((item) => {
-      // console.log(item.outerHTML);
-      // console.log(item);
 
-      if (firstPageContent.offsetHeight < firstPage.offsetHeight) {
-        console.log(firstPageContent.offsetHeight, firstPage.offsetHeight);
+    
 
+    let index = 0;
+    for (let i = 0; i < mergedElementsFromTemplate.length;i++)
+    {
+      let item = mergedElementsFromTemplate[i];
+
+      if (this.contentHeightLowerThanPageHeight(page)) {
         lastItem = this.createClone(item);
+        pageContent.appendChild(lastItem);
 
-        firstPageContent.appendChild(lastItem);
-        // console.log(item.innerHTML);
+        if(!this.pages.find(p => p.attributes.getNamedItem("@lastPage")) 
+        && page.attributes.getNamedItem("@lastPage") != null)
+        this.pages.push(page);
+
       } else {
-        let lastChild =
-          firstPageContent.children[firstPageContent.children.length - 1];
+        let lastChild = this.getLastChild(pageContent)
 
         let cutWords = [];
-        while (firstPageContent.offsetHeight > firstPage.offsetHeight) {
+        let dd = 0
+        while (this.contentHeightHigherThanPageHeight(page)) {
+          dd++;
+          
+          if(dd == 250) {
+          console.log(page.offsetHeight);
+          console.log(pageContent.offsetHeight);
+
+            break;
+          }
+          //--------
           let result = this.cutLastWord(lastChild.textContent as string);
           lastChild.textContent = result.text;
           if (lastChild.textContent == '') lastChild.remove(); //remove last element from page if its empty
 
           if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
         }
-        console.log(cutWords);
-        console.log(lastItem);
 
-        let secondPage = this.getSecondPage(this.cvElement);
-        firstPageContent = this.getPageContent(secondPage); //secondPageContent
-        let continuationOfLastItem = firstPageContent.appendChild(
+        index++;
+        this.pages.push(page);
+
+
+        
+        if(index == 1)
+        {
+         console.log("1")
+          page= this.getSecondPage(this.cvElement);
+          // page = midPageClone as HTMLElement;
+          console.log(page);
+        }
+        if(index == 2)
+        {
+          console.log("2");
+          
+          page= this.getLastPage(this.cvElement);
+          // page= this.getSecondPage(this.cvElement);
+        }
+
+        // if(index == 5)
+        // break;
+
+        // let secondPage = this.getSecondPage(this.cvElement);
+        pageContent = this.getPageContent(page as HTMLElement); //secondPageContent
+        let continuationOfLastItem = pageContent.appendChild(
           this.createClone(lastItem as HTMLElement)
         );
         continuationOfLastItem.textContent = cutWords.reverse().join(' ');
         let currentItemClone = this.createClone(item);
-        firstPageContent.appendChild(currentItemClone);
-        // if (flag) {
-        //   let g = this.getSecondPage(this.cvElement);
-        //   firstPageContent = this.getPageContent(g);
-        // }
+        pageContent.appendChild(currentItemClone);
       }
-    });
-    console.log(firstPageContent.offsetHeight, firstPage.offsetHeight);
+    }
 
-    // for (let i = 0; i < allElements.length; i++) {
-    //   const element = allElements[i];
-    //   this.cvElement.appendChild(this.createClone(element));
-    // }
+    
+
+    // let firstPage = this.getFirstPage(this.cvElement);
+    // let firstPageContent = this.getPageContent(firstPage);
+
+
+    // let lastItem: Node = firstPage;
+
+    // mergedElementsFromTemplate.forEach((item) => {
+     
+    //   if (firstPageContent.offsetHeight < firstPage.offsetHeight) {
+    //     lastItem = this.createClone(item);
+    //     firstPageContent.appendChild(lastItem);
+
+    //   } else {
+    //     let lastChild =
+    //       firstPageContent.children[firstPageContent.children.length - 1];
+
+    //     let cutWords = [];
+    //     while (firstPageContent.offsetHeight > firstPage.offsetHeight) {
+    //       let result = this.cutLastWord(lastChild.textContent as string);
+    //       lastChild.textContent = result.text;
+    //       if (lastChild.textContent == '') lastChild.remove(); //remove last element from page if its empty
+
+    //       if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
+    //     }
+
+    //     let secondPage = this.getSecondPage(this.cvElement);
+    //     firstPageContent = this.getPageContent(secondPage); //secondPageContent
+    //     let continuationOfLastItem = firstPageContent.appendChild(
+    //       this.createClone(lastItem as HTMLElement)
+    //     );
+    //     continuationOfLastItem.textContent = cutWords.reverse().join(' ');
+    //     let currentItemClone = this.createClone(item);
+    //     firstPageContent.appendChild(currentItemClone);
+    //   }
+    // });
   }
 
+  contentHeightLowerThanPageHeight(page: HTMLElement){
+    var content = this.getPageContent(page);
+    return content.offsetHeight < page.offsetHeight;
+  }
+
+  contentHeightHigherThanPageHeight(page: HTMLElement){
+   var content = this.getPageContent(page);
+    return content.offsetHeight > page.offsetHeight;
+  }
+
+  getLastChild(page: HTMLElement) {
+    return page.children[page.children.length - 1]
+  }
+
+
+  //--------------------
   cutLastWord(textContent: string): { text: string; lastWord: string } {
     let cutWords = [];
     let text = textContent;
@@ -146,7 +235,7 @@ export class ContentDirective implements OnInit {
       const element = allElements[i];
 
       if (element.hasAttribute('@firstPage')) {
-        console.log('ddd');
+        // console.log('ddd');
         return element;
       }
     }
@@ -168,9 +257,19 @@ export class ContentDirective implements OnInit {
     }
 
     return element;
-    // return this.cvElement
-    //   .getElementsByTagName('*')
-    //   .namedItem('first-page') as HTMLElement;
+  }
+  getLastPage(element: HTMLElement): HTMLElement {
+    let allElements = this.getAllElements(element);
+
+    for (let i = 0; i < allElements.length; i++) {
+      const element = allElements[i];
+
+      if (element.hasAttribute('@lastPage')) {
+        return element;
+      }
+    }
+
+    return element;
   }
 
   elementContainsAttribute(element: HTMLElement, name: string) {
@@ -200,12 +299,15 @@ export class ContentDirective implements OnInit {
     this.renderer.setStyle(this.el.nativeElement, 'margin-left', '400px');
     this.renderer.setStyle(this.el.nativeElement, 'position', 'relative');
 
+
+
     this.renderer.setStyle(this.cvElement, 'border', '1px solid blue');
     this.renderer.setStyle(this.cvElement, 'width', '350px');
     // this.renderer.setStyle(this.cvElement, 'min-height', '500px');
     // this.renderer.setStyle(this.cvElement, 'height', 'auto');
     this.renderer.setStyle(this.cvElement, 'margin-left', '-370px');
     this.renderer.setStyle(this.cvElement, 'position', 'absolute');
+
 
     this.cvTemplate.innerHTML = this.template;
     this.cvTemplate.classList.add('container');
