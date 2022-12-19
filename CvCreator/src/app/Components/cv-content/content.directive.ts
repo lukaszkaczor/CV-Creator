@@ -1,5 +1,7 @@
 import { Template } from './template';
 import { Directive, ElementRef, Renderer2, OnInit, Input } from '@angular/core';
+import { CvAddressService } from 'src/app/Services/cv-address.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Directive({
   selector: '[appContent]',
@@ -17,15 +19,17 @@ export class ContentDirective implements OnInit {
   ];
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
-
-  ngOnInit(): void {    
+  
+  
+  ngOnInit(): void {
     this.cvElement = this.createNewElement('div', '');
     this.cvTemplate = this.createNewElement('div', '');
-    this.cvElement.innerHTML = `<div @firstPage class="page" >
+    let cvTemplateBackup = this.createNewElement("div", "");
+    cvTemplateBackup.innerHTML = `<div @firstPage class="page" >
                                   <div @pageContent class="page-content"></div>
                                 </div>
                                 
-                                <div @secondPage class="page" style="position: absolute; top: 520px">
+                                <div @secondPage class="page" style="position: absolute; top: 620px">
                                   <div @pageContent class="page-content"></div>
                                 </div>
 
@@ -34,139 +38,241 @@ export class ContentDirective implements OnInit {
                                 </div>
                                 
                                 `;
-                                
-    let cvBackup = this.createNewElement("div", "");
-    cvBackup.innerHTML = this.cvElement.innerHTML;
-    console.log(cvBackup);
-    
-    
     this.initializeBox();
 
-    this.insertDataToTemplate();
+    let firstPageTemplate = this.getFirstPage(cvTemplateBackup);
+    let secondPageTemplate = this.getSecondPage(cvTemplateBackup);
+    let lastPageTemplateBackup = this.getLastPage(cvTemplateBackup);
 
-    let dataFromTemplate = this.getPageContent(this.cvTemplate);    
-    let allElementsFromTemplate = this.getAllElements(dataFromTemplate);
-
-    let mergedElementsFromTemplate: HTMLElement[] = this.merge(
-      allElementsFromTemplate
-    );
+    // console.log(this.cvTemplate);
+    console.log(this.cvElement);
     
 
+    // this.cvElement.appendChild(firstPageTemplate)
+    // this.cvElement.appendChild(secondPageTemplate)
 
-    let page = this.getFirstPage(this.cvElement);
-    let pageContent = this.getPageContent(page);
-    let lastItem: Node = page;
-
-
+    let allElements = this.getAllElements(this.cvTemplate);
+    
+    // console.log(this.cvElement);
     
 
-    let index = 0;
-    for (let i = 0; i < mergedElementsFromTemplate.length;i++)
-    {
-      let item = mergedElementsFromTemplate[i];
+    for (let i = 0; i < allElements.length; i++) {
+      const element = allElements[i];
 
-      if (this.contentHeightLowerThanPageHeight(page)) {
-        lastItem = this.createClone(item);
-        pageContent.appendChild(lastItem);
+      this.dataToInsert.forEach((item) => {
+        let itemHasAttribute = this.elementContainsAttribute(
+          element,
+          item.marker
+        );
+        if (itemHasAttribute) element.textContent = item.data;
+      });
+    }
 
-        if(!this.pages.find(p => p.attributes.getNamedItem("@lastPage")) 
-        && page.attributes.getNamedItem("@lastPage") != null)
-        this.pages.push(page);
+    let mergedItems = this.merge(allElements);
 
-      } else {
-        let lastChild = this.getLastChild(pageContent)
 
-        let cutWords = [];
-        let dd = 0
-        while (this.contentHeightHigherThanPageHeight(page)) {
-          dd++;
-          
-          if(dd == 250) {
-          console.log(page.offsetHeight);
-          console.log(pageContent.offsetHeight);
+    // let newPage = this.createNewElement("div", "",);
+    let newPage = this.createClone(firstPageTemplate) as HTMLElement;
+    // newPage.innerHTML = firstPageTemplate.innerHTML;
+    let newPageContent = this.getPageContent(newPage)
 
-            break;
-          }
-          //--------
-          let result = this.cutLastWord(lastChild.textContent as string);
-          lastChild.textContent = result.text;
-          if (lastChild.textContent == '') lastChild.remove(); //remove last element from page if its empty
+    let lastItem = null;
+    this.cvElement.appendChild(newPage);
+    this.pages.push(newPage);
+    let i=1;
 
+
+
+    mergedItems.forEach((item) => {
+      lastItem = item;
+      let clone = this.createClone(lastItem) as HTMLElement;
+      
+      newPageContent.appendChild(clone);
+    
+      if(this.contentHeightHigherThanPageHeight(newPage)){
+        //delete data from last page
+        console.log(clone);
+
+        let itemForNextPage = this.createClone(clone);
+    
+        let cutWords = []
+        while(this.contentHeightHigherThanPageHeight(newPage))
+        {
+          let result = this.cutLastWord(clone.textContent as string);
+          clone.textContent = result.text;
+          if (clone.textContent == '') clone.remove(); //remove last element from page if its empty
           if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
         }
+        console.log(cutWords);
+        
+        
 
-        index++;
-        this.pages.push(page);
+        //create new page
+        i++;
+        newPage = this.createClone(secondPageTemplate) as HTMLElement;
+        let pex = 600 *i;
+        newPage.style.top = pex +"px";
+        newPageContent = this.getPageContent(newPage);
+        this.cvElement.appendChild(newPage);
+        this.pages.push(newPage);
+        console.log(clone);
+        
+        //fix
+        itemForNextPage.textContent = cutWords.reverse().join(" ");
+        newPageContent.appendChild(itemForNextPage)
+
+
+
+
+        // newPage.style.marginTop = "700px";
+      }
+
+    })
+
+    console.log(this.pages);
+    
+    
+  }
+
+  // ngOnInit(): void {    
+  //   this.cvElement = this.createNewElement('div', '');
+  //   this.cvTemplate = this.createNewElement('div', '');
+  //   this.cvElement.innerHTML = `<div @firstPage class="page" >
+  //                                 <div @pageContent class="page-content"></div>
+  //                               </div>
+                                
+  //                               <div @secondPage class="page" style="position: absolute; top: 520px">
+  //                                 <div @pageContent class="page-content"></div>
+  //                               </div>
+
+  //                               <div @lastPage class="page" style="position: absolute; top: 1040px">
+  //                                 <div @pageContent class="page-content"></div>
+  //                               </div>
+                                
+  //                               `;
+                                
+  //   let cvBackup = this.createNewElement("div", "");
+  //   cvBackup.innerHTML = this.cvElement.innerHTML;
+  //   console.log(cvBackup);
+    
+    
+  //   this.initializeBox();
+
+  //   this.insertDataToTemplate();
+
+  //   let dataFromTemplate = this.getPageContent(this.cvTemplate);    
+  //   let allElementsFromTemplate = this.getAllElements(dataFromTemplate);
+
+  //   let mergedElementsFromTemplate: HTMLElement[] = this.merge(
+  //     allElementsFromTemplate
+  //   );
+    
+
+
+  //   let page = this.getFirstPage(this.cvElement);
+  //   let pageContent = this.getPageContent(page);
+  //   let lastItem: Node = page;
+
+
+    
+
+  //   let index = 0;
+  //   for (let i = 0; i < mergedElementsFromTemplate.length;i++)
+  //   {
+  //     let item = mergedElementsFromTemplate[i];
+
+  //     if (this.contentHeightLowerThanPageHeight(page)) {
+  //       lastItem = this.createClone(item);
+  //       pageContent.appendChild(lastItem);
+
+  //       if(!this.pages.find(p => p.attributes.getNamedItem("@lastPage")) 
+  //       && page.attributes.getNamedItem("@lastPage") != null)
+  //       this.pages.push(page);
+
+  //     } else {
+  //       let lastChild = this.getLastChild(pageContent)
+
+  //       let cutWords = [];
+  //       while (this.contentHeightHigherThanPageHeight(page)) {
+  //         let result = this.cutLastWord(lastChild.textContent as string);
+  //         lastChild.textContent = result.text;
+  //         if (lastChild.textContent == '') lastChild.remove(); //remove last element from page if its empty
+
+  //         if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
+  //       }
+
+  //       index++;
+  //       this.pages.push(page);
 
 
         
-        if(index == 1)
-        {
-         console.log("1")
-          page= this.getSecondPage(this.cvElement);
-          // page = midPageClone as HTMLElement;
-          console.log(page);
-        }
-        if(index == 2)
-        {
-          console.log("2");
+  //       if(index == 1)
+  //       {
+  //        console.log("1")
+  //         page= this.getSecondPage(this.cvElement);
+  //         // page = midPageClone as HTMLElement;
+  //         console.log(page);
+  //       }
+  //       if(index == 2)
+  //       {
+  //         console.log("2");
           
-          page= this.getLastPage(this.cvElement);
-          // page= this.getSecondPage(this.cvElement);
-        }
+  //         page= this.getLastPage(this.cvElement);
+  //         // page= this.getSecondPage(this.cvElement);
+  //       }
 
-        // if(index == 5)
-        // break;
+  //       // if(index == 5)
+  //       // break;
 
-        // let secondPage = this.getSecondPage(this.cvElement);
-        pageContent = this.getPageContent(page as HTMLElement); //secondPageContent
-        let continuationOfLastItem = pageContent.appendChild(
-          this.createClone(lastItem as HTMLElement)
-        );
-        continuationOfLastItem.textContent = cutWords.reverse().join(' ');
-        let currentItemClone = this.createClone(item);
-        pageContent.appendChild(currentItemClone);
-      }
-    }
+  //       // let secondPage = this.getSecondPage(this.cvElement);
+  //       pageContent = this.getPageContent(page as HTMLElement); //secondPageContent
+  //       let continuationOfLastItem = pageContent.appendChild(
+  //         this.createClone(lastItem as HTMLElement)
+  //       );
+  //       continuationOfLastItem.textContent = cutWords.reverse().join(' ');
+  //       let currentItemClone = this.createClone(item);
+  //       pageContent.appendChild(currentItemClone);
+  //     }
+  //   }
 
     
 
-    // let firstPage = this.getFirstPage(this.cvElement);
-    // let firstPageContent = this.getPageContent(firstPage);
+  //   // let firstPage = this.getFirstPage(this.cvElement);
+  //   // let firstPageContent = this.getPageContent(firstPage);
 
 
-    // let lastItem: Node = firstPage;
+  //   // let lastItem: Node = firstPage;
 
-    // mergedElementsFromTemplate.forEach((item) => {
+  //   // mergedElementsFromTemplate.forEach((item) => {
      
-    //   if (firstPageContent.offsetHeight < firstPage.offsetHeight) {
-    //     lastItem = this.createClone(item);
-    //     firstPageContent.appendChild(lastItem);
+  //   //   if (firstPageContent.offsetHeight < firstPage.offsetHeight) {
+  //   //     lastItem = this.createClone(item);
+  //   //     firstPageContent.appendChild(lastItem);
 
-    //   } else {
-    //     let lastChild =
-    //       firstPageContent.children[firstPageContent.children.length - 1];
+  //   //   } else {
+  //   //     let lastChild =
+  //   //       firstPageContent.children[firstPageContent.children.length - 1];
 
-    //     let cutWords = [];
-    //     while (firstPageContent.offsetHeight > firstPage.offsetHeight) {
-    //       let result = this.cutLastWord(lastChild.textContent as string);
-    //       lastChild.textContent = result.text;
-    //       if (lastChild.textContent == '') lastChild.remove(); //remove last element from page if its empty
+  //   //     let cutWords = [];
+  //   //     while (firstPageContent.offsetHeight > firstPage.offsetHeight) {
+  //   //       let result = this.cutLastWord(lastChild.textContent as string);
+  //   //       lastChild.textContent = result.text;
+  //   //       if (lastChild.textContent == '') lastChild.remove(); //remove last element from page if its empty
 
-    //       if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
-    //     }
+  //   //       if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
+  //   //     }
 
-    //     let secondPage = this.getSecondPage(this.cvElement);
-    //     firstPageContent = this.getPageContent(secondPage); //secondPageContent
-    //     let continuationOfLastItem = firstPageContent.appendChild(
-    //       this.createClone(lastItem as HTMLElement)
-    //     );
-    //     continuationOfLastItem.textContent = cutWords.reverse().join(' ');
-    //     let currentItemClone = this.createClone(item);
-    //     firstPageContent.appendChild(currentItemClone);
-    //   }
-    // });
-  }
+  //   //     let secondPage = this.getSecondPage(this.cvElement);
+  //   //     firstPageContent = this.getPageContent(secondPage); //secondPageContent
+  //   //     let continuationOfLastItem = firstPageContent.appendChild(
+  //   //       this.createClone(lastItem as HTMLElement)
+  //   //     );
+  //   //     continuationOfLastItem.textContent = cutWords.reverse().join(' ');
+  //   //     let currentItemClone = this.createClone(item);
+  //   //     firstPageContent.appendChild(currentItemClone);
+  //   //   }
+  //   // });
+  // }
 
   contentHeightLowerThanPageHeight(page: HTMLElement){
     var content = this.getPageContent(page);
