@@ -33,40 +33,79 @@ export class CvDataManager implements ICvDataManager {
 
       if (this.elementIsList(element)) {
         let data: any[] = this.getData('@list');
+        let newElements: HTMLElement[] = [];
 
-        data.forEach((item) => {
-          const clone = te.createClone(element);
-          element.parentElement?.appendChild(clone);
-          // this.toInsert.push(clone);
-          this.elements.push(clone as HTMLElement);
-          // console.log(element.parentElement);
+        // let clone = ts.createClone(element);
+        // let s1 = this.getElement(clone, '@first');
+        // let w1 = this.getElement(clone, '@second');
+        // s1.textContent = 's1';
+        // w1.textContent = 'w1';
+        // console.log(clone);
 
-          let allElements = ts.getAllElements(clone as HTMLElement);
-          const keys = Object.keys(item);
-          keys.forEach((key) => {
-            allElements.forEach((element) => {
-              if (this.elementContainsAttribute(element, key)) {
-                element.textContent = item[key];
-              }
-            });
-          });
+        // element.appendChild(clone);
 
-          // allElements = this.m2(allElements);
-          console.log(allElements);
-        });
+        // let clone2 = ts.createClone(clone);
+        // let s2 = this.getElement(clone2, '@first');
+        // let w2 = this.getElement(clone2, '@second');
+        // s2.textContent = 's2';
+        // w2.textContent = 'w2';
 
-        // console.log(data);
+        // element.appendChild(clone2);
 
-        continue;
+        // console.log(clone2);
+
+        let clone = ts.createClone(element);
+
+        for (let j = 0; j < data.length; j++) {
+          let s1 = this.getElement(clone, '@first');
+          let w1 = this.getElement(clone, '@second');
+          s1.textContent = 's1 ' + j;
+          w1.textContent = 'w1 ' + j;
+          element.appendChild(clone);
+
+          clone.outerHTML = clone.innerHTML;
+
+          clone = ts.createClone(clone);
+        }
+
+        //remove template children
+        element.children[0].remove();
+        console.log(element);
+
+        //+++
+        // let clone = ts.createClone(element);
+
+        // for (let j = 0; j < data.length; j++) {
+        //   let s1 = this.getElement(clone, '@first');
+        //   let w1 = this.getElement(clone, '@second');
+        //   s1.textContent = 's1 ' + j;
+        //   w1.textContent = 'w1 ' + j;
+        //   element.appendChild(clone);
+
+        //   clone = ts.createClone(clone);
+        // }
+        // console.log(element);
+
+        //+++end
+
+        // const elementClone = ts.createClone(element);
+        // for (let w = 0; w < data.length; w++) {
+        //   let child = this.getElement(elementClone, '@first');
+        //   child.textContent = 'first';
+        //   let child2 = this.getElement(elementClone, '@second');
+        //   child2.textContent = 'second';
+        //   element.appendChild(elementClone);
+        //   // console.log(element.parentElement);
+        //   // element.parentElement?.appendChild(elementClone);
+        // }
+      } else {
+        for (let j = 0; j < this.data.length; j++) {
+          let item = this.data[j];
+
+          if (this.elementContainsAttribute(element, item.marker)) element.textContent = item.data;
+        }
       }
-
-      for (let j = 0; j < this.data.length; j++) {
-        let item = this.data[j];
-
-        if (this.elementContainsAttribute(element, item.marker)) element.textContent = item.data;
-      }
-
-      console.log(this.elements);
+      // console.log(this.elements);
     }
 
     // console.log(this.toInsert);
@@ -77,6 +116,21 @@ export class CvDataManager implements ICvDataManager {
     // console.log(this.elements);
 
     return this;
+  }
+
+  getElement(parent: HTMLElement, marker: string) {
+    let ts = new TemplateService();
+    let children = ts.getAllElements(parent);
+
+    for (let i = 0; i < children.length; i++) {
+      let child = children[i];
+
+      if (this.elementContainsAttribute(child, marker)) {
+        return child;
+      }
+    }
+
+    throw new Error('There is no element with this marker ' + marker);
   }
 
   elementIsList(element: HTMLElement) {
@@ -125,7 +179,7 @@ export class CvDataManager implements ICvDataManager {
 
   public merge() {
     let mergedElements: HTMLElement[] = [];
-    console.log(this.elements);
+    // console.log(this.elements);
 
     for (let i = 0; i < this.elements.length; i++) {
       const element = this.elements[i];
