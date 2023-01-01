@@ -23,10 +23,10 @@ export class ContentDirective implements OnInit {
     {
       marker: '@list',
       data: [
-        { first: 'first1', second: 'second1' },
-        { first: 'first1', second: 'second1' },
-        { first: 'first3', second: 'second3' },
-        { first: 'first4', second: 'second4' },
+        { '@first': 'first1', '@second': 'second1' },
+        { '@first': 'first2', '@second': 'second2' },
+        { '@first': 'first3', '@second': 'second3' },
+        { '@first': 'first4', '@second': 'second4' },
       ],
     },
   ];

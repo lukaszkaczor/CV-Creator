@@ -4,10 +4,14 @@ export class Template {
     <div @firstPage id="first-page" class="page" >
       <div @pageContent id="page-content" class="page-content">
 
-          <div @list>
-            <h1 @first></h1>
-            <h1 @second></h1>
-          </div>
+      <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+
+      <div @list>
+      <h1 @first></h1>
+      <h1 @second></h1>
+      </div>
+      
+      <h1 @firstName> </h1>
 
       </div>
     </div>
