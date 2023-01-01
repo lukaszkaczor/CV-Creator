@@ -1,4 +1,4 @@
-import { CvBuilder } from './../../Utilities/CvBuilder';
+import { CvBuilder } from '../../Utilities/CvCreator/CvBuilder';
 import { Sample } from './../../Utilities/Sample';
 import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
 
@@ -17,12 +17,12 @@ export class TestComponent implements AfterViewInit {
   cutWords: string[] = [];
 
   ngAfterViewInit(): void {
-    const builder = new CvBuilder(
-      this.template.nativeElement,
-      this.cv.nativeElement,
-      this.temp.nativeElement
-    );
-    builder.build();
+    // const builder = new CvBuilder(
+    //   this.template.nativeElement,
+    //   this.cv.nativeElement,
+    //   this.temp.nativeElement
+    // );
+    // builder.build();
   }
 
   // WWWWWW

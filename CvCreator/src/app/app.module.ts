@@ -20,6 +20,10 @@ import { AddressComponent } from './Components/Creator/address/address.component
 import { ContactDataComponent } from './Components/Creator/contact-data/contact-data.component';
 import { CvContentComponent } from './Components/cv-content/cv-content.component';
 import { ContentDirective } from './Components/cv-content/content.directive';
+import { CvDataManager } from './Utilities/CvCreator/CvDataManager';
+import { TemplateService } from './Utilities/CvCreator/TemplateService';
+import { TemplateEditor } from './Utilities/CvCreator/TemplateEditor';
+import { CvBuilder } from './Utilities/CvCreator/CvBuilder';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -56,6 +60,9 @@ export function tokenGetter() {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    CvDataManager,
+    TemplateService,
+    TemplateEditor,
   ],
   bootstrap: [AppComponent],
 })
