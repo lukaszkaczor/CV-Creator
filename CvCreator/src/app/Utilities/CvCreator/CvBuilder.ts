@@ -55,8 +55,16 @@ export class CvBuilder {
 
     mergedElements.forEach((element) => {
       let elementClone = this.templateEditor.createClone(element) as HTMLElement;
+      // console.log(element);
+      // let ss = element.cloneNode(true);
+      // console.log(ss);
+
+      // console.log(elementClone.);
 
       pageContent.appendChild(elementClone);
+      // console.log(elementClone);
+
+      // pageContent.appendChild(element);
 
       if (this.templateEditor.contentHeightLowerThanPageHeight(page)) return;
 
@@ -72,6 +80,8 @@ export class CvBuilder {
 
       this.addPageToCV(page);
       itemForNextPage.textContent = this.joinCutWords(cutWords);
+      // console.log(itemForNextPage);
+
       pageContent.appendChild(itemForNextPage);
     });
   }

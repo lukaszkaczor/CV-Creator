@@ -1,18 +1,59 @@
+import { ElementSchemaRegistry } from '@angular/compiler';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 
 export class TemplateEditor implements ITemplateEditor {
   deleteReduntantDataFromLastPage(page: HTMLElement, currentItemClone: HTMLElement) {
     let itemForNextPage = this.createClone(currentItemClone);
 
-    let cutWords = [];
-    while (this.contentHeightHigherThanPageHeight(page)) {
-      let result = this.cutLastWord(currentItemClone.textContent as string);
-      currentItemClone.textContent = result.text;
-      if (currentItemClone.textContent == '') currentItemClone.remove(); //remove last element from page if its empty
-      if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
+    // console.log(currentItemClone.children[0].attributes);
+
+    const children = this.getElementChildren(currentItemClone);
+    // console.log(currentItemClone);
+
+    if (children.length > 0) {
+      console.log(currentItemClone);
+      console.log(children);
+      console.log(this.getLastChild(children));
+      let lastChild = this.getLastChild(children);
+      //children of child
+      let i = 0;
+
+      while (i < 100) {
+        if (children.length <= 0) break;
+        i++;
+        let result = this.cutLastWord(lastChild.textContent as string);
+        lastChild.textContent = result.text;
+        if (lastChild.textContent === '') {
+          // console.log(lastChild);
+
+          // lastChild.remove();
+          lastChild = this.getLastChild(children);
+        }
+      }
+      //
     }
+
+    // if(this.getElementChildren())
+
+    let cutWords = [];
+    cutWords.push('');
+
+    // while (this.contentHeightHigherThanPageHeight(page)) {
+    //   let result = this.cutLastWord(currentItemClone.textContent as string);
+    //   // currentItemClone.textContent = result.text;
+    //   if (currentItemClone.textContent == '') currentItemClone.remove(); //remove last element from page if its empty
+    //   if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
+    // }
     // console.log(cutWords);
     return { itemForNextPage: itemForNextPage, cutWords: cutWords };
+  }
+
+  getLastChild(children: HTMLCollection) {
+    return children[children.length - 1];
+  }
+
+  getElementChildren(element: HTMLElement) {
+    return element.children;
   }
 
   createClone(element: HTMLElement) {

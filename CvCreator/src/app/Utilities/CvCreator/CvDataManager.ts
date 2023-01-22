@@ -19,7 +19,7 @@ export class CvDataManager implements ICvDataManager {
   ): ICvDataManager {
     // this.elements = elements;
     this.elements.push(...elements);
-    console.log(this.elements);
+    // console.log(this.elements);
 
     this.data = dataToInsert;
 
@@ -55,22 +55,33 @@ export class CvDataManager implements ICvDataManager {
         // console.log(clone2);
 
         let clone = ts.createClone(element);
+        let cloneTemplate = ts.createClone(clone);
 
         for (let j = 0; j < data.length; j++) {
-          let s1 = this.getElement(clone, '@first');
-          let w1 = this.getElement(clone, '@second');
-          s1.textContent = 's1 ' + j;
-          w1.textContent = 'w1 ' + j;
+          console.log(data[j]);
+          let keys = Object.keys(data[j]);
+          console.log(keys);
+
+          keys.forEach((key) => {
+            let dd = this.getElement(clone, key);
+            dd.textContent = data[j][key];
+          });
+
+          // let s1 = this.getElement(clone, '@first');
+
+          // let w1 = this.getElement(clone, '@second');
+          // s1.textContent = 's1 ' + j;
+          // w1.textContent = 'w1 ' + j;
           element.appendChild(clone);
 
           clone.outerHTML = clone.innerHTML;
 
-          clone = ts.createClone(clone);
+          clone = ts.createClone(cloneTemplate);
         }
 
         //remove template children
         element.children[0].remove();
-        console.log(element);
+        // console.log(element);
 
         //+++
         // let clone = ts.createClone(element);
