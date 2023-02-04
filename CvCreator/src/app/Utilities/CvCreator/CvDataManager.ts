@@ -24,9 +24,11 @@ export class CvDataManager implements ICvDataManager {
     this.data = dataToInsert;
 
     // console.log(this.getData('@list'));
+    // console.log(elements);
 
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i];
+      // console.log(element);
 
       const te = new TemplateEditor();
       const ts = new TemplateService();
@@ -55,12 +57,13 @@ export class CvDataManager implements ICvDataManager {
         // console.log(clone2);
 
         let clone = ts.createClone(element);
+        // clone.remove();
+        // console.log(clone);
+
         let cloneTemplate = ts.createClone(clone);
 
         for (let j = 0; j < data.length; j++) {
-          console.log(data[j]);
           let keys = Object.keys(data[j]);
-          console.log(keys);
 
           keys.forEach((key) => {
             let dd = this.getElement(clone, key);
@@ -72,14 +75,36 @@ export class CvDataManager implements ICvDataManager {
           // let w1 = this.getElement(clone, '@second');
           // s1.textContent = 's1 ' + j;
           // w1.textContent = 'w1 ' + j;
+          // console.log(clone);
+          let ss = clone.getElementsByTagName('h2');
+          // console.log(ss);
+          //jesli sa puste, usun rodzica ze znacznikiem
+          if (ss[0].textContent?.trim() == '') {
+            // console.log('@third nie ma wartosci');
+            let sd = this.getElement(clone, '@removeIfEmpty');
+            // console.log(sd);
+            sd.remove();
+          }
+
+          // ss[0].remove();
+
           element.appendChild(clone);
+
+          // console.log();
+          // if ((clone.children[2].textContent = '')) clone.children[1].remove();
 
           clone.outerHTML = clone.innerHTML;
 
           clone = ts.createClone(cloneTemplate);
+          // cloneTemplate.remove();
         }
 
         //remove template children
+        // element.children[0].remove();
+
+        //usuwanie templatu
+        element.children[0].remove();
+        element.children[0].remove();
         element.children[0].remove();
         // console.log(element);
 
@@ -116,6 +141,7 @@ export class CvDataManager implements ICvDataManager {
           if (this.elementContainsAttribute(element, item.marker)) element.textContent = item.data;
         }
       }
+      // element.remove();
       // console.log(this.elements);
     }
 
@@ -135,6 +161,7 @@ export class CvDataManager implements ICvDataManager {
 
     for (let i = 0; i < children.length; i++) {
       let child = children[i];
+      // console.log(child);
 
       if (this.elementContainsAttribute(child, marker)) {
         return child;

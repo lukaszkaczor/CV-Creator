@@ -54,14 +54,18 @@ export class Template {
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
             <div @list>
               <h1 @first></h1>
-              <h1 @second></h1>
-              <h2 @third> </h2>
+              <h1 @second></h1> 
+              <div @removeIfEmpty style="border:2px solid blue">
+                <div style="border:2px solid red">
+                    <h2 @third> </h2>
+                </div>
+              </div>
             </div>
 
 
             <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
            <div><h1 @description></h1></div>
-            <h2 @description></h2>
+
             <div style="color:red">
             <h2 #d1 @description></h2>
             <h2 #d2 style="color:green" @description></h2>

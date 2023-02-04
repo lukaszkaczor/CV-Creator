@@ -1,33 +1,45 @@
 import { ElementSchemaRegistry } from '@angular/compiler';
+import { last } from 'rxjs';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 
 export class TemplateEditor implements ITemplateEditor {
   deleteReduntantDataFromLastPage(page: HTMLElement, currentItemClone: HTMLElement) {
     let itemForNextPage = this.createClone(currentItemClone);
+    let cl = this.createClone(currentItemClone);
+    console.log(cl);
 
     // console.log(currentItemClone.children[0].attributes);
 
     const children = this.getElementChildren(currentItemClone);
+
     // console.log(currentItemClone);
 
     if (children.length > 0) {
-      console.log(currentItemClone);
-      console.log(children);
-      console.log(this.getLastChild(children));
+      // console.log(currentItemClone);
+      // console.log(children);
+      // console.log(this.getLastChild(children));
       let lastChild = this.getLastChild(children);
+
+      // ss.push(lastChild);
       //children of child
       let i = 0;
 
-      while (i < 100) {
+      while (i < 1000) {
         if (children.length <= 0) break;
         i++;
         let result = this.cutLastWord(lastChild.textContent as string);
         lastChild.textContent = result.text;
+
+        if (this.contentHeightLowerThanPageHeight(page)) {
+          break;
+        }
+
         if (lastChild.textContent === '') {
           // console.log(lastChild);
 
-          // lastChild.remove();
+          lastChild.remove();
           lastChild = this.getLastChild(children);
+          // console.log(lastChild);
         }
       }
       //
