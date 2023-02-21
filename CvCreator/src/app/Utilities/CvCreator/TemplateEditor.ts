@@ -11,9 +11,20 @@ export class TemplateEditor implements ITemplateEditor {
     console.log(currentItemClone);
     console.log(currentItemClone.children.length);
 
-    if (currentItemClone.children.length == 0) currentItemClone.remove();
+    let ts = new TemplateService();
+    const pageContent = ts.getPageContent(page);
 
     // jesli element nie ma dzieci
+    if (currentItemClone.children.length == 0) {
+      // currentItemClone.remove();
+      let words = [];
+      while (page.offsetHeight < pageContent.offsetHeight) {
+        let text = this.cutLastWord(currentItemClone.textContent as string);
+        currentItemClone.textContent = text.text;
+        words.push(text.lastWord);
+      }
+      itemForNextPage.textContent = words.reverse().join(' ');
+    }
 
     const templateService = new TemplateService();
     let allElements = templateService.getAllElements(currentItemClone);
@@ -23,10 +34,8 @@ export class TemplateEditor implements ITemplateEditor {
     let filteredClones = this.filterMarkers(allClones);
     let filteredElements = this.filterMarkers(allElements);
 
-    let ts = new TemplateService();
     console.log(allElements);
     console.log(filteredElements);
-    const pageContent = ts.getPageContent(page);
     // console.log(pageContent.offsetHeight);
 
     for (let i = filteredElements.length - 1; i >= 0; i--) {
