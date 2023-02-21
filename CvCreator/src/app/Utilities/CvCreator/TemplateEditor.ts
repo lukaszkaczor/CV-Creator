@@ -1,63 +1,141 @@
 import { ElementSchemaRegistry } from '@angular/compiler';
-import { last } from 'rxjs';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
+import { TemplateService } from './TemplateService';
 
 export class TemplateEditor implements ITemplateEditor {
+  outputMarkers = ['@description', '@firstName', '@lastName', '@placeholder'];
+
   deleteReduntantDataFromLastPage(page: HTMLElement, currentItemClone: HTMLElement) {
     let itemForNextPage = this.createClone(currentItemClone);
-    let cl = this.createClone(currentItemClone);
-    console.log(cl);
-
-    // console.log(currentItemClone.children[0].attributes);
-
-    const children = this.getElementChildren(currentItemClone);
-
     // console.log(currentItemClone);
+    console.log(currentItemClone);
+    console.log(currentItemClone.children.length);
 
-    if (children.length > 0) {
-      // console.log(currentItemClone);
-      // console.log(children);
-      // console.log(this.getLastChild(children));
-      let lastChild = this.getLastChild(children);
+    if (currentItemClone.children.length == 0) currentItemClone.remove();
 
-      // ss.push(lastChild);
-      //children of child
-      let i = 0;
+    // jesli element nie ma dzieci
 
-      while (i < 1000) {
-        if (children.length <= 0) break;
-        i++;
-        let result = this.cutLastWord(lastChild.textContent as string);
-        lastChild.textContent = result.text;
+    const templateService = new TemplateService();
+    let allElements = templateService.getAllElements(currentItemClone);
+    // console.log(allElements);
+    let allClones = templateService.getAllElements(itemForNextPage as HTMLElement);
 
-        if (this.contentHeightLowerThanPageHeight(page)) {
+    let filteredClones = this.filterMarkers(allClones);
+    let filteredElements = this.filterMarkers(allElements);
+
+    let ts = new TemplateService();
+    console.log(allElements);
+    console.log(filteredElements);
+    const pageContent = ts.getPageContent(page);
+    // console.log(pageContent.offsetHeight);
+
+    for (let i = filteredElements.length - 1; i >= 0; i--) {
+      const element = filteredElements[i];
+      // console.log(element);
+      let s = 0;
+
+      let deletedWords = [];
+
+      while (true) {
+        s++;
+
+        if (page.offsetHeight >= pageContent.offsetHeight) {
+          // filteredClones[i].textContent = element.textContent;
+          filteredClones[i].textContent = deletedWords.reverse().join(' ');
+
           break;
         }
 
-        if (lastChild.textContent === '') {
-          // console.log(lastChild);
+        let text = this.cutLastWord(element.textContent as string);
+        element.textContent = text.text;
+        // console.log(text.lastWord);
 
-          lastChild.remove();
-          lastChild = this.getLastChild(children);
-          // console.log(lastChild);
+        deletedWords.push(text.lastWord);
+
+        if (element.textContent.trim() == '') {
+          element.remove();
+          break;
         }
       }
-      //
+
+      // element.remove();
+      // console.log(page.offsetHeight);
+      // console.log(pageContent.offsetHeight);
+
+      // for(let i = 0; i<10 ;i++)
+      // {
+
+      // }
+
+      // while (pageHeight < contentHeight) {
+      //   element.remove();
+
+      //   pageHeight = page.offsetHeight;
+      //   contentHeight = pageContent.offsetHeight;
+      // }
+
+      // element.remove();
+
+      // while (s < 100) {
+      //   s++;
+      //   console.log(page.offsetHeight);
+      //   console.log(pageContent.offsetHeight);
+      //   console.log(element);
+      //   element.remove();
+      // }
+
+      // while (page.offsetHeight < pageContent.offsetHeight || s < 200) {
+      //   s++;
+      //   let text = this.cutLastWord(element.textContent as string);
+      //   element.textContent = text.text;
+      // }
+
+      // while (page.offsetHeight > pageContent.offsetHeight || element.textContent?.trim() == '') {
+      //   console.log(page.offsetHeight);
+      //   console.log(pageContent.offsetHeight);
+
+      //   s++;
+      //   let text = this.cutLastWord(element.textContent as string);
+      //   element.textContent = text.text;
+      // }
+
+      // while (pageContent.offsetHeight > page.offsetHeight || s < 10) {
+      //   s++;
+      //   // let text = this.cutLastWord(element.textContent as string);
+      //   // element.textContent = text.text;
+      // }
+      // itemForNextPage = element;
     }
 
-    // if(this.getElementChildren())
+    console.log(itemForNextPage);
+
+    // filteredElements.forEach((element) => {
+    //   console.log(element);
+    //   itemForNextPage = element;
+    //   // element.remove();
+    //   console.log(page.offsetHeight);
+    // });
 
     let cutWords = [];
     cutWords.push('');
 
-    // while (this.contentHeightHigherThanPageHeight(page)) {
-    //   let result = this.cutLastWord(currentItemClone.textContent as string);
-    //   // currentItemClone.textContent = result.text;
-    //   if (currentItemClone.textContent == '') currentItemClone.remove(); //remove last element from page if its empty
-    //   if (result.lastWord != ' ') cutWords.push(result.lastWord.trim());
-    // }
-    // console.log(cutWords);
     return { itemForNextPage: itemForNextPage, cutWords: cutWords };
+  }
+
+  filterMarkers(elements: HTMLElement[]) {
+    let toReturn: HTMLElement[] = [];
+
+    for (let i = 0; i < this.outputMarkers.length; i++) {
+      let marker = this.outputMarkers[i];
+
+      for (let j = 0; j < elements.length; j++) {
+        let element = elements[j];
+        if (element.attributes.getNamedItem(marker) != null) {
+          toReturn.push(element);
+        }
+      }
+    }
+    return toReturn;
   }
 
   getLastChild(children: HTMLCollection) {

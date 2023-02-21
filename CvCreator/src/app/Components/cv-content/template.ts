@@ -50,7 +50,7 @@ export class Template {
 
       <div @firstPage id="first-page" class="page" >
         <div @pageContent id="page-content" class="page-content">
-
+      
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
             <div @list>
               <h1 @first></h1>
@@ -67,8 +67,10 @@ export class Template {
            <div><h1 @description></h1></div>
 
             <div style="color:red">
-            <h2 #d1 @description></h2>
-            <h2 #d2 style="color:green" @description></h2>
+              <h2 #d1 @description></h2>
+              <div>
+                <h2 #d2 style="color:green" @description></h2>
+              </div>
             </div>
             <h2 @description></h2>
 
@@ -83,9 +85,15 @@ export class Template {
             <h2 style="color:green" @description></h2>
             <h2 style="color:green" @description></h2>
             <h2 style="color:blue" @description></h2>
-            <h1 @dede style="color:red"> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
-            <h1  style="color:green"> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
-            <h1  style="color:blue"> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+           <!-- <h1 @dede style="color:red"> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+            <h1 @dede  style="color:green"> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+              <h1 @dede  style="color:blue"> <span @firstName>lukasz</span><span></span> - <span @lastName></span> </h1> -->
+
+              <h1 @dede  style="color:red"> <span @firstName>lukasz</span><span></span> <span @placeholder> - </span> <span @lastName></span> </h1>
+              <h1 @dede  style="color:green"> <span @firstName>lukasz</span><span></span> <span @placeholder> - </span> <span @lastName></span> </h1>
+              <h1 @dede  style="color:blue"> <span @firstName>lukasz</span><span></span> <span @placeholder> - </span> <span @lastName></span> </h1>
+
+      
         </div>
       </div>
       <div id="middle-page" class="page">

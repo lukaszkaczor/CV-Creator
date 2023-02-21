@@ -79,7 +79,7 @@ export class CvBuilder {
       pageContent = pageWithContent.pageContent;
 
       this.addPageToCV(page);
-      itemForNextPage.textContent = this.joinCutWords(cutWords);
+      // itemForNextPage.textContent = this.joinCutWords(cutWords); //
       // console.log(itemForNextPage);
 
       pageContent.appendChild(itemForNextPage);
