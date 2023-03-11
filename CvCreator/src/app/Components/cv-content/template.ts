@@ -52,6 +52,10 @@ export class Template {
         <div @pageContent id="page-content" class="page-content">
       
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+        <h2 style="color:green" @description></h2>
+        <h2 style="color:green" @description></h2>
+        <h2 style="color:green" @description></h2>
+
             <div @list>
               <h1 @first></h1>
               <h1 @second></h1> 

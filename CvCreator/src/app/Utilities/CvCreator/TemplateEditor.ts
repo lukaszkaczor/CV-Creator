@@ -5,8 +5,18 @@ import { TemplateService } from './TemplateService';
 
 @Injectable()
 export class TemplateEditor {
-  outputMarkers = ['@description', '@firstName', '@lastName', '@placeholder'];
-
+  outputMarkers = [
+    '@description',
+    '@firstName',
+    '@lastName',
+    '@placeholder',
+    '@first',
+    '@second',
+    '@third',
+    '@list',
+    '@listContent',
+    '@removeIfEmpty',
+  ];
   constructor(private templateService: TemplateService, private elementService: ElementService) {}
 
   deleteReduntantDataFromLastPage(page: HTMLElement, currentItemClone: HTMLElement) {
