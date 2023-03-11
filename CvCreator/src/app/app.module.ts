@@ -24,6 +24,7 @@ import { CvDataManager } from './Utilities/CvCreator/CvDataManager';
 import { TemplateService } from './Utilities/CvCreator/TemplateService';
 import { TemplateEditor } from './Utilities/CvCreator/TemplateEditor';
 import { CvBuilder } from './Utilities/CvCreator/CvBuilder';
+import { ElementService } from './Utilities/CvCreator/ElementService';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -63,6 +64,7 @@ export function tokenGetter() {
     CvDataManager,
     TemplateService,
     TemplateEditor,
+    ElementService,
   ],
   bootstrap: [AppComponent],
 })

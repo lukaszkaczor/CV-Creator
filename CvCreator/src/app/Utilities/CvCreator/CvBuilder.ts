@@ -2,6 +2,7 @@ import { CvDataManager } from './CvDataManager';
 import { ICvDataManager } from './Interfaces/ICvDataManager';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 import { ITemplateService } from './Interfaces/ITemplateService';
+import { TemplateEditor } from './TemplateEditor';
 import { TemplateService } from './TemplateService';
 
 export class CvBuilder {
@@ -13,8 +14,8 @@ export class CvBuilder {
 
   constructor(
     private cvDataManager: ICvDataManager,
-    private templateService: ITemplateService,
-    private templateEditor: ITemplateEditor
+    private templateService: TemplateService,
+    private templateEditor: TemplateEditor
   ) {}
 
   setTemplate(template: HTMLElement) {
@@ -54,24 +55,13 @@ export class CvBuilder {
     this.addPageToCV(page);
 
     mergedElements.forEach((element) => {
-      let elementClone = this.templateEditor.createClone(element) as HTMLElement;
-      // console.log(element);
-      // let ss = element.cloneNode(true);
-      // console.log(ss);
-
-      // console.log(elementClone.);
+      let elementClone = this.templateService.createClone(element) as HTMLElement;
 
       pageContent.appendChild(elementClone);
-      // console.log(elementClone);
 
-      // pageContent.appendChild(element);
+      if (this.templateService.contentHeightLowerThanPageHeight(page)) return;
 
-      if (this.templateEditor.contentHeightLowerThanPageHeight(page)) return;
-
-      let { itemForNextPage, cutWords } = this.templateEditor.deleteReduntantDataFromLastPage(
-        page,
-        elementClone
-      );
+      let itemForNextPage = this.templateEditor.deleteReduntantDataFromLastPage(page, elementClone);
 
       const pageWithContent = this.getPageAndPageContent(secondPageTemplate);
 
@@ -92,7 +82,7 @@ export class CvBuilder {
   }
 
   private getPageAndPageContent(secondPageTemplate: HTMLElement) {
-    let page = this.templateEditor.createClone(secondPageTemplate) as HTMLElement;
+    let page = this.templateService.createClone(secondPageTemplate) as HTMLElement;
     let pageContent = this.templateService.getPageContent(page);
 
     return { page, pageContent };

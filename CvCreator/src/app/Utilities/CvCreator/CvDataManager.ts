@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { ICvDataManager } from './Interfaces/ICvDataManager';
 import { TemplateEditor } from './TemplateEditor';
 import { TemplateService } from './TemplateService';
@@ -7,19 +6,11 @@ import { TemplateService } from './TemplateService';
 @Injectable()
 export class CvDataManager implements ICvDataManager {
   private elements: HTMLElement[] = [];
-  // private elements: HTMLCollectionOf<HTMLElement>;
   private data: any[];
-
   private toInsert: any[] = [];
 
-  public insertDataToMarkers(
-    // elements: HTMLCollectionOf<HTMLElement>,
-    elements: HTMLElement[],
-    dataToInsert: any[]
-  ): ICvDataManager {
-    // this.elements = elements;
+  public insertDataToMarkers(elements: HTMLElement[], dataToInsert: any[]): ICvDataManager {
     this.elements.push(...elements);
-    // console.log(this.elements);
 
     this.data = dataToInsert;
 
@@ -30,7 +21,7 @@ export class CvDataManager implements ICvDataManager {
       const element = elements[i];
       // console.log(element);
 
-      const te = new TemplateEditor();
+      // const te = new TemplateEditor();
       const ts = new TemplateService();
 
       if (this.elementIsList(element)) {
@@ -103,6 +94,7 @@ export class CvDataManager implements ICvDataManager {
         // element.children[0].remove();
 
         //usuwanie templatu
+        console.log(element.children);
         element.children[0].remove();
         element.children[0].remove();
         element.children[0].remove();

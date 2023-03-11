@@ -53,6 +53,17 @@ export class TemplateService implements ITemplateService {
     return element;
   }
 
+  // getPageContent(page: HTMLElement): HTMLElement {
+  //   let elements = page.getElementsByTagName('*');
+
+  //   for (let i = 0; i < elements.length; i++) {
+  //     const element = elements[i];
+  //     if (element.hasAttribute('@pageContent')) return element as HTMLElement;
+  //   }
+  //   //FIX
+  //   return page;
+  // }
+
   getPageContent(page: HTMLElement): HTMLElement {
     let elements = page.getElementsByTagName('*');
 
@@ -60,11 +71,21 @@ export class TemplateService implements ITemplateService {
       const element = elements[i];
       if (element.hasAttribute('@pageContent')) return element as HTMLElement;
     }
-    //FIX
-    return page;
+
+    throw new Error('Missing @pageContent in page template');
   }
 
   createClone(item: HTMLElement): HTMLElement {
     return item.cloneNode(true) as HTMLElement;
+  }
+
+  contentHeightHigherThanPageHeight(page: HTMLElement) {
+    var content = this.getPageContent(page);
+    return content.offsetHeight > page.offsetHeight;
+  }
+
+  contentHeightLowerThanPageHeight(page: HTMLElement) {
+    var content = this.getPageContent(page);
+    return content.offsetHeight < page.offsetHeight;
   }
 }
