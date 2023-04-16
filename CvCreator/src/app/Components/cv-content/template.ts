@@ -54,9 +54,11 @@ export class Template {
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
         <h2 style="color:green" @description></h2>
         <h2 style="color:green" @description></h2>
-        <h2 style="color:green" @description></h2>
+            <h2 style="color:green" @description></h2>
+            <h2 style="color:green" @description></h2>
+       
 
-            <div @list>
+            <div @list class="black">
               <h1 @first></h1>
               <h1 @second></h1> 
               <div @removeIfEmpty style="border:2px solid blue">

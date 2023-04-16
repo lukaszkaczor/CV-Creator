@@ -22,6 +22,7 @@ export class TemplateEditor {
   deleteReduntantDataFromLastPage(page: HTMLElement, currentItemClone: HTMLElement) {
     const itemForNextPage = this.templateService.createClone(currentItemClone);
     const pageContent = this.templateService.getPageContent(page);
+    // console.log(currentItemClone.attributes);
 
     // jesli element nie ma dzieci
     if (!this.elementService.elementHasChildren(currentItemClone)) {
@@ -35,16 +36,43 @@ export class TemplateEditor {
         cutWords.push(lastWord);
       }
       itemForNextPage.textContent = cutWords.reverse().join(' ');
+      return itemForNextPage;
     }
+
+    const itemAttributes = currentItemClone.attributes;
+    // console.log(itemAttributes);
+    let parentMarker = '';
+
+    this.outputMarkers.forEach((marker) => {
+      if (itemAttributes.getNamedItem(marker) != null) parentMarker = marker;
+    });
+
+    // console.log(parentMarker);
 
     let allElements = this.templateService.getAllElements(currentItemClone);
     let allClones = this.templateService.getAllElements(itemForNextPage as HTMLElement);
 
-    let filteredElements = this.elementService.filterMarkers(allElements, this.outputMarkers);
-    let filteredClones = this.elementService.filterMarkers(allClones, this.outputMarkers);
+    let filteredElements = this.elementService.filterMarkers(
+      allElements,
+      this.outputMarkers,
+      parentMarker
+    );
+    let filteredClones = this.elementService.filterMarkers(
+      allClones,
+      this.outputMarkers,
+      parentMarker
+    );
+
+    // filteredElements = allElements;
+    // filteredClones = allClones;
+    //fix filters
+
+    // filteredElements.forEach((d) => console.log(d.innerHTML));
 
     for (let i = filteredElements.length - 1; i >= 0; i--) {
       const element = filteredElements[i];
+      console.log(element.innerHTML);
+
       const deletedWords = [];
 
       while (true) {
@@ -64,6 +92,16 @@ export class TemplateEditor {
       }
     }
 
+    this.deleteEmptyMarkers(itemForNextPage);
+
     return itemForNextPage;
+  }
+
+  deleteEmptyMarkers(item: HTMLElement) {
+    let elements = this.templateService.getAllElements(item);
+
+    elements.forEach((item) => {
+      if (item.textContent == '') item.remove();
+    });
   }
 }

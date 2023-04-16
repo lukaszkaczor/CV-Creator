@@ -36,7 +36,7 @@ export class CvDataManager implements ICvDataManager {
             dd.textContent = data[j][key];
           });
 
-          console.log(clone);
+          // console.log(clone);
 
           let ss = clone.getElementsByTagName('h2');
           //jesli sa puste, usun rodzica ze znacznikiem
