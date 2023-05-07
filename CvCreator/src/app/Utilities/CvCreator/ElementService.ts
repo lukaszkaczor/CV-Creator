@@ -29,7 +29,6 @@ export class ElementService {
   ): HTMLElement[] {
     let toReturn: HTMLElement[] = [];
     // console.log(elements);
-    console.log(parentMarker);
 
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i];

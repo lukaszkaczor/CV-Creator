@@ -17,12 +17,23 @@ export class TemplateEditor {
     '@listContent',
     '@removeIfEmpty',
   ];
+
+  inputMarkers = [
+    '@description',
+    '@firstName',
+    '@lastName',
+    '@placeholder',
+    '@first',
+    '@second',
+    '@third',
+  ];
+
   constructor(private templateService: TemplateService, private elementService: ElementService) {}
 
   deleteReduntantDataFromLastPage(page: HTMLElement, currentItemClone: HTMLElement) {
-    const itemForNextPage = this.templateService.createClone(currentItemClone);
+    let itemForNextPage = this.templateService.createClone(currentItemClone);
     const pageContent = this.templateService.getPageContent(page);
-    // console.log(currentItemClone.attributes);
+    // console.log(currentItemClone);
 
     // jesli element nie ma dzieci
     if (!this.elementService.elementHasChildren(currentItemClone)) {
@@ -71,18 +82,57 @@ export class TemplateEditor {
 
     for (let i = filteredElements.length - 1; i >= 0; i--) {
       const element = filteredElements[i];
-      console.log(element.innerHTML);
 
-      const deletedWords = [];
+      let flag = false;
+      // console.log(element);
+      // console.log(page.offsetHeight);
+      // console.log(pageContent.offsetHeight);
+
+      // element.remove();
+
+      // if (page.offsetHeight > pageContent.offsetHeight) break;
+
+      const deletedWords: string[] = [];
+
+      let index = 0;
 
       while (true) {
+        console.log(element);
+        console.log(page.offsetHeight);
+        console.log(pageContent.offsetHeight);
         if (page.offsetHeight >= pageContent.offsetHeight) {
           filteredClones[i].textContent = deletedWords.reverse().join(' ');
           break;
         }
 
         const { text, lastWord } = this.elementService.cutLastWord(element.textContent as string);
-        element.textContent = text;
+
+        //element has marker
+
+        let allItems = this.templateService.getAllElements(element);
+        let ss = false;
+        // console.log(allItems);
+
+        allItems.forEach((item) => {
+          // console.log(item);
+          if (this.itemHasInputAttribute(item)) {
+            console.log(item);
+            item.textContent = text;
+
+            console.log(page.offsetHeight);
+            console.log(pageContent.offsetHeight);
+          }
+        });
+
+        // console.log(element.innerHTML);
+
+        if (page.offsetHeight < pageContent.offsetHeight) {
+          element.remove();
+          break;
+        }
+
+        // element.textContent = text;
+
         deletedWords.push(lastWord);
 
         if (this.elementService.textContentIsWhiteSpace(element)) {
@@ -95,6 +145,20 @@ export class TemplateEditor {
     this.deleteEmptyMarkers(itemForNextPage);
 
     return itemForNextPage;
+  }
+
+  itemHasInputAttribute(item: HTMLElement) {
+    let flag = false;
+    this.inputMarkers.forEach((marker) => {
+      if (item.attributes.getNamedItem(marker)) flag = true;
+    });
+    return flag;
+  }
+
+  elementHasMarker(element: HTMLElement) {
+    const marker = '@third';
+
+    return element.attributes.getNamedItem(marker)?.value === marker;
   }
 
   deleteEmptyMarkers(item: HTMLElement) {
