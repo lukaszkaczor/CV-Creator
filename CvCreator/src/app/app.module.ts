@@ -63,8 +63,8 @@ export function tokenGetter() {
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     CvDataManager,
     TemplateService,
-    TemplateEditor,
     ElementService,
+    TemplateEditor,
   ],
   bootstrap: [AppComponent],
 })

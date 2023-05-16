@@ -50,7 +50,7 @@ export class Template {
 
       <div @firstPage id="first-page" class="page" >
         <div @pageContent id="page-content" class="page-content">
-      
+
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
         <h2 style="color:green" @description></h2>
         <h2 style="color:green" @description></h2>

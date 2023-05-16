@@ -1,9 +1,6 @@
-import { CvDataManager } from './CvDataManager';
 import { ICvDataManager } from './Interfaces/ICvDataManager';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 import { ITemplateService } from './Interfaces/ITemplateService';
-import { TemplateEditor } from './TemplateEditor';
-import { TemplateService } from './TemplateService';
 
 export class CvBuilder {
   private template: HTMLElement;
@@ -14,8 +11,8 @@ export class CvBuilder {
 
   constructor(
     private cvDataManager: ICvDataManager,
-    private templateService: TemplateService,
-    private templateEditor: TemplateEditor
+    private templateService: ITemplateService,
+    private templateEditor: ITemplateEditor
   ) {}
 
   setTemplate(template: HTMLElement) {
@@ -48,29 +45,22 @@ export class CvBuilder {
       .insertDataToMarkers(allElements, this.dataToInsert)
       .merge();
 
-    // console.log(mergedElements);
-
     let { page, pageContent } = this.getPageAndPageContent(firstPageTemplate);
 
     this.addPageToCV(page);
 
     mergedElements.forEach((element) => {
       let elementClone = this.templateService.createClone(element) as HTMLElement;
-
       pageContent.appendChild(elementClone);
 
       if (this.templateService.contentHeightLowerThanPageHeight(page)) return;
 
-      let itemForNextPage = this.templateEditor.deleteReduntantDataFromLastPage(page, elementClone);
-
+      let itemForNextPage = this.templateEditor.deleteReduntantDataFromPage(page, elementClone);
       const pageWithContent = this.getPageAndPageContent(secondPageTemplate);
-
       page = pageWithContent.page;
       pageContent = pageWithContent.pageContent;
 
       this.addPageToCV(page);
-      // itemForNextPage.textContent = this.joinCutWords(cutWords); //
-      // console.log(itemForNextPage);
 
       pageContent.appendChild(itemForNextPage);
     });

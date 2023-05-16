@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { ITemplateService } from './Interfaces/ITemplateService';
 
+@Injectable()
 export class TemplateService implements ITemplateService {
   getAllElements(template: HTMLElement): HTMLElement[] {
     let elementCollection = template.getElementsByTagName('*');
@@ -9,7 +10,6 @@ export class TemplateService implements ITemplateService {
       arr.push(elementCollection[i] as HTMLElement);
 
     return arr;
-    // return template.getElementsByTagName('*') as HTMLCollectionOf<HTMLElement>;
   }
 
   getFirstPage(element: HTMLElement): HTMLElement {
@@ -26,6 +26,7 @@ export class TemplateService implements ITemplateService {
 
     return element;
   }
+
   getSecondPage(element: HTMLElement): HTMLElement {
     let allElements = this.getAllElements(element);
 
@@ -39,6 +40,7 @@ export class TemplateService implements ITemplateService {
 
     return element;
   }
+
   getLastPage(element: HTMLElement): HTMLElement {
     let allElements = this.getAllElements(element);
 
@@ -52,17 +54,6 @@ export class TemplateService implements ITemplateService {
 
     return element;
   }
-
-  // getPageContent(page: HTMLElement): HTMLElement {
-  //   let elements = page.getElementsByTagName('*');
-
-  //   for (let i = 0; i < elements.length; i++) {
-  //     const element = elements[i];
-  //     if (element.hasAttribute('@pageContent')) return element as HTMLElement;
-  //   }
-  //   //FIX
-  //   return page;
-  // }
 
   getPageContent(page: HTMLElement): HTMLElement {
     let elements = page.getElementsByTagName('*');

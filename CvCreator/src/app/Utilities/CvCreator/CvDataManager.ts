@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ICvDataManager } from './Interfaces/ICvDataManager';
-import { TemplateEditor } from './TemplateEditor';
 import { TemplateService } from './TemplateService';
+import { CvMarkers } from './CvMarkers';
 
 @Injectable()
 export class CvDataManager implements ICvDataManager {
@@ -23,27 +23,28 @@ export class CvDataManager implements ICvDataManager {
         let data: any[] = this.getData('@list');
 
         let clone = ts.createClone(element);
-
-        // console.log(clone);
-
         let cloneTemplate = ts.createClone(clone);
 
         for (let j = 0; j < data.length; j++) {
           let keys = Object.keys(data[j]);
 
           keys.forEach((key) => {
-            let dd = this.getElement(clone, key);
-            dd.textContent = data[j][key];
+            const element = this.getElement(clone, key);
+            element.textContent = data[j][key];
           });
 
-          // console.log(clone);
+          const ts = new TemplateService();
+          const children = ts.getAllElements(clone);
 
-          let ss = clone.getElementsByTagName('h2');
-          //jesli sa puste, usun rodzica ze znacznikiem
-          if (ss[0].textContent?.trim() == '') {
-            let sd = this.getElement(clone, '@removeIfEmpty');
-            sd.remove();
-          }
+          CvMarkers.optionalMarkers.forEach((marker) => {
+            children.forEach((child) => {
+              if (!this.elementContainsAttribute(child, marker)) return;
+              if (child.textContent?.trim() != '') return;
+
+              const elementToRemove = this.getParentToRemove(child);
+              elementToRemove?.remove();
+            });
+          });
 
           element.appendChild(clone);
           clone.outerHTML = clone.innerHTML;
@@ -71,13 +72,22 @@ export class CvDataManager implements ICvDataManager {
     return this;
   }
 
+  getParentToRemove(child: HTMLElement): HTMLElement | null {
+    let parent: HTMLElement = child.parentElement as HTMLElement;
+
+    if (this.elementContainsAttribute(parent, '@pageContent')) return null;
+
+    if (this.elementContainsAttribute(parent, '@removeIfEmpty')) return parent;
+
+    return this.getParentToRemove(parent);
+  }
+
   getElement(parent: HTMLElement, marker: string) {
     let ts = new TemplateService();
     let children = ts.getAllElements(parent);
 
     for (let i = 0; i < children.length; i++) {
       let child = children[i];
-      // console.log(child);
 
       if (this.elementContainsAttribute(child, marker)) {
         return child;
@@ -104,36 +114,15 @@ export class CvDataManager implements ICvDataManager {
       item.marker == marker;
       if (item.marker == marker) {
         data.push(item.data);
-        // console.log(item.data);
         return item.data;
       }
     }
-    // return data;
+
     throw new Error('There is no data with marker' + marker);
   }
-  // public insertDataToMarkers(
-  //   elements: HTMLCollectionOf<HTMLElement>,
-  //   dataToInsert: any[]
-  // ): ICvDataManager {
-  //   this.elements = elements;
-  //   this.data = dataToInsert;
-
-  //   for (let i = 0; i < this.elements.length; i++) {
-  //     const element = elements[i];
-
-  //     for (let j = 0; j < this.data.length; j++) {
-  //       let item = this.data[j];
-
-  //       if (this.elementContainsAttribute(element, item.marker)) element.textContent = item.data;
-  //     }
-  //   }
-
-  //   return this;
-  // }
 
   public merge() {
     let mergedElements: HTMLElement[] = [];
-    // console.log(this.elements);
 
     for (let i = 0; i < this.elements.length; i++) {
       const element = this.elements[i];

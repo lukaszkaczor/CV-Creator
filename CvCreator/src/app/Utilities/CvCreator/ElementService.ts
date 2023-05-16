@@ -1,9 +1,13 @@
-export class ElementService {
-  public elementHasChildren(element: HTMLElement) {
+import { Injectable } from '@angular/core';
+import { IElementService } from './Interfaces/IElementService';
+
+@Injectable()
+export class ElementService implements IElementService {
+  public elementHasChildren(element: HTMLElement): boolean {
     return element.children.length > 0;
   }
 
-  cutLastWord(textContent: string): { text: string; lastWord: string } {
+  public cutLastWord(textContent: string): { text: string; lastWord: string } {
     let cutWords = [];
     let text = textContent;
     if (text == null) return { text: '', lastWord: '' };
@@ -18,17 +22,16 @@ export class ElementService {
     };
   }
 
-  textContentIsWhiteSpace(element: HTMLElement) {
+  public textContentIsWhiteSpace(element: HTMLElement): boolean {
     return element.textContent?.trim() == '';
   }
 
-  filterMarkers(
+  public filterMarkers(
     elements: HTMLElement[],
     outputMarkers: string[],
     parentMarker: string
   ): HTMLElement[] {
-    let toReturn: HTMLElement[] = [];
-    // console.log(elements);
+    let output: HTMLElement[] = [];
 
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i];
@@ -36,23 +39,20 @@ export class ElementService {
       for (let j = 0; j < outputMarkers.length; j++) {
         const marker = outputMarkers[j];
 
-        if (element.attributes.getNamedItem(marker) != null) toReturn.push(element);
+        if (this.elementHasAttribute(element, marker)) output.push(element);
       }
     }
 
-    //fix
-    if (parentMarker != '') toReturn = this.merge(toReturn, parentMarker);
+    if (parentMarker != '') output = this.merge(output, parentMarker);
 
-    return toReturn;
+    return output;
   }
 
-  public merge(elements: HTMLElement[], parentMarker: string) {
+  private merge(elements: HTMLElement[], parentMarker: string) {
     let mergedElements: HTMLElement[] = [];
-    // console.log(this.elements);
 
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i];
-
       if (this.parentHasAttribute(element, parentMarker)) mergedElements.push(element);
     }
     return mergedElements;
@@ -61,34 +61,8 @@ export class ElementService {
   private parentHasAttribute(element: HTMLElement, attribute: string): boolean {
     return element.parentElement?.hasAttribute(attribute) as boolean;
   }
-  // filterMarkers(elements: HTMLElement[], outputMarkers: string[], parentMarker: string) {
-  //   let toReturn: HTMLElement[] = [];
-  //   console.log(elements);
 
-  //   for (let i = 0; i < elements.length; i++) {
-  //     const element = elements[i];
-
-  //     for (let j = 0; j < outputMarkers.length; j++) {
-  //       const marker = outputMarkers[j];
-
-  //       if (element.attributes.getNamedItem(marker) != null) toReturn.push(element);
-  //     }
-  //   }
-  //   return toReturn;
-  // }
-  // filterMarkers(elements: HTMLElement[], outputMarkers: string[]) {
-  //   let toReturn: HTMLElement[] = [];
-
-  //   for (let i = 0; i < outputMarkers.length; i++) {
-  //     let marker = outputMarkers[i];
-
-  //     for (let j = 0; j < elements.length; j++) {
-  //       let element = elements[j];
-  //       if (element.attributes.getNamedItem(marker) != null) {
-  //         toReturn.push(element);
-  //       }
-  //     }
-  //   }
-  //   return toReturn;
-  // }
+  private elementHasAttribute(element: HTMLElement, attributeName: string) {
+    return element.attributes.getNamedItem(attributeName) != null;
+  }
 }

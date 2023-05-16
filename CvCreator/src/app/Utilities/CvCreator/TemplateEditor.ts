@@ -1,48 +1,22 @@
 import { Injectable } from '@angular/core';
 import { ElementService } from './ElementService';
-import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 import { TemplateService } from './TemplateService';
+import { CvMarkers } from './CvMarkers';
 
 @Injectable()
 export class TemplateEditor {
-  outputMarkers = [
-    '@description',
-    '@firstName',
-    '@lastName',
-    '@placeholder',
-    '@first',
-    '@second',
-    '@third',
-    '@list',
-    '@listContent',
-    '@removeIfEmpty',
-  ];
+  constructor(private ts: TemplateService, private es: ElementService) {}
 
-  inputMarkers = [
-    '@description',
-    '@firstName',
-    '@lastName',
-    '@placeholder',
-    '@first',
-    '@second',
-    '@third',
-  ];
+  deleteReduntantDataFromPage(page: HTMLElement, currentItemClone: HTMLElement) {
+    let itemForNextPage = this.ts.createClone(currentItemClone);
+    const pageContent = this.ts.getPageContent(page);
 
-  constructor(private templateService: TemplateService, private elementService: ElementService) {}
-
-  deleteReduntantDataFromLastPage(page: HTMLElement, currentItemClone: HTMLElement) {
-    let itemForNextPage = this.templateService.createClone(currentItemClone);
-    const pageContent = this.templateService.getPageContent(page);
-    // console.log(currentItemClone);
-
-    // jesli element nie ma dzieci
-    if (!this.elementService.elementHasChildren(currentItemClone)) {
+    // if element has no children
+    if (!this.es.elementHasChildren(currentItemClone)) {
       let cutWords = [];
 
-      while (this.templateService.contentHeightHigherThanPageHeight(page)) {
-        const { text, lastWord } = this.elementService.cutLastWord(
-          currentItemClone.textContent as string
-        );
+      while (this.ts.contentHeightHigherThanPageHeight(page)) {
+        const { text, lastWord } = this.es.cutLastWord(currentItemClone.textContent as string);
         currentItemClone.textContent = text;
         cutWords.push(lastWord);
       }
@@ -51,91 +25,49 @@ export class TemplateEditor {
     }
 
     const itemAttributes = currentItemClone.attributes;
-    // console.log(itemAttributes);
     let parentMarker = '';
 
-    this.outputMarkers.forEach((marker) => {
+    CvMarkers.allMarkers.forEach((marker) => {
       if (itemAttributes.getNamedItem(marker) != null) parentMarker = marker;
     });
 
-    // console.log(parentMarker);
+    const allElements = this.ts.getAllElements(currentItemClone);
+    const allClones = this.ts.getAllElements(itemForNextPage as HTMLElement);
 
-    let allElements = this.templateService.getAllElements(currentItemClone);
-    let allClones = this.templateService.getAllElements(itemForNextPage as HTMLElement);
-
-    let filteredElements = this.elementService.filterMarkers(
-      allElements,
-      this.outputMarkers,
-      parentMarker
-    );
-    let filteredClones = this.elementService.filterMarkers(
-      allClones,
-      this.outputMarkers,
-      parentMarker
-    );
-
-    // filteredElements = allElements;
-    // filteredClones = allClones;
-    //fix filters
-
-    // filteredElements.forEach((d) => console.log(d.innerHTML));
+    const filteredElements = this.es.filterMarkers(allElements, CvMarkers.allMarkers, parentMarker);
+    const filteredClones = this.es.filterMarkers(allClones, CvMarkers.allMarkers, parentMarker);
 
     for (let i = filteredElements.length - 1; i >= 0; i--) {
       const element = filteredElements[i];
 
-      let flag = false;
-      // console.log(element);
-      // console.log(page.offsetHeight);
-      // console.log(pageContent.offsetHeight);
-
-      // element.remove();
-
-      // if (page.offsetHeight > pageContent.offsetHeight) break;
-
       const deletedWords: string[] = [];
 
-      let index = 0;
-
       while (true) {
-        console.log(element);
-        console.log(page.offsetHeight);
-        console.log(pageContent.offsetHeight);
         if (page.offsetHeight >= pageContent.offsetHeight) {
           filteredClones[i].textContent = deletedWords.reverse().join(' ');
           break;
         }
 
-        const { text, lastWord } = this.elementService.cutLastWord(element.textContent as string);
+        const lastWord = this.es.cutLastWord(element.textContent as string).lastWord;
 
-        //element has marker
+        // let allItems = this.ts.getAllElements(element);
 
-        let allItems = this.templateService.getAllElements(element);
-        let ss = false;
-        // console.log(allItems);
-
-        allItems.forEach((item) => {
-          // console.log(item);
-          if (this.itemHasInputAttribute(item)) {
-            console.log(item);
-            item.textContent = text;
-
-            console.log(page.offsetHeight);
-            console.log(pageContent.offsetHeight);
-          }
-        });
-
-        // console.log(element.innerHTML);
+        // allItems.forEach((item) => {
+        //   if (this.es.itemHasInputAttribute(item)) {
+        //     item.textContent = text;
+        //     console.log(item);
+        //   }
+        // });
 
         if (page.offsetHeight < pageContent.offsetHeight) {
           element.remove();
           break;
         }
 
-        // element.textContent = text;
-
         deletedWords.push(lastWord);
 
-        if (this.elementService.textContentIsWhiteSpace(element)) {
+        // if item has no text, remove it
+        if (this.es.textContentIsWhiteSpace(element)) {
           element.remove();
           break;
         }
@@ -147,22 +79,8 @@ export class TemplateEditor {
     return itemForNextPage;
   }
 
-  itemHasInputAttribute(item: HTMLElement) {
-    let flag = false;
-    this.inputMarkers.forEach((marker) => {
-      if (item.attributes.getNamedItem(marker)) flag = true;
-    });
-    return flag;
-  }
-
-  elementHasMarker(element: HTMLElement) {
-    const marker = '@third';
-
-    return element.attributes.getNamedItem(marker)?.value === marker;
-  }
-
   deleteEmptyMarkers(item: HTMLElement) {
-    let elements = this.templateService.getAllElements(item);
+    let elements = this.ts.getAllElements(item);
 
     elements.forEach((item) => {
       if (item.textContent == '') item.remove();
