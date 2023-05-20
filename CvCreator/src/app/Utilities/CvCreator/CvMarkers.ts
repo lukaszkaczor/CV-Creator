@@ -9,7 +9,14 @@ export abstract class CvMarkers {
     '@third',
   ];
 
-  public static elementMarkers: string[] = ['@list', '@listContent', '@removeIfEmpty'];
+  public static singleInputMarkers = this.inputMarkers;
+  public static elementMarkers: string[] = [
+    '@list',
+    '@listContent',
+    '@removeIfEmpty',
+    '@contentlist',
+    '@elementList',
+  ];
   public static allMarkers: string[] = this.inputMarkers.concat(this.elementMarkers);
   public static optionalMarkers: string[] = ['@third'];
 }

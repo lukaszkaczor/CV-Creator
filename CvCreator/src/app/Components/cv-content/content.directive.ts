@@ -1,6 +1,6 @@
 import { Template } from './template';
-import { Directive, ElementRef, Renderer2, OnInit, Input } from '@angular/core';
-import { CvDataManager } from 'src/app/Utilities/CvCreator/CvDataManager';
+import { Directive, ElementRef, Renderer2, OnInit, Input, Injectable } from '@angular/core';
+import { CvDataService } from 'src/app/Utilities/CvCreator/CvDataService';
 import { TemplateService } from 'src/app/Utilities/CvCreator/TemplateService';
 import { TemplateEditor } from 'src/app/Utilities/CvCreator/TemplateEditor';
 import { CvBuilder } from 'src/app/Utilities/CvCreator/CvBuilder';
@@ -24,7 +24,7 @@ export class ContentDirective implements OnInit {
       marker: '@list',
       data: [
         { '@first': 'first1', '@second': 'second1', '@third': 'thirdOptionalFirst' },
-        { '@first': 'first2', '@second': 'second2' },
+        { '@first': 'first2', '@second': 'second2', '@third': 'third2' },
         { '@first': 'first3', '@second': 'second3', '@third': 'thirdOptionalMiddle' },
         { '@first': 'first4', '@second': 'second4' },
         { '@first': 'first5', '@second': 'second5', '@third': 'thirdOptionalLast' },
@@ -35,7 +35,7 @@ export class ContentDirective implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    cvDataManager: CvDataManager,
+    cvDataManager: CvDataService,
     templateService: TemplateService,
     templateEditor: TemplateEditor
   ) {

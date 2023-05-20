@@ -52,6 +52,8 @@ export class Template {
         <div @pageContent id="page-content" class="page-content">
 
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+        <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+        <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
         <h2 style="color:green" @description></h2>
         <h2 style="color:green" @description></h2>
             <h2 style="color:green" @description></h2>
@@ -59,6 +61,7 @@ export class Template {
        
 
             <div @list class="black">
+            <!--  <div @elementList style="border: 3px solid orange"> -->
               <h1 @first></h1>
               <h1 @second></h1> 
               <div @removeIfEmpty style="border:2px solid blue">
@@ -66,6 +69,7 @@ export class Template {
                     <h2 @third> </h2>
                 </div>
               </div>
+            <!--  </div> -->
             </div>
       
 

@@ -1,4 +1,4 @@
-import { ICvDataManager } from './Interfaces/ICvDataManager';
+import { ICvDataManager } from './Interfaces/ICvDataService';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 import { ITemplateService } from './Interfaces/ITemplateService';
 
@@ -41,9 +41,8 @@ export class CvBuilder {
 
     const allElements = this.templateService.getAllElements(this.template);
 
-    const mergedElements = this.cvDataManager
-      .insertDataToMarkers(allElements, this.dataToInsert)
-      .merge();
+    const mergedElements = this.cvDataManager.insertDataToMarkers(allElements, this.dataToInsert);
+    // .merge();
 
     let { page, pageContent } = this.getPageAndPageContent(firstPageTemplate);
 
