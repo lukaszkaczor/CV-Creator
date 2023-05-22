@@ -48,7 +48,7 @@ export class Template {
   //  `;
   public static htmlPattern = `
 
-      <div @firstPage id="first-page" class="page" >
+      <div @firstPage id="first-page" class="page">
         <div @pageContent id="page-content" class="page-content">
 
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
@@ -58,10 +58,12 @@ export class Template {
         <h2 style="color:green" @description></h2>
             <h2 style="color:green" @description></h2>
             <h2 style="color:green" @description></h2>
+        
+
        
 
             <div @list class="black">
-            <!--  <div @elementList style="border: 3px solid orange"> -->
+            <div @elementList style="border: 3px solid orange"> 
               <h1 @first></h1>
               <h1 @second></h1> 
               <div @removeIfEmpty style="border:2px solid blue">
@@ -69,12 +71,12 @@ export class Template {
                     <h2 @third> </h2>
                 </div>
               </div>
-            <!--  </div> -->
+              </div> 
             </div>
       
 
 
-            <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+            <div style="display: flex"> <h1 @firstName></h1> <h1> - </h1> <h1 @lastName></h1></div>
            <div><h1 @description></h1></div>
 
             <div style="color:red">
@@ -101,9 +103,10 @@ export class Template {
             <h1 @dede  style="color:green"> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
               <h1 @dede  style="color:blue"> <span @firstName>lukasz</span><span></span> - <span @lastName></span> </h1> -->
 
-              <h1 @dede  style="color:red"> <span @firstName>lukasz</span><span></span> <span @placeholder> - </span> <span @lastName></span> </h1>
-              <h1 @dede  style="color:green"> <span @firstName>lukasz</span><span></span> <span @placeholder> - </span> <span @lastName></span> </h1>
-              <h1 @dede  style="color:blue"> <span @firstName>lukasz</span><span></span> <span @placeholder> - </span> <span @lastName></span> </h1>
+
+            <div style="display: flex; color: red"> <h1 @firstName></h1> <h1> - </h1> <h1 @lastName></h1></div>
+            <div style="display: flex; color: green"> <h1 @firstName></h1> <h1> - </h1> <h1 @lastName></h1></div>
+            <div style="display: flex; color: blue"> <h1 @firstName></h1> <h1> - </h1> <h1 @lastName></h1></div>
 
       
         </div>

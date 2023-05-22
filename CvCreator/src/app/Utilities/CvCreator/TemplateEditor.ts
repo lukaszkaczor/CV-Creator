@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ElementService } from './ElementService';
 import { TemplateService } from './TemplateService';
-import { CvMarkers } from './CvMarkers';
 
 @Injectable()
 export class TemplateEditor {
@@ -24,60 +23,72 @@ export class TemplateEditor {
       return itemForNextPage;
     }
 
-    const itemAttributes = currentItemClone.attributes;
-    let parentMarker = '';
+    let lastChildBackup = null;
+    let lastChildParent = null;
 
-    CvMarkers.allMarkers.forEach((marker) => {
-      if (itemAttributes.getNamedItem(marker) != null) parentMarker = marker;
-    });
-
-    const allElements = this.ts.getAllElements(currentItemClone);
-    const allClones = this.ts.getAllElements(itemForNextPage as HTMLElement);
-
-    const filteredElements = this.es.filterMarkers(allElements, CvMarkers.allMarkers, parentMarker);
-    const filteredClones = this.es.filterMarkers(allClones, CvMarkers.allMarkers, parentMarker);
-
-    for (let i = filteredElements.length - 1; i >= 0; i--) {
-      const element = filteredElements[i];
-
-      const deletedWords: string[] = [];
-
-      while (true) {
-        if (page.offsetHeight >= pageContent.offsetHeight) {
-          filteredClones[i].textContent = deletedWords.reverse().join(' ');
-          break;
-        }
-
-        const lastWord = this.es.cutLastWord(element.textContent as string).lastWord;
-
-        // let allItems = this.ts.getAllElements(element);
-
-        // allItems.forEach((item) => {
-        //   if (this.es.itemHasInputAttribute(item)) {
-        //     item.textContent = text;
-        //     console.log(item);
-        //   }
-        // });
-
-        if (page.offsetHeight < pageContent.offsetHeight) {
-          element.remove();
-          break;
-        }
-
-        deletedWords.push(lastWord);
-
-        // if item has no text, remove it
-        if (this.es.textContentIsWhiteSpace(element)) {
-          element.remove();
-          break;
-        }
-      }
+    while (this.ts.contentHeightHigherThanPageHeight(page)) {
+      const lastChild = this.getLastElement(currentItemClone);
+      lastChildBackup = this.ts.createClone(lastChild);
+      lastChildParent = lastChild.parentElement;
+      lastChild.remove();
     }
 
-    this.deleteEmptyMarkers(itemForNextPage);
+    const currentItemTemplate = this.ts.createClone(currentItemClone);
+
+    while (true) {
+      const templateFirstEl = this.getFirstElement(currentItemTemplate);
+      const itemFirstEl = this.getFirstElement(itemForNextPage);
+
+      if (templateFirstEl.outerHTML !== itemFirstEl.outerHTML) break;
+
+      itemFirstEl.remove();
+      templateFirstEl.remove();
+    }
+
+    lastChildParent?.appendChild(lastChildBackup as Node);
+    let lastItemInCurrentPage = this.getLastElement(currentItemClone);
+    let cutWords = [];
+
+    while (this.ts.contentHeightHigherThanPageHeight(page)) {
+      const { text, lastWord } = this.es.cutLastWord(lastItemInCurrentPage.textContent as string);
+      lastItemInCurrentPage.textContent = text;
+      cutWords.push(lastWord);
+    }
+
+    let textForNextPage = this.getFirstElement(itemForNextPage);
+    // console.log(contentForNextPage);
+
+    textForNextPage.textContent = cutWords.reverse().join(' ');
+
+    let last = this.getLastElement(currentItemClone);
+
+    while (last.textContent?.trim() == '') {
+      // if the last and current item clone (parent) are the same element
+      if (last.outerHTML === currentItemClone.outerHTML) break;
+
+      last.remove();
+      last = this.getLastElement(currentItemClone);
+    }
 
     return itemForNextPage;
   }
+
+  getLastElement(element: Element): HTMLElement {
+    if (element.childElementCount > 0)
+      return this.getLastElement(element.lastElementChild as Element);
+
+    return element as HTMLElement;
+  }
+  getFirstElement(element: Element): HTMLElement {
+    if (element.childElementCount > 0)
+      return this.getFirstElement(element.firstElementChild as Element);
+
+    return element as HTMLElement;
+  }
+
+  // getLastChild(list: HTMLElement[]) {
+  //   return list[list.length - 1];
+  // }
 
   deleteEmptyMarkers(item: HTMLElement) {
     let elements = this.ts.getAllElements(item);

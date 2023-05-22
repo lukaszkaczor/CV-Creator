@@ -13,7 +13,7 @@ export class ListDataManager implements IElementDataManager {
 
     let attribute = this.getInputAttribute(element);
     const elementChildrenLength = element.children.length;
-    console.log(clone.outerHTML);
+    // console.log(clone.outerHTML);
 
     let dataToInsert: any[] = this.getData(attribute, data);
 
