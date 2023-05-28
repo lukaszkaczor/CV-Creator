@@ -1,6 +1,13 @@
+import { ILogger } from '../ILogger';
+import { CvMarkers } from './CvMarkers';
+import { CvOutputElementType } from './CvOutputElementType';
 import { ICvDataManager } from './Interfaces/ICvDataService';
+import { IDataMerger } from './Interfaces/IDataMerger';
+import { IElementService } from './Interfaces/IElementService';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 import { ITemplateService } from './Interfaces/ITemplateService';
+import { ListDataManager } from './ListDataManager';
+import { SingleElementDataManager } from './SingleElementDataManager';
 
 export class CvBuilder {
   private template: HTMLElement;
@@ -10,9 +17,11 @@ export class CvBuilder {
   private dataToInsert = [];
 
   constructor(
-    private cvDataManager: ICvDataManager,
     private templateService: ITemplateService,
-    private templateEditor: ITemplateEditor
+    private templateEditor: ITemplateEditor,
+    private dataMerger: IDataMerger,
+    private elementService: IElementService,
+    private logger: ILogger
   ) {}
 
   setTemplate(template: HTMLElement) {
@@ -40,29 +49,42 @@ export class CvBuilder {
     const secondPageTemplate = this.templateService.getSecondPage(this.templateBackup);
 
     const allElements = this.templateService.getAllElements(this.template);
-
-    const mergedElements = this.cvDataManager.insertDataToMarkers(allElements, this.dataToInsert);
-    // .merge();
+    const elementsWithData = this.prepareData(allElements, this.dataToInsert);
 
     let { page, pageContent } = this.getPageAndPageContent(firstPageTemplate);
 
     this.addPageToCV(page);
 
-    mergedElements.forEach((element) => {
-      let elementClone = this.templateService.createClone(element) as HTMLElement;
+    elementsWithData.forEach((element) => {
+      const elementClone = this.templateService.createClone(element);
       pageContent.appendChild(elementClone);
 
       if (this.templateService.contentHeightLowerThanPageHeight(page)) return;
 
-      let itemForNextPage = this.templateEditor.deleteReduntantDataFromPage(page, elementClone);
+      const itemForNextPage = this.templateEditor.deleteReduntantDataFromPage(page, elementClone);
       const pageWithContent = this.getPageAndPageContent(secondPageTemplate);
       page = pageWithContent.page;
       pageContent = pageWithContent.pageContent;
 
       this.addPageToCV(page);
-
       pageContent.appendChild(itemForNextPage);
     });
+  }
+
+  private prepareData(elements: HTMLElement[], data: any[]) {
+    elements.forEach((element) => {
+      switch (this.elementService.getElementType(element)) {
+        case CvOutputElementType.SingleElement:
+          new SingleElementDataManager().insertDataToElement(element, data);
+          break;
+
+        case CvOutputElementType.List:
+          new ListDataManager(this.templateService).insertDataToElement(element, data);
+          break;
+      }
+    });
+
+    return this.dataMerger.merge(elements);
   }
 
   private addPageToCV(page: HTMLElement) {
@@ -70,14 +92,10 @@ export class CvBuilder {
     this.pages.push(page);
   }
 
-  private getPageAndPageContent(secondPageTemplate: HTMLElement) {
-    let page = this.templateService.createClone(secondPageTemplate) as HTMLElement;
-    let pageContent = this.templateService.getPageContent(page);
+  private getPageAndPageContent(pageTemplate: HTMLElement) {
+    const page = this.templateService.createClone(pageTemplate) as HTMLElement;
+    const pageContent = this.templateService.getPageContent(page);
 
     return { page, pageContent };
-  }
-
-  joinCutWords(words: string[]) {
-    return words.reverse().join(' ');
   }
 }

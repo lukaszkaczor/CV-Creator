@@ -25,6 +25,7 @@ import { TemplateService } from './Utilities/CvCreator/TemplateService';
 import { TemplateEditor } from './Utilities/CvCreator/TemplateEditor';
 import { CvBuilder } from './Utilities/CvCreator/CvBuilder';
 import { ElementService } from './Utilities/CvCreator/ElementService';
+import { HtmlElementMerger } from './Utilities/CvCreator/HtmlElementMerger';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -65,6 +66,7 @@ export function tokenGetter() {
     TemplateService,
     ElementService,
     TemplateEditor,
+    HtmlElementMerger,
   ],
   bootstrap: [AppComponent],
 })

@@ -4,69 +4,73 @@ import { ITemplateService } from './Interfaces/ITemplateService';
 import { TemplateService } from './TemplateService';
 
 export class ListDataManager implements IElementDataManager {
-  public insertDataToElement(element: HTMLElement, data: any[]): HTMLElement {
-    const ts = new TemplateService();
+  constructor(private ts: ITemplateService) {}
 
-    // create backup elements
-    let clone = ts.createClone(element);
-    const cloneTemplate = ts.createClone(clone);
+  insertDataToElement(element: HTMLElement, data: any[]): HTMLElement {
+    const templateContent = this.ts.createClone(element.firstElementChild as HTMLElement);
+    const attribute = this.getInputAttribute(element);
+    const dataToInsert = this.getData(attribute, data);
 
-    let attribute = this.getInputAttribute(element);
-    const elementChildrenLength = element.children.length;
-    // console.log(clone.outerHTML);
+    //remove template element
+    element.firstElementChild?.remove();
 
-    let dataToInsert: any[] = this.getData(attribute, data);
-
-    // loop through every element and piece of data
-    for (let j = 0; j < dataToInsert.length; j++) {
-      const keys = Object.keys(dataToInsert[j]);
+    dataToInsert.forEach((pieceOfData: any) => {
+      const contentClone = this.ts.createClone(templateContent);
+      const keys = Object.keys(pieceOfData);
 
       keys.forEach((key) => {
-        const element = this.getElement(clone, key);
-        element.textContent = dataToInsert[j][key];
+        const elementToFill = this.getElement(contentClone, key);
+        elementToFill.textContent = pieceOfData[key];
       });
 
-      // const ts = new TemplateService();
-      const children = ts.getAllElements(clone);
+      this.removeEmptyOptionalElements(contentClone);
 
-      CvMarkers.optionalMarkers.forEach((marker) => {
-        children.forEach((child) => {
-          if (!this.elementContainsAttribute(child, marker)) return;
-          if (child.textContent?.trim() != '') return;
-
-          const elementToRemove = this.getParentToRemove(child);
-          elementToRemove?.remove();
-        });
-      });
-
-      element.appendChild(clone);
-      clone.outerHTML = clone.innerHTML;
-
-      clone = ts.createClone(cloneTemplate);
-    }
-
-    //remove template items on start
-    for (let i = 0; i < elementChildrenLength; i++) {
-      element.children[0].remove();
-    }
+      element.appendChild(contentClone);
+    });
 
     return element;
   }
 
-  getInputAttribute(item: HTMLElement) {
+  private removeEmptyOptionalElements(element: HTMLElement): void {
+    const children = this.ts.getAllElements(element);
+
+    CvMarkers.optionalMarkers.forEach((marker) => {
+      children.forEach((child: HTMLElement) => {
+        if (!this.elementContainsAttribute(child, marker)) return;
+        if (child.textContent?.trim() != '') return;
+
+        const elementToRemove = this.getParentToRemove(child);
+        elementToRemove?.remove();
+      });
+    });
+  }
+
+  private getData(marker: string, data: any[]) {
+    for (let i = 0; i < data.length; i++) {
+      const pieceOfData = data[i];
+
+      if (pieceOfData.marker == marker) return pieceOfData.data;
+    }
+  }
+
+  private getInputAttribute(item: HTMLElement) {
     const attributes = Array.from(item.attributes);
 
-    let isList = false;
     let attributeName = '';
 
-    attributes.forEach((attribute) => {
-      // console.log(attribute.name.startsWith('@list'));
+    for (let i = 0; i < attributes.length; i++) {
+      const attribute = attributes[i];
 
-      if (attribute.name.startsWith('@list')) {
-        attributeName = attribute.name;
-      }
-    });
+      if (attribute.name.startsWith('@list')) return attribute.name;
+    }
 
+    // attributes.forEach((attribute) => {
+    //   if (attribute.name.startsWith('@list')) {
+    //     attributeName = attribute.name;
+    //   }
+    // });
+
+    throw new Error('');
     return attributeName;
   }
 
@@ -94,44 +98,6 @@ export class ListDataManager implements IElementDataManager {
 
     throw new Error('There is no element with this marker ' + marker);
   }
-
-  // elementIsList(element: HTMLElement) {
-  //   return this.elementContainsAttribute(element, '@list');
-  // }
-
-  // insert(arr: HTMLElement[], index: number, newItem: HTMLElement): HTMLElement[] {
-  //   let ss = [...arr.slice(0, index), newItem, ...arr.slice(index)];
-  //   return ss;
-  // }
-
-  getData(marker: string, data: any[]) {
-    for (let j = 0; j < data.length; j++) {
-      let item = data[j];
-
-      item.marker == marker;
-      if (item.marker == marker) {
-        data.push(item.data);
-        return item.data;
-      }
-    }
-
-    throw new Error('There is no data with marker' + marker);
-  }
-
-  //   public merge() {
-  //     let mergedElements: HTMLElement[] = [];
-
-  //     for (let i = 0; i < this.elements.length; i++) {
-  //       const element = this.elements[i];
-
-  //       if (this.parentHasAttribute(element, '@pageContent')) mergedElements.push(element);
-  //     }
-  //     return mergedElements;
-  //   }
-
-  // private parentHasAttribute(element: HTMLElement, attribute: string): boolean {
-  //   return element.parentElement?.hasAttribute(attribute) as boolean;
-  // }
 
   private elementContainsAttribute(element: HTMLElement, name: string) {
     return element.attributes.getNamedItem(name) != null;

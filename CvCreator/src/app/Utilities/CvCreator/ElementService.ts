@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IElementService } from './Interfaces/IElementService';
+import { CvOutputElementType } from './CvOutputElementType';
+import { CvMarkers } from './CvMarkers';
 
 @Injectable()
 export class ElementService implements IElementService {
@@ -26,43 +28,29 @@ export class ElementService implements IElementService {
     return element.textContent?.trim() == '';
   }
 
-  public filterMarkers(
-    elements: HTMLElement[],
-    outputMarkers: string[],
-    parentMarker: string
-  ): HTMLElement[] {
-    let output: HTMLElement[] = [];
+  getElementType(item: HTMLElement): CvOutputElementType {
+    const attributes = item.attributes;
 
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i];
+    let type = CvOutputElementType.None;
 
-      for (let j = 0; j < outputMarkers.length; j++) {
-        const marker = outputMarkers[j];
+    for (let i = 0; i < attributes.length; i++) {
+      const attribute = attributes[i];
 
-        if (this.elementHasAttribute(element, marker)) output.push(element);
+      if (attribute.name.startsWith('@list')) {
+        type = CvOutputElementType.List;
+        break;
+      } else if (this.attributeIsInList(attribute.name)) {
+        type = CvOutputElementType.SingleElement;
+        break;
       }
     }
 
-    if (parentMarker != '') output = this.merge(output, parentMarker);
-
-    return output;
+    return type;
   }
 
-  private merge(elements: HTMLElement[], parentMarker: string) {
-    let mergedElements: HTMLElement[] = [];
-
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i];
-      if (this.parentHasAttribute(element, parentMarker)) mergedElements.push(element);
-    }
-    return mergedElements;
-  }
-
-  private parentHasAttribute(element: HTMLElement, attribute: string): boolean {
-    return element.parentElement?.hasAttribute(attribute) as boolean;
-  }
-
-  private elementHasAttribute(element: HTMLElement, attributeName: string) {
-    return element.attributes.getNamedItem(attributeName) != null;
+  private attributeIsInList(attribute: string): boolean {
+    return CvMarkers.inputMarkers.some((marker) =>
+      marker.toLowerCase().includes(attribute.toLowerCase())
+    );
   }
 }

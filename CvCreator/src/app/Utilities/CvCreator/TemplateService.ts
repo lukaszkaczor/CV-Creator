@@ -1,69 +1,20 @@
-import { Inject, Injectable } from '@angular/core';
 import { ITemplateService } from './Interfaces/ITemplateService';
 
-@Injectable()
 export class TemplateService implements ITemplateService {
   getAllElements(template: HTMLElement): HTMLElement[] {
-    let elementCollection = template.getElementsByTagName('*');
-    let arr: HTMLElement[] = [];
-    for (let i = 0; i < elementCollection.length; i++)
-      arr.push(elementCollection[i] as HTMLElement);
-
-    return arr;
+    return Array.from(template.getElementsByTagName('*')) as HTMLElement[];
   }
 
   getFirstPage(element: HTMLElement): HTMLElement {
-    let allElements = this.getAllElements(element);
-
-    for (let i = 0; i < allElements.length; i++) {
-      const element = allElements[i];
-
-      if (element.hasAttribute('@firstPage')) {
-        // console.log('ddd');
-        return element;
-      }
-    }
-
-    return element;
+    return this.findElementWithAttribute(element, '@firstPage');
   }
 
   getSecondPage(element: HTMLElement): HTMLElement {
-    let allElements = this.getAllElements(element);
-
-    for (let i = 0; i < allElements.length; i++) {
-      const element = allElements[i];
-
-      if (element.hasAttribute('@secondPage')) {
-        return element;
-      }
-    }
-
-    return element;
-  }
-
-  getLastPage(element: HTMLElement): HTMLElement {
-    let allElements = this.getAllElements(element);
-
-    for (let i = 0; i < allElements.length; i++) {
-      const element = allElements[i];
-
-      if (element.hasAttribute('@lastPage')) {
-        return element;
-      }
-    }
-
-    return element;
+    return this.findElementWithAttribute(element, '@secondPage');
   }
 
   getPageContent(page: HTMLElement): HTMLElement {
-    let elements = page.getElementsByTagName('*');
-
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i];
-      if (element.hasAttribute('@pageContent')) return element as HTMLElement;
-    }
-
-    throw new Error('Missing @pageContent in page template');
+    return this.findElementWithAttribute(page, '@pageContent');
   }
 
   createClone(item: HTMLElement): HTMLElement {
@@ -71,12 +22,20 @@ export class TemplateService implements ITemplateService {
   }
 
   contentHeightHigherThanPageHeight(page: HTMLElement) {
-    var content = this.getPageContent(page);
+    const content = this.getPageContent(page);
     return content.offsetHeight > page.offsetHeight;
   }
 
   contentHeightLowerThanPageHeight(page: HTMLElement) {
-    var content = this.getPageContent(page);
+    const content = this.getPageContent(page);
     return content.offsetHeight < page.offsetHeight;
+  }
+
+  private findElementWithAttribute(element: HTMLElement, attribute: string): HTMLElement {
+    const list = this.getAllElements(element);
+
+    for (let i = 0; i < list.length; i++) if (list[i].hasAttribute(attribute)) return list[i];
+
+    throw new Error(`Cannot find attribute: ${attribute} in given element.`);
   }
 }

@@ -4,6 +4,9 @@ import { CvDataService } from 'src/app/Utilities/CvCreator/CvDataService';
 import { TemplateService } from 'src/app/Utilities/CvCreator/TemplateService';
 import { TemplateEditor } from 'src/app/Utilities/CvCreator/TemplateEditor';
 import { CvBuilder } from 'src/app/Utilities/CvCreator/CvBuilder';
+import { ConsoleLogger } from 'src/app/Utilities/CvCreator/ConsolerLogger';
+import { HtmlElementMerger } from 'src/app/Utilities/CvCreator/HtmlElementMerger';
+import { ElementService } from 'src/app/Utilities/CvCreator/ElementService';
 
 @Directive({
   selector: '[appContent]',
@@ -37,9 +40,17 @@ export class ContentDirective implements OnInit {
     private renderer: Renderer2,
     cvDataManager: CvDataService,
     templateService: TemplateService,
-    templateEditor: TemplateEditor
+    templateEditor: TemplateEditor,
+    dataMerger: HtmlElementMerger,
+    elementService: ElementService
   ) {
-    this.builder = new CvBuilder(cvDataManager, templateService, templateEditor);
+    this.builder = new CvBuilder(
+      templateService,
+      templateEditor,
+      dataMerger,
+      elementService,
+      new ConsoleLogger()
+    );
   }
 
   ngOnInit(): void {

@@ -63,7 +63,7 @@ export class Template {
        
 
             <div @list class="black">
-            <div @elementList style="border: 3px solid orange"> 
+            <div style="border: 3px solid orange"> 
               <h1 @first></h1>
               <h1 @second></h1> 
               <div @removeIfEmpty style="border:2px solid blue">

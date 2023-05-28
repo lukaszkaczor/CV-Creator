@@ -7,18 +7,19 @@ export class TemplateEditor {
   constructor(private ts: TemplateService, private es: ElementService) {}
 
   deleteReduntantDataFromPage(page: HTMLElement, currentItemClone: HTMLElement) {
-    let itemForNextPage = this.ts.createClone(currentItemClone);
-    const pageContent = this.ts.getPageContent(page);
+    const itemForNextPage = this.ts.createClone(currentItemClone);
 
-    // if element has no children
+    // if currentItemClone has no children
     if (!this.es.elementHasChildren(currentItemClone)) {
       let cutWords = [];
 
+      //shorten it, till it fit to the page content
       while (this.ts.contentHeightHigherThanPageHeight(page)) {
         const { text, lastWord } = this.es.cutLastWord(currentItemClone.textContent as string);
         currentItemClone.textContent = text;
         cutWords.push(lastWord);
       }
+
       itemForNextPage.textContent = cutWords.reverse().join(' ');
       return itemForNextPage;
     }
@@ -56,7 +57,6 @@ export class TemplateEditor {
     }
 
     let textForNextPage = this.getFirstElement(itemForNextPage);
-    // console.log(contentForNextPage);
 
     textForNextPage.textContent = cutWords.reverse().join(' ');
 
@@ -73,22 +73,19 @@ export class TemplateEditor {
     return itemForNextPage;
   }
 
-  getLastElement(element: Element): HTMLElement {
+  getLastElement(element: HTMLElement): HTMLElement {
     if (element.childElementCount > 0)
-      return this.getLastElement(element.lastElementChild as Element);
+      return this.getLastElement(element.lastElementChild as HTMLElement);
 
-    return element as HTMLElement;
-  }
-  getFirstElement(element: Element): HTMLElement {
-    if (element.childElementCount > 0)
-      return this.getFirstElement(element.firstElementChild as Element);
-
-    return element as HTMLElement;
+    return element;
   }
 
-  // getLastChild(list: HTMLElement[]) {
-  //   return list[list.length - 1];
-  // }
+  getFirstElement(element: HTMLElement): HTMLElement {
+    if (element.childElementCount > 0)
+      return this.getFirstElement(element.firstElementChild as HTMLElement);
+
+    return element;
+  }
 
   deleteEmptyMarkers(item: HTMLElement) {
     let elements = this.ts.getAllElements(item);
