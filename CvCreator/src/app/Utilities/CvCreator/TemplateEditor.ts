@@ -12,7 +12,6 @@ export class TemplateEditor {
     // if currentItemClone has no children
     if (!this.es.elementHasChildren(currentItemClone)) {
       let cutWords = [];
-
       //shorten it, till it fit to the page content
       while (this.ts.contentHeightHigherThanPageHeight(page)) {
         const { text, lastWord } = this.es.cutLastWord(currentItemClone.textContent as string);
@@ -51,6 +50,8 @@ export class TemplateEditor {
     let cutWords = [];
 
     while (this.ts.contentHeightHigherThanPageHeight(page)) {
+      if (lastItemInCurrentPage.textContent?.trim() == '') break;
+
       const { text, lastWord } = this.es.cutLastWord(lastItemInCurrentPage.textContent as string);
       lastItemInCurrentPage.textContent = text;
       cutWords.push(lastWord);
@@ -58,12 +59,11 @@ export class TemplateEditor {
 
     let textForNextPage = this.getFirstElement(itemForNextPage);
 
-    textForNextPage.textContent = cutWords.reverse().join(' ');
+    if (cutWords.length > 0) textForNextPage.textContent = cutWords.reverse().join(' ');
 
     let last = this.getLastElement(currentItemClone);
 
     while (last.textContent?.trim() == '') {
-      // if the last and current item clone (parent) are the same element
       if (last.outerHTML === currentItemClone.outerHTML) break;
 
       last.remove();
