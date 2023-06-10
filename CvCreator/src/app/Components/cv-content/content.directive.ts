@@ -7,6 +7,8 @@ import { CvBuilder } from 'src/app/Utilities/CvCreator/CvBuilder';
 import { ConsoleLogger } from 'src/app/Utilities/CvCreator/ConsolerLogger';
 import { HtmlElementMerger } from 'src/app/Utilities/CvCreator/HtmlElementMerger';
 import { ElementService } from 'src/app/Utilities/CvCreator/ElementService';
+import { SingleElementDataManager } from 'src/app/Utilities/CvCreator/SingleElementDataManager';
+import { ListDataManager } from 'src/app/Utilities/CvCreator/ListDataManager';
 
 @Directive({
   selector: '[appContent]',
@@ -49,7 +51,8 @@ export class ContentDirective implements OnInit {
       templateEditor,
       dataMerger,
       elementService,
-      new ConsoleLogger()
+      new ConsoleLogger(),
+      [new SingleElementDataManager(), new ListDataManager(templateService)]
     );
   }
 

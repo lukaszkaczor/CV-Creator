@@ -3,6 +3,7 @@ import { CvMarkers } from './CvMarkers';
 import { CvOutputElementType } from './CvOutputElementType';
 import { ICvDataManager } from './Interfaces/ICvDataService';
 import { IDataMerger } from './Interfaces/IDataMerger';
+import { IElementDataManager } from './Interfaces/IElementDataManager';
 import { IElementService } from './Interfaces/IElementService';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 import { ITemplateService } from './Interfaces/ITemplateService';
@@ -21,7 +22,8 @@ export class CvBuilder {
     private templateEditor: ITemplateEditor,
     private dataMerger: IDataMerger,
     private elementService: IElementService,
-    private logger: ILogger
+    private logger: ILogger,
+    private dataServices: IElementDataManager[]
   ) {}
 
   setTemplate(template: HTMLElement) {
@@ -73,18 +75,28 @@ export class CvBuilder {
 
   private prepareData(elements: HTMLElement[], data: any[]) {
     elements.forEach((element) => {
+      let dataManager;
       switch (this.elementService.getElementType(element)) {
         case CvOutputElementType.SingleElement:
-          new SingleElementDataManager().insertDataToElement(element, data);
+          dataManager = this.getElementManager(CvOutputElementType.SingleElement);
           break;
 
         case CvOutputElementType.List:
-          new ListDataManager(this.templateService).insertDataToElement(element, data);
+          dataManager = this.getElementManager(CvOutputElementType.List);
+          break;
+
+        default:
           break;
       }
+
+      if (dataManager) dataManager.insertDataToElement(element, data);
     });
 
     return this.dataMerger.merge(elements);
+  }
+
+  private getElementManager(elementType: CvOutputElementType): IElementDataManager {
+    return this.dataServices.filter((element) => element.type == elementType)[0];
   }
 
   private addPageToCV(page: HTMLElement) {

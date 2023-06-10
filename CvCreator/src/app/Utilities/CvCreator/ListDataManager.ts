@@ -1,9 +1,11 @@
 import { CvMarkers } from './CvMarkers';
+import { CvOutputElementType } from './CvOutputElementType';
 import { IElementDataManager } from './Interfaces/IElementDataManager';
 import { ITemplateService } from './Interfaces/ITemplateService';
 import { TemplateService } from './TemplateService';
 
 export class ListDataManager implements IElementDataManager {
+  readonly type: CvOutputElementType = CvOutputElementType.List;
   constructor(private ts: ITemplateService) {}
 
   insertDataToElement(element: HTMLElement, data: any[]): HTMLElement {

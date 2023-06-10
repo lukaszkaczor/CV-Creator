@@ -1,6 +1,9 @@
+import { CvOutputElementType } from './CvOutputElementType';
 import { IElementDataManager } from './Interfaces/IElementDataManager';
 
 export class SingleElementDataManager implements IElementDataManager {
+  readonly type: CvOutputElementType = CvOutputElementType.SingleElement;
+
   insertDataToElement(element: HTMLElement, data: any[]): HTMLElement {
     for (let j = 0; j < data.length; j++) {
       const item = data[j];
