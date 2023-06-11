@@ -1,7 +1,7 @@
 import { IDataMerger } from './Interfaces/IDataMerger';
 
 export class HtmlElementMerger implements IDataMerger {
-  merge(elements: HTMLElement[]): HTMLElement[] {
+  public merge(elements: HTMLElement[]): HTMLElement[] {
     let mergedElements: HTMLElement[] = [];
 
     for (let i = 0; i < elements.length; i++) {

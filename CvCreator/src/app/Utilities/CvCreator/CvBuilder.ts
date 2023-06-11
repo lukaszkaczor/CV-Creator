@@ -1,14 +1,9 @@
-import { ILogger } from '../ILogger';
-import { CvMarkers } from './CvMarkers';
 import { CvOutputElementType } from './CvOutputElementType';
-import { ICvDataManager } from './Interfaces/ICvDataService';
 import { IDataMerger } from './Interfaces/IDataMerger';
 import { IElementDataManager } from './Interfaces/IElementDataManager';
 import { IElementService } from './Interfaces/IElementService';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 import { ITemplateService } from './Interfaces/ITemplateService';
-import { ListDataManager } from './ListDataManager';
-import { SingleElementDataManager } from './SingleElementDataManager';
 
 export class CvBuilder {
   private template: HTMLElement;
@@ -22,7 +17,6 @@ export class CvBuilder {
     private templateEditor: ITemplateEditor,
     private dataMerger: IDataMerger,
     private elementService: IElementService,
-    private logger: ILogger,
     private dataServices: IElementDataManager[]
   ) {}
 
@@ -78,15 +72,11 @@ export class CvBuilder {
       let dataManager;
       switch (this.elementService.getElementType(element)) {
         case CvOutputElementType.SingleElement:
-          // dataManager = this.getElementManager(CvOutputElementType.SingleElement);
-          dataManager = new ListDataManager(this.templateService);
+          dataManager = this.getElementManager(CvOutputElementType.SingleElement);
           break;
 
         case CvOutputElementType.List:
           dataManager = this.getElementManager(CvOutputElementType.List);
-          break;
-
-        default:
           break;
       }
 

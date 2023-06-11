@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
 import { IElementService } from './Interfaces/IElementService';
 import { CvOutputElementType } from './CvOutputElementType';
 import { CvMarkers } from './CvMarkers';
 
-@Injectable()
 export class ElementService implements IElementService {
   public elementHasChildren(element: HTMLElement): boolean {
     return element.children.length > 0;

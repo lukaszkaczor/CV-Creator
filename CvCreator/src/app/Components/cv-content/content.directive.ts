@@ -1,10 +1,8 @@
 import { Template } from './template';
 import { Directive, ElementRef, Renderer2, OnInit, Input, Injectable } from '@angular/core';
-import { CvDataService } from 'src/app/Utilities/CvCreator/CvDataService';
 import { TemplateService } from 'src/app/Utilities/CvCreator/TemplateService';
 import { TemplateEditor } from 'src/app/Utilities/CvCreator/TemplateEditor';
 import { CvBuilder } from 'src/app/Utilities/CvCreator/CvBuilder';
-import { ConsoleLogger } from 'src/app/Utilities/CvCreator/ConsolerLogger';
 import { HtmlElementMerger } from 'src/app/Utilities/CvCreator/HtmlElementMerger';
 import { ElementService } from 'src/app/Utilities/CvCreator/ElementService';
 import { SingleElementDataManager } from 'src/app/Utilities/CvCreator/SingleElementDataManager';
@@ -40,20 +38,15 @@ export class ContentDirective implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    cvDataManager: CvDataService,
     templateService: TemplateService,
     templateEditor: TemplateEditor,
     dataMerger: HtmlElementMerger,
     elementService: ElementService
   ) {
-    this.builder = new CvBuilder(
-      templateService,
-      templateEditor,
-      dataMerger,
-      elementService,
-      new ConsoleLogger(),
-      [new SingleElementDataManager(), new ListDataManager(templateService)]
-    );
+    this.builder = new CvBuilder(templateService, templateEditor, dataMerger, elementService, [
+      new SingleElementDataManager(),
+      new ListDataManager(templateService),
+    ]);
   }
 
   ngOnInit(): void {

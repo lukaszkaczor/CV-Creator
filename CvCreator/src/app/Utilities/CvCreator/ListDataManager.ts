@@ -2,14 +2,12 @@ import { CvMarkers } from './CvMarkers';
 import { CvOutputElementType } from './CvOutputElementType';
 import { IElementDataManager } from './Interfaces/IElementDataManager';
 import { ITemplateService } from './Interfaces/ITemplateService';
-import { TemplateService } from './TemplateService';
 
 export class ListDataManager implements IElementDataManager {
   readonly type: CvOutputElementType = CvOutputElementType.List;
   constructor(private ts: ITemplateService) {}
 
   insertDataToElement(element: HTMLElement, data: any[]): HTMLElement {
-    console.log(element);
     const templateContent = this.ts.createClone(element.firstElementChild as HTMLElement);
     const attribute = this.getInputAttribute(element);
     const dataToInsert = this.getData(attribute, data);
@@ -54,12 +52,12 @@ export class ListDataManager implements IElementDataManager {
 
       if (pieceOfData.marker == marker) return pieceOfData.data;
     }
+
+    throw new Error(`Data with marker ${marker} not found`);
   }
 
   private getInputAttribute(item: HTMLElement) {
     const attributes = Array.from(item.attributes);
-
-    let attributeName = '';
 
     for (let i = 0; i < attributes.length; i++) {
       const attribute = attributes[i];
@@ -67,17 +65,10 @@ export class ListDataManager implements IElementDataManager {
       if (attribute.name.startsWith('@list')) return attribute.name;
     }
 
-    // attributes.forEach((attribute) => {
-    //   if (attribute.name.startsWith('@list')) {
-    //     attributeName = attribute.name;
-    //   }
-    // });
-
-    throw new Error('');
-    return attributeName;
+    throw new Error(`There is no input attribute in element ${item}`);
   }
 
-  getParentToRemove(child: HTMLElement): HTMLElement | null {
+  private getParentToRemove(child: HTMLElement): HTMLElement | null {
     let parent: HTMLElement = child.parentElement as HTMLElement;
 
     if (this.elementContainsAttribute(parent, '@pageContent')) return null;
@@ -88,15 +79,12 @@ export class ListDataManager implements IElementDataManager {
   }
 
   getElement(parent: HTMLElement, marker: string) {
-    let ts = new TemplateService();
-    let children = ts.getAllElements(parent);
+    const children = this.ts.getAllElements(parent);
 
     for (let i = 0; i < children.length; i++) {
-      let child = children[i];
+      const child = children[i];
 
-      if (this.elementContainsAttribute(child, marker)) {
-        return child;
-      }
+      if (this.elementContainsAttribute(child, marker)) return child;
     }
 
     throw new Error('There is no element with this marker ' + marker);

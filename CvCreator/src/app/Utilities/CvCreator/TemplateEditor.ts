@@ -1,7 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ElementService } from './ElementService';
 import { TemplateService } from './TemplateService';
-import { ITemplateService } from './Interfaces/ITemplateService';
 
 @Injectable()
 export class TemplateEditor {
