@@ -78,7 +78,8 @@ export class CvBuilder {
       let dataManager;
       switch (this.elementService.getElementType(element)) {
         case CvOutputElementType.SingleElement:
-          dataManager = this.getElementManager(CvOutputElementType.SingleElement);
+          // dataManager = this.getElementManager(CvOutputElementType.SingleElement);
+          dataManager = new ListDataManager(this.templateService);
           break;
 
         case CvOutputElementType.List:

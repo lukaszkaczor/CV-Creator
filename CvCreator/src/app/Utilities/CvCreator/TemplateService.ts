@@ -1,5 +1,7 @@
+import { Injectable } from '@angular/core';
 import { ITemplateService } from './Interfaces/ITemplateService';
 
+@Injectable()
 export class TemplateService implements ITemplateService {
   getAllElements(template: HTMLElement): HTMLElement[] {
     return Array.from(template.getElementsByTagName('*')) as HTMLElement[];

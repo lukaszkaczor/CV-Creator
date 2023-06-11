@@ -9,6 +9,7 @@ export class ListDataManager implements IElementDataManager {
   constructor(private ts: ITemplateService) {}
 
   insertDataToElement(element: HTMLElement, data: any[]): HTMLElement {
+    console.log(element);
     const templateContent = this.ts.createClone(element.firstElementChild as HTMLElement);
     const attribute = this.getInputAttribute(element);
     const dataToInsert = this.getData(attribute, data);

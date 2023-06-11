@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ElementService } from './ElementService';
 import { TemplateService } from './TemplateService';
+import { ITemplateService } from './Interfaces/ITemplateService';
 
 @Injectable()
 export class TemplateEditor {
@@ -26,6 +27,7 @@ export class TemplateEditor {
     let lastChildBackup = null;
     let lastChildParent = null;
 
+    // delete elements from end and create their backup
     while (this.ts.contentHeightHigherThanPageHeight(page)) {
       const lastChild = this.getLastElement(currentItemClone);
       lastChildBackup = this.ts.createClone(lastChild);
@@ -35,20 +37,24 @@ export class TemplateEditor {
 
     const currentItemTemplate = this.ts.createClone(currentItemClone);
 
+    //delete first elements from both template elements
     while (true) {
-      const templateFirstEl = this.getFirstElement(currentItemTemplate);
-      const itemFirstEl = this.getFirstElement(itemForNextPage);
+      const firstElementFromCurrentItem = this.getFirstElement(currentItemTemplate);
+      const firstElementFromItemForNextPage = this.getFirstElement(itemForNextPage);
 
-      if (templateFirstEl.outerHTML !== itemFirstEl.outerHTML) break;
+      // if html structure of both elements are diffrent, break the loop
+      if (firstElementFromCurrentItem.outerHTML !== firstElementFromItemForNextPage.outerHTML)
+        break;
 
-      itemFirstEl.remove();
-      templateFirstEl.remove();
+      firstElementFromItemForNextPage.remove();
+      firstElementFromCurrentItem.remove();
     }
 
     lastChildParent?.appendChild(lastChildBackup as Node);
     let lastItemInCurrentPage = this.getLastElement(currentItemClone);
     let cutWords = [];
 
+    //cut last word of last element in group till it will fit to cv size
     while (this.ts.contentHeightHigherThanPageHeight(page)) {
       if (lastItemInCurrentPage.textContent?.trim() == '') break;
 
@@ -57,41 +63,37 @@ export class TemplateEditor {
       cutWords.push(lastWord);
     }
 
+    // set text of first element in next page from cut elements of prev page
     let textForNextPage = this.getFirstElement(itemForNextPage);
-
     if (cutWords.length > 0) textForNextPage.textContent = cutWords.reverse().join(' ');
 
-    let last = this.getLastElement(currentItemClone);
-
-    while (last.textContent?.trim() == '') {
-      if (last.outerHTML === currentItemClone.outerHTML) break;
-
-      last.remove();
-      last = this.getLastElement(currentItemClone);
-    }
+    this.deleteEmptyElementsFromEnd(currentItemClone);
 
     return itemForNextPage;
   }
 
-  getLastElement(element: HTMLElement): HTMLElement {
+  private getLastElement(element: HTMLElement): HTMLElement {
     if (element.childElementCount > 0)
       return this.getLastElement(element.lastElementChild as HTMLElement);
 
     return element;
   }
 
-  getFirstElement(element: HTMLElement): HTMLElement {
+  private getFirstElement(element: HTMLElement): HTMLElement {
     if (element.childElementCount > 0)
       return this.getFirstElement(element.firstElementChild as HTMLElement);
 
     return element;
   }
 
-  deleteEmptyMarkers(item: HTMLElement) {
-    let elements = this.ts.getAllElements(item);
+  private deleteEmptyElementsFromEnd(element: HTMLElement) {
+    let last = this.getLastElement(element);
 
-    elements.forEach((item) => {
-      if (item.textContent == '') item.remove();
-    });
+    while (last.textContent?.trim() == '') {
+      if (last.outerHTML === element.outerHTML) break;
+
+      last.remove();
+      last = this.getLastElement(element);
+    }
   }
 }
