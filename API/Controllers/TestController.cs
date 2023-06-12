@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using API.Utilities;
 using Repository.Interfaces;
+using PuppeteerSharp;
+using API.Models;
+using PuppeteerSharp.Media;
 
 namespace API.Controllers
 {
@@ -44,8 +47,31 @@ namespace API.Controllers
 
         [HttpGet("Public")]
         // [Authorize]
-        public IActionResult GetPublicData()
+        public async Task<IActionResult> GetPublicDataAsync()
         {
+
+
+            using var browserFetcher = new BrowserFetcher();
+            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+            {
+                Headless = true
+            });
+            var page = await browser.NewPageAsync();
+            await page.SetContentAsync("""
+            <div style="height: 1100px; width: 850px; border: 1px solid red; margin: 0; padding: 0;"> 
+            <h1>siema<h1>
+            </div>
+            """);
+
+            
+            await page.PdfAsync("test.pdf");
+            var wss = page.PdfStreamAsync();
+
+           
+          
+
+
             // var accessToken = Request.Headers[HeaderNames.Authorization];
 
             // var user = _httpContextAccessor.HttpContext.User.Identity.Name;
@@ -55,7 +81,49 @@ namespace API.Controllers
 
             // var ssd  =HttpContent.Current
 
-            return Ok(dss);
+            // return Ok(wss.Result);
+            return File(wss.Result, "application/pdf", "FileDownloadName.pdf");
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]CvBody data)
+        {
+             using var browserFetcher = new BrowserFetcher();
+            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+            {
+                Headless = true
+            });
+            var page = await browser.NewPageAsync();
+// await page.SetViewportAsync(new ViewPortOptions
+// {
+//     Width = 850,
+//     Height = 1100
+// });
+
+            await page.SetContentAsync(data.body);
+
+
+
+            
+            // await page.PdfAsync("test.pdf", new PdfOptions{
+            //     Format= PaperFormat.A4,
+            //     Height = 100,
+            //     Width = 50
+            // });
+            var wss = page.PdfStreamAsync( new PdfOptions{
+
+                Height = "297mm",
+                Width = "210mm"
+        });
+
+                       var dt = DateTime.Now;
+            var dss = DateOnly.FromDateTime(dt);
+
+            return File(wss.Result, "application/pdf", "FileDownloadName.pdf");
+        }
+
+
     }
 }

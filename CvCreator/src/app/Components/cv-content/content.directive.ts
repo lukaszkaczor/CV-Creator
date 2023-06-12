@@ -7,6 +7,7 @@ import { HtmlElementMerger } from 'src/app/Utilities/CvCreator/HtmlElementMerger
 import { ElementService } from 'src/app/Utilities/CvCreator/ElementService';
 import { SingleElementDataManager } from 'src/app/Utilities/CvCreator/SingleElementDataManager';
 import { ListDataManager } from 'src/app/Utilities/CvCreator/ListDataManager';
+import { HttpClient } from '@angular/common/http';
 
 @Directive({
   selector: '[appContent]',
@@ -38,6 +39,7 @@ export class ContentDirective implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
+    private http: HttpClient,
     templateService: TemplateService,
     templateEditor: TemplateEditor,
     dataMerger: HtmlElementMerger,
@@ -58,6 +60,65 @@ export class ContentDirective implements OnInit {
       .setCvElement(this.cvElement)
       .setDataToInsert(this.dataToInsert)
       .build();
+
+    console.log(this.builder.cvElement);
+
+    // this.http
+    //   .post(
+    //     'https://localhost:7184/Test/',
+
+    //     {
+    //       body:
+    //         `<div style="border: 1px solid red; height: 297mm; width: 210mm"></div>` +
+    //         `       <style>
+    //         *{
+
+    //           margin: 0;
+    //           padding: 0;
+    //           box-sizing: border-box;
+    //           font-size:25px
+    //           }
+    //         </style>`,
+    //     },
+
+    //     { responseType: 'blob' }
+    //   )
+    //   .subscribe((data: any) => {
+    //     console.log(data);
+    //     var blob = new Blob([data]);
+    //     var link = document.createElement('a');
+    //     link.href = window.URL.createObjectURL(blob);
+    //     link.download = 'myFileName.pdf';
+    //     link.click();
+    //   });
+    this.http
+      .post(
+        'https://localhost:7184/Test/',
+
+        {
+          body:
+            this.builder.cvElement.outerHTML +
+            `       <style>
+            *{
+
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+              font-size:5mm
+              }
+            </style>`,
+        },
+
+        { responseType: 'blob' }
+      )
+      .subscribe((data: any) => {
+        console.log(data);
+        var blob = new Blob([data]);
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'myFileName.pdf';
+        link.click();
+      });
   }
 
   initializeTemplateBox() {
@@ -65,18 +126,17 @@ export class ContentDirective implements OnInit {
     this.cvTemplate = this.createNewElement('div', '');
     // el == template
     this.renderer.setStyle(this.el.nativeElement, 'border', '1px solid red');
-    this.renderer.setStyle(this.el.nativeElement, 'width', '350px');
-    this.renderer.setStyle(this.el.nativeElement, 'min-height', '500px');
+    this.renderer.setStyle(this.el.nativeElement, 'width', '210mm');
+    this.renderer.setStyle(this.el.nativeElement, 'min-height', '297mm');
     this.renderer.setStyle(this.el.nativeElement, 'height', 'auto');
-    this.renderer.setStyle(this.el.nativeElement, 'margin-left', '400px');
+    this.renderer.setStyle(this.el.nativeElement, 'margin-left', '1000px');
     this.renderer.setStyle(this.el.nativeElement, 'position', 'relative');
 
     this.renderer.setStyle(this.cvElement, 'border', '1px solid blue');
-    this.renderer.setStyle(this.cvElement, 'width', '350px');
+    this.renderer.setStyle(this.cvElement, 'width', '210mm');
     // this.renderer.setStyle(this.cvElement, 'min-height', '500px');
     // this.renderer.setStyle(this.cvElement, 'height', 'auto');
-    this.renderer.setStyle(this.cvElement, 'margin-left', '-370px');
-    this.renderer.setStyle(this.cvElement, 'position', 'absolute');
+    this.renderer.setStyle(this.cvElement, 'margin-left', '000px');
 
     this.cvTemplate.innerHTML = this.template;
     // this.cvTemplate.classList.add('container');
@@ -86,11 +146,7 @@ export class ContentDirective implements OnInit {
                                   <div @pageContent class="page-content"></div>
                                 </div>
                                 
-                                <div @secondPage class="page" style="margin: 20px 0">
-                                  <div @pageContent class="page-content"></div>
-                                </div>
-
-                                <div @lastPage class="page" style="position: absolute; top: 1040px">
+                                <div @secondPage class="page" style="margin: 00px 0">
                                   <div @pageContent class="page-content"></div>
                                 </div>
                                 

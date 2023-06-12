@@ -116,11 +116,17 @@ export class Template {
 
         </div>
       </div>
-      <div id="last-page" class="page">
-        <div class="box"></div>
-      </div>
+
 
       <style>
+      *{
+
+
+        margin: 0; 
+        padding: 0;
+        box-sizing: border-box;
+        font-size:5mm;
+      }
 
       .page-content{
         // border: 10px solid yellow;
@@ -128,10 +134,10 @@ export class Template {
       }
 
       .page{
-        width: 350px;
-        max-height: 500px;
+        width: 210mm;
+        max-height: 297mm;
         // width: 350px;
-        height: 500px;
+        height: 297mm;
         border: 1px solid green
       }
       </style>

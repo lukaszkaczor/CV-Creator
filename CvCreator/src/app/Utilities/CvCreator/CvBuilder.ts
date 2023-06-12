@@ -8,7 +8,7 @@ import { ITemplateService } from './Interfaces/ITemplateService';
 export class CvBuilder {
   private template: HTMLElement;
   private templateBackup: HTMLElement;
-  private cvElement: HTMLElement;
+  public cvElement: HTMLElement;
   private pages: HTMLElement[] = [];
   private dataToInsert = [];
 
@@ -65,6 +65,8 @@ export class CvBuilder {
       this.addPageToCV(page);
       pageContent.appendChild(itemForNextPage);
     });
+
+    console.log(this.pages);
   }
 
   private prepareData(elements: HTMLElement[], data: any[]) {
