@@ -1,59 +1,21 @@
 export class Template {
-  //   public static htmlPattern = `
-
-  //     <div @firstPage id="first-page" class="page" >
-  //       <div @pageContent id="page-content" class="page-content">
-
-  //       <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
-
-  //       <div @list>
-  //         <div style="border:2px solid blue">
-  //           <div style="border:1px solid red; padding: 5px">
-  //           <span style="border:3px solid green">
-  //           <h1 @first></h1>
-  //           </span>
-  //           </div>
-  //           <h1 @second></h1>
-  //         </div>
-  //       </div>
-
-  //       <h1 @firstName> </h1>
-
-  //       </div>
-  //     </div>
-  //     <div id="middle-page" class="page">
-  //       <div @pageContent id="page-content" class="box">
-
-  //       </div>
-  //     </div>
-  //     <div id="last-page" class="page">
-  //       <div class="box"></div>
-  //     </div>
-
-  //     <style>
-
-  //     .page-content{
-  //       // border: 10px solid yellow;
-  //       // max-height: 100%
-  //     }
-
-  //     .page{
-  //       width: 350px;
-  //       max-height: 500px;
-  //       // width: 350px;
-  //       height: 500px;
-  //       border: 1px solid green
-  //     }
-  //     </style>
-  //  `;
   public static htmlPattern = `
 
       <div @firstPage id="first-page" class="page">
         <div @pageContent id="page-content" class="page-content">
 
+
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
         <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+        <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+        <h1> <span @firstName>lukasz</span> - <span @lastName></span> </h1>
+        <h2 style="color:green" @description></h2>
+        <h2 style="color:green" @description></h2>
+        <h2 style="color:green" @description></h2>
+        <h2 style="color:green" @description></h2>
+        <h2 style="color:green" @description></h2>
+        <h2 style="color:green" @description></h2>
         <h2 style="color:green" @description></h2>
         <h2 style="color:green" @description></h2>
             <h2 style="color:green" @description></h2>
@@ -120,8 +82,6 @@ export class Template {
 
       <style>
       *{
-
-
         margin: 0; 
         padding: 0;
         box-sizing: border-box;
@@ -130,7 +90,7 @@ export class Template {
 
       .page-content{
         // border: 10px solid yellow;
-        // max-height: 100%
+        // height: calc(1000px - 40mm);
       }
 
       .page{
@@ -138,7 +98,9 @@ export class Template {
         max-height: 297mm;
         // width: 350px;
         height: 297mm;
-        border: 1px solid green
+        border: 1px solid green;
+        padding: 20mm;
+
       }
       </style>
    `;

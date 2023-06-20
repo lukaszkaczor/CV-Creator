@@ -4,6 +4,7 @@ import { IElementDataManager } from './Interfaces/IElementDataManager';
 import { IElementService } from './Interfaces/IElementService';
 import { ITemplateEditor } from './Interfaces/ITemplateEditor';
 import { ITemplateService } from './Interfaces/ITemplateService';
+import { TemplateService } from './TemplateService';
 
 export class CvBuilder {
   private template: HTMLElement;
@@ -55,6 +56,10 @@ export class CvBuilder {
       const elementClone = this.templateService.createClone(element);
       pageContent.appendChild(elementClone);
 
+      let ss = new TemplateService();
+
+      let ww = ss.getPageContent(page);
+
       if (this.templateService.contentHeightLowerThanPageHeight(page)) return;
 
       const itemForNextPage = this.templateEditor.deleteReduntantDataFromPage(page, elementClone);
@@ -65,8 +70,6 @@ export class CvBuilder {
       this.addPageToCV(page);
       pageContent.appendChild(itemForNextPage);
     });
-
-    console.log(this.pages);
   }
 
   private prepareData(elements: HTMLElement[], data: any[]) {

@@ -54,6 +54,8 @@ export class ContentDirective implements OnInit {
   ngOnInit(): void {
     const cvTemplateBackup = this.initializeTemplateBox();
 
+    console.log(this.template);
+
     this.builder
       .setTemplate(this.cvTemplate)
       .setTemplateBackup(cvTemplateBackup)
@@ -61,36 +63,6 @@ export class ContentDirective implements OnInit {
       .setDataToInsert(this.dataToInsert)
       .build();
 
-    console.log(this.builder.cvElement);
-
-    // this.http
-    //   .post(
-    //     'https://localhost:7184/Test/',
-
-    //     {
-    //       body:
-    //         `<div style="border: 1px solid red; height: 297mm; width: 210mm"></div>` +
-    //         `       <style>
-    //         *{
-
-    //           margin: 0;
-    //           padding: 0;
-    //           box-sizing: border-box;
-    //           font-size:25px
-    //           }
-    //         </style>`,
-    //     },
-
-    //     { responseType: 'blob' }
-    //   )
-    //   .subscribe((data: any) => {
-    //     console.log(data);
-    //     var blob = new Blob([data]);
-    //     var link = document.createElement('a');
-    //     link.href = window.URL.createObjectURL(blob);
-    //     link.download = 'myFileName.pdf';
-    //     link.click();
-    //   });
     this.http
       .post(
         'https://localhost:7184/Test/',
@@ -100,24 +72,33 @@ export class ContentDirective implements OnInit {
             this.builder.cvElement.outerHTML +
             `       <style>
             *{
-
               margin: 0;
               padding: 0;
               box-sizing: border-box;
               font-size:5mm
               }
+
+      .page{
+        width: 210mm;
+        max-height: 297mm;
+        // width: 350px;
+        height: 297mm;
+        border: 1px solid green;
+        padding: 20mm;
+
+      }
             </style>`,
         },
 
         { responseType: 'blob' }
       )
       .subscribe((data: any) => {
-        console.log(data);
-        var blob = new Blob([data]);
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = 'myFileName.pdf';
-        link.click();
+        // console.log(data);
+        // var blob = new Blob([data]);
+        // var link = document.createElement('a');
+        // link.href = window.URL.createObjectURL(blob);
+        // link.download = 'myFileName.pdf';
+        // link.click();
       });
   }
 
@@ -125,28 +106,25 @@ export class ContentDirective implements OnInit {
     this.cvElement = this.createNewElement('div', '');
     this.cvTemplate = this.createNewElement('div', '');
     // el == template
-    this.renderer.setStyle(this.el.nativeElement, 'border', '1px solid red');
+    // this.renderer.setStyle(this.el.nativeElement, 'border', '1mm solid red');
     this.renderer.setStyle(this.el.nativeElement, 'width', '210mm');
     this.renderer.setStyle(this.el.nativeElement, 'min-height', '297mm');
     this.renderer.setStyle(this.el.nativeElement, 'height', 'auto');
-    this.renderer.setStyle(this.el.nativeElement, 'margin-left', '1000px');
-    this.renderer.setStyle(this.el.nativeElement, 'position', 'relative');
+    // this.renderer.setStyle(this.el.nativeElement, 'margin-left', '000px');
+    // this.renderer.setStyle(this.el.nativeElement, 'position', 'relative');
 
-    this.renderer.setStyle(this.cvElement, 'border', '1px solid blue');
     this.renderer.setStyle(this.cvElement, 'width', '210mm');
     // this.renderer.setStyle(this.cvElement, 'min-height', '500px');
     // this.renderer.setStyle(this.cvElement, 'height', 'auto');
-    this.renderer.setStyle(this.cvElement, 'margin-left', '000px');
+    // this.renderer.setStyle(this.cvElement, 'margin-left', '000px');
 
     this.cvTemplate.innerHTML = this.template;
-    // this.cvTemplate.classList.add('container');
-    // this.cvElement.classList.add('container');
     let cvTemplateBackup = this.createNewElement('div', '');
     cvTemplateBackup.innerHTML = `<div @firstPage class="page" >
                                   <div @pageContent class="page-content"></div>
                                 </div>
                                 
-                                <div @secondPage class="page" style="margin: 00px 0">
+                                <div @secondPage class="page">
                                   <div @pageContent class="page-content"></div>
                                 </div>
                                 

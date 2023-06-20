@@ -18,31 +18,33 @@ var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DatabaseContext>(x => x.UseSqlServer(connectionString));
 
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-// .AddJwtBearer(options =>
-// {
-//     options.TokenValidationParameters = new TokenValidationParameters
-//     {
-//         ValidateIssuer = true,
-//         ValidateAudience = true,
-//         ValidateLifetime = true,
-//         ValidateIssuerSigningKey = true,
-//         ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//         ValidAudience = builder.Configuration["Jwt:Audience"],
-//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-//     };
-// });
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+            )
+        };
+    });
 
 // For Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
-    options =>
-        {
-            options.SignIn.RequireConfirmedAccount = true;
-            options.SignIn.RequireConfirmedEmail = true;
-            options.Lockout.AllowedForNewUsers = false;
-            options.User.RequireUniqueEmail = true;
-        }
-)
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+        options.SignIn.RequireConfirmedEmail = true;
+        options.Lockout.AllowedForNewUsers = false;
+        options.User.RequireUniqueEmail = true;
+    })
     .AddEntityFrameworkStores<DatabaseContext>()
     .AddDefaultTokenProviders();
 
@@ -56,12 +58,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:4200/",
-                                "https://localhost:4200/");
-        });
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200/", "https://localhost:4200/");
+    });
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -71,11 +71,19 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddMvc();
 
-builder.Services.AddControllers()
-.AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-.AddFluentValidation(options => options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
-;
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson(
+        options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+                .Json
+                .ReferenceLoopHandling
+                .Ignore
+    )
+    .AddFluentValidation(
+        options => options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+    );
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -92,10 +100,11 @@ if (app.Environment.IsDevelopment())
 // app.UseCors();
 app.UseCors(options =>
 {
-    options.WithOrigins("http://localhost:4200/")
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowAnyOrigin();
+    options
+        .WithOrigins("http://localhost:4200/")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
 });
 
 // app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();

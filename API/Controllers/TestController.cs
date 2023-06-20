@@ -25,7 +25,6 @@ namespace API.Controllers
             // _context = context;
             // this._userManager = userManager;
             // _httpContextAccessor = httpContextAccessor;
-
         }
 
         // [HttpGet("Admins")]
@@ -49,81 +48,62 @@ namespace API.Controllers
         // [Authorize]
         public async Task<IActionResult> GetPublicDataAsync()
         {
+            var ss = new PdfGenerator();
 
-
-            using var browserFetcher = new BrowserFetcher();
-            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
-            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-            {
-                Headless = true
-            });
-            var page = await browser.NewPageAsync();
-            await page.SetContentAsync("""
-            <div style="height: 1100px; width: 850px; border: 1px solid red; margin: 0; padding: 0;"> 
+            var content = """
+            <div style="height: 1100px; width: 850px; border: 1px solid red; margin: 0; padding: 0; background: blue !important;"> 
             <h1>siema<h1>
             </div>
-            """);
-
             
-            await page.PdfAsync("test.pdf");
-            var wss = page.PdfStreamAsync();
+            <img src="https://i1.jbzd.com.pl/contents/2023/06/normal/3FTVV0oiIjEgMTDzPcpldvppGjoCzQUk.jpg" alt="">
 
-           
-          
+            <style>
+            html {
+             -webkit-print-color-adjust: exact;
+            }
+
+            </style>
+
+            """;
+            // await ss.Launch();
 
 
-            // var accessToken = Request.Headers[HeaderNames.Authorization];
+            var result = await ss.Create(content);
 
-            // var user = _httpContextAccessor.HttpContext.User.Identity.Name;
-            // var user = CurrentUser.GetCurrentUser(_httpContextAccessor);
-            var dt = DateTime.Now;
-            var dss = DateOnly.FromDateTime(dt);
-
-            // var ssd  =HttpContent.Current
-
-            // return Ok(wss.Result);
-            return File(wss.Result, "application/pdf", "FileDownloadName.pdf");
+            return File(result, "application/pdf", "FileDownloadName.pdf");
         }
-
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CvBody data)
+        public async Task<IActionResult> Post([FromBody] CvBody data)
         {
-             using var browserFetcher = new BrowserFetcher();
-            await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
-            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-            {
-                Headless = true
-            });
-            var page = await browser.NewPageAsync();
-// await page.SetViewportAsync(new ViewPortOptions
-// {
-//     Width = 850,
-//     Height = 1100
-// });
+            var generator = new PdfGenerator();
 
-            await page.SetContentAsync(data.body);
+            var result = await generator.Create(data.body);
 
+            return File(result, "application/pdf", "FileDownloadName.pdf");
+            // using var browserFetcher = new BrowserFetcher();
+            // await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+            // var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
+            // var page = await browser.NewPageAsync();
+            // // await page.SetViewportAsync(new ViewPortOptions
+            // // {
+            // //     Width = 850,
+            // //     Height = 1100
+            // // });
 
+            // await page.SetContentAsync(data.body);
 
-            
-            // await page.PdfAsync("test.pdf", new PdfOptions{
-            //     Format= PaperFormat.A4,
-            //     Height = 100,
-            //     Width = 50
-            // });
-            var wss = page.PdfStreamAsync( new PdfOptions{
+            // // await page.PdfAsync("test.pdf", new PdfOptions{
+            // //     Format= PaperFormat.A4,
+            // //     Height = 100,
+            // //     Width = 50
+            // // });
+            // var wss = page.PdfStreamAsync(new PdfOptions { Height = "297mm", Width = "210mm" });
 
-                Height = "297mm",
-                Width = "210mm"
-        });
+            // var dt = DateTime.Now;
+            // var dss = DateOnly.FromDateTime(dt);
 
-                       var dt = DateTime.Now;
-            var dss = DateOnly.FromDateTime(dt);
-
-            return File(wss.Result, "application/pdf", "FileDownloadName.pdf");
+            // return File(wss.Result, "application/pdf", "FileDownloadName.pdf");
         }
-
-
     }
 }

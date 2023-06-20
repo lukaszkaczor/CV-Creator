@@ -21,14 +21,26 @@ export class TemplateService implements ITemplateService {
     return item.cloneNode(true) as HTMLElement;
   }
 
+  getPaddingVaules(element: HTMLElement) {
+    const style = window.getComputedStyle(element);
+    return {
+      paddingTop: Math.round(parseFloat(style.paddingTop)),
+      paddingBottom: Math.round(parseFloat(style.paddingBottom)),
+    };
+  }
+
   contentHeightHigherThanPageHeight(page: HTMLElement) {
     const content = this.getPageContent(page);
-    return content.offsetHeight > page.offsetHeight;
+    const padding = this.getPaddingVaules(page);
+
+    return content.offsetHeight > page.offsetHeight - padding.paddingTop - padding.paddingBottom;
   }
 
   contentHeightLowerThanPageHeight(page: HTMLElement) {
     const content = this.getPageContent(page);
-    return content.offsetHeight < page.offsetHeight;
+    const padding = this.getPaddingVaules(page);
+
+    return content.offsetHeight < page.offsetHeight - padding.paddingTop - padding.paddingBottom;
   }
 
   private findElementWithAttribute(element: HTMLElement, attribute: string): HTMLElement {
