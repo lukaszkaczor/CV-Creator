@@ -10,6 +10,8 @@ public class PdfGenerator
 {
     public async Task<Stream> Create(string content)
     {
+        using var browserFetcher = new BrowserFetcher();
+        await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
         var page = await browser.NewPageAsync();
 

@@ -13,6 +13,7 @@ public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
     public DbSet<PersonalData> PersonalData { get; set; }
     public DbSet<CvAddress> CvAddresses { get; set; }
     public DbSet<ContactData> ContactData { get; set; }
+    public DbSet<CvTemplate> Templates { get; set; }
 
     public DatabaseContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
     {

@@ -1,6 +1,8 @@
+using Repository.Interfaces;
+
 namespace Repository.Models;
 
-public class CurriculumVitae
+public class CurriculumVitae : IIdentificator
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

@@ -4,7 +4,7 @@ using Repository.Interfaces;
 
 namespace Repository.Repositories;
 
-public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IIdentificator
 {
     protected readonly DbContext Context;
 
@@ -53,6 +53,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public void Update(Guid id, TEntity entity)
     {
         var entry = Context.Set<TEntity>().Find(id);
+        entity.Id = id;
         Context.Entry(entry).CurrentValues.SetValues(entity);
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.Net.Http.Headers;
 using Repository.DataContext;
 using Repository.Interfaces;
+using Repository.Models;
 using Repository.Repositories;
 
 namespace Repository;
@@ -12,6 +13,7 @@ public class UnitOfWork : IUnitOfWork
     public IPersonalDataRepository PersonalData { get; }
     public ICvAddressRepository CvAddresses { get; }
     public IContactDataRepository ContactData { get; }
+    public ICvTemplateRepository Templates { get;  }
 
     public UnitOfWork(DatabaseContext context)
     {
@@ -20,6 +22,7 @@ public class UnitOfWork : IUnitOfWork
         PersonalData = new PersonalDataRepository(_context);
         CvAddresses = new CvAddressRepository(_context);
         ContactData = new ContactDataRepository(_context);
+        Templates = new CvTemplateRepository(_context);
     }
 
     public async Task<int> Complete()

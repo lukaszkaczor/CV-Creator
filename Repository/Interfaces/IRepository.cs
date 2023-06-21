@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Interfaces;
 
-public interface IRepository<TEntity> where TEntity : class
+public interface IRepository<TEntity> where TEntity : class, IIdentificator
 {
     Task<TEntity> GetAsync(Guid id);
     Task<IEnumerable<TEntity>> GetAllAsync();

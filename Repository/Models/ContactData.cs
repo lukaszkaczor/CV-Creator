@@ -1,6 +1,8 @@
+using Repository.Interfaces;
+
 namespace Repository.Models;
 
-public class ContactData
+public class ContactData : IIdentificator
 {
     public Guid Id { get; set; }
     public string Email { get; set; }

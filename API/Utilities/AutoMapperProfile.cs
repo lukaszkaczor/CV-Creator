@@ -47,5 +47,12 @@ public class AutoMapperProfile : Profile
         CreateMap<ContactDataDTO, ContactData>()
         .ForMember(d => d.Id,
         opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id));
+
+        CreateMap<CvTemplate, CvTemplateDTO>()
+            .ForMember(d=>d.Name, s=>s.MapFrom(d=>d.Name)).ReverseMap();
+        CreateMap<CvTemplate, CvTemplateDTO>()
+            .ForMember(d=>d.HtmlContent, s=>s.MapFrom(d=>d.HtmlContent)).ReverseMap();
+        CreateMap<CvTemplate, CvTemplateDTO>()
+           .ForMember(d => d.Styles, s => s.MapFrom(d => d.Styles)).ReverseMap();
     }
 }

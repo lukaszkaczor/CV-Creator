@@ -1,6 +1,8 @@
+using Repository.Interfaces;
+
 namespace Repository.Models;
 
-public class CvAddress
+public class CvAddress : IIdentificator
 {
     public Guid Id { get; set; }
     public string Town { get; set; }

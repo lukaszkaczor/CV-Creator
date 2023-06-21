@@ -40,8 +40,8 @@ builder.Services
 builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
-        options.SignIn.RequireConfirmedAccount = true;
-        options.SignIn.RequireConfirmedEmail = true;
+        options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedEmail = false;
         options.Lockout.AllowedForNewUsers = false;
         options.User.RequireUniqueEmail = true;
     })
@@ -56,18 +56,12 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("http://localhost:4200/", "https://localhost:4200/");
-    });
-});
+builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.WithOrigins("http://localhost:4200/", "https://localhost:4200/")));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddMvc();
 
@@ -107,7 +101,7 @@ app.UseCors(options =>
         .AllowAnyOrigin();
 });
 
-// app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();
+//app.UseMiddleware<API.Utilities.ErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

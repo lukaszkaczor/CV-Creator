@@ -50,7 +50,7 @@ namespace API.Controllers
         {
             var ss = new PdfGenerator();
 
-            var content = """
+            const string content = """
             <div style="height: 1100px; width: 850px; border: 1px solid red; margin: 0; padding: 0; background: blue !important;"> 
             <h1>siema<h1>
             </div>
@@ -66,7 +66,6 @@ namespace API.Controllers
 
             """;
             // await ss.Launch();
-
 
             var result = await ss.Create(content);
 
