@@ -60,6 +60,8 @@ public class AuthController : ControllerBase
 
         foreach (var role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
 
+        claims.Add(new Claim(ClaimTypes.Role, "Siema"));
+
         var token = new JwtSecurityToken(
             _config["Jwt:Issuer"],
             _config["Jwt:Audience"],

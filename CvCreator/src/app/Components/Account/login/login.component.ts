@@ -27,8 +27,8 @@ export class LoginComponent
   ) {
     super(ss, builder);
     this.form = builder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      email: ['test@test.pl', [Validators.required, Validators.email]],
+      password: ['Test1234!', [Validators.required]],
     });
   }
 
