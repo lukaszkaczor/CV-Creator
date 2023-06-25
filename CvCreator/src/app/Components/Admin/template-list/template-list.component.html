@@ -1,0 +1,30 @@
+
+<div class="content">
+    <div class="content-header">
+        <div>
+            <h1 class="header-text">Szablony</h1>
+        </div>
+
+
+        
+    </div>
+
+    <div class="grid">
+        <div class="box" *ngFor="let template of templates">
+            <div class="info">
+                <h3 class="info-name">{{template.name}}</h3>
+                <h3 class="info-order">Numer w kolejce: 1</h3>
+                <h3 class="info-modify-date">Ostatnio modyfikowany 17/05/2023 16:30</h3>
+            </div>
+            <div class="buttons">
+                <button>Edytuj</button>
+                <button (click)="del(template.id)">Usuń</button>
+            </div>
+            <!-- <img src="https://www.free-cv-design.com/wp-content/uploads/CV_To_Print.jpg" alt=""> -->
+        </div>
+      
+     
+    </div>
+
+
+</div>

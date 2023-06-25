@@ -25,6 +25,10 @@ import { TemplateEditor } from './Utilities/CvCreator/TemplateEditor';
 import { CvBuilder } from './Utilities/CvCreator/CvBuilder';
 import { ElementService } from './Utilities/CvCreator/ElementService';
 import { HtmlElementMerger } from './Utilities/CvCreator/HtmlElementMerger';
+import { TemplatesListComponent } from './Components/Admin/templates-list/templates-list.component';
+import { AdminPanelComponent } from './Components/Admin/admin-panel/admin-panel.component';
+import { AdminSidebarComponent } from './Components/Admin/admin-sidebar/admin-sidebar.component';
+import { TemplateListComponent } from './Components/Admin/template-list/template-list.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -45,6 +49,10 @@ export function tokenGetter() {
     ContactDataComponent,
     CvContentComponent,
     ContentDirective,
+    TemplatesListComponent,
+    AdminPanelComponent,
+    AdminSidebarComponent,
+    TemplateListComponent,
   ],
   imports: [
     BrowserModule,

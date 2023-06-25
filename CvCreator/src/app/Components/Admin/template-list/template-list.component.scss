@@ -1,0 +1,106 @@
+
+.content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    // border: 1px solid red;
+
+    .content-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 10%;
+
+        margin:  40px;
+
+        .header-text{
+            font-size: 23px;
+        }
+
+        svg{
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    .grid{
+        margin: 0 40px;
+        grid-gap: 5rem;
+
+
+        display: grid;
+        grid-template-columns: repeat( auto-fill, minmax(400px, 1fr) );
+
+
+        
+    .box{
+            font-family: 'Lato', sans-serif;
+
+   
+        display:  grid;
+
+        grid-template: "info info image"
+                       "info info image"
+                       "buttons buttons image"
+        ;
+        background-color: whitesmoke;
+        border-radius: 30px;
+        padding: 4rem;
+
+        .info{
+            grid-area: info;
+
+            display: flex;
+            flex-direction: column;
+            // border: 1px solid red;
+            margin-right: 2rem;
+
+            .info-name{
+                font-size: 2rem;
+            }
+
+            .info-order{
+                margin: 1rem 0;
+                font-weight: 300;
+            }
+
+            .info-modify-date
+            {
+                font-weight: 300;
+            }
+        }
+
+        img{
+            grid-area: image;
+            border: 1px solid black;
+            margin: 0 auto;
+            height: 200px;
+        }
+
+        .buttons{
+            display: flex;
+            // justify-content: center;
+            align-items: end;
+            grid-area: buttons;
+            // border: 1px solid red;
+
+            button{
+                font-family: 'Lato', sans-serif;
+                padding: 1rem 2rem;
+                background: none;
+                border: none;
+                cursor: pointer;
+                margin-right: 1rem;
+                // border: 1px solid blue;
+                background: white;
+                border-radius: 1rem;
+            }
+
+        }
+    }
+    }
+
+}
+
+

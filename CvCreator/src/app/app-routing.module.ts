@@ -11,6 +11,9 @@ import { AppComponent } from './app.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Components/Account/login/login.component';
+import { TemplatesListComponent } from './Components/Admin/templates-list/templates-list.component';
+import { AdminPanelComponent } from './Components/Admin/admin-panel/admin-panel.component';
+import { TemplateListComponent } from './Components/Admin/template-list/template-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -26,6 +29,10 @@ const routes: Routes = [
     component: DocumentListComponent,
     canActivate: [AuthGuard],
   },
+  { path: "templates", component: TemplatesListComponent},
+  { path: "admin", component: AdminPanelComponent, canActivate: [AuthGuard], children: [
+    {path: "templates", component: TemplateListComponent},
+  ]},
 ];
 
 @NgModule({

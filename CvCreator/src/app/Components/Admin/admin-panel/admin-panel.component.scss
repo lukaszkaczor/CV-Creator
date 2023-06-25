@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+.panel{
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.content{
+    width: 100%;
+}
+// .side-menu{
+//     // border: 1px solid red;
+//     // flex-basis: 15vw;
+//     width: 15vw;
+//     min-width: 200px;
+//     height: 100vh;
+//     // width: 250px;
+//     border-right: 1px solid rgba(0,0,0,.1);
+//     // posi
+//     // position: fixed;
+//     position: sticky;
+//     top: 0;
+// }
+
+// .logo-box{
+
+//     // cursor: pointer;
+//     width: 100%;
+//     height: 10%;
+//     padding: 20px 0;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+
+//     .logo-content{
+//         cursor: pointer;
+//         display: flex;
+//         align-items: center;
+//         width: 65%;
+//     }
+
+//     img{
+//         width:40px;
+//         height: 40px;
+//         margin-right: 5px;
+//     }
+
+//     h1{
+//         font-size: 2.5rem;
+//     }
+// }
+
+// .menu{
+//     // border: 1px solid red;
+//     height: 90%;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+
+//     .menu-list{
+//         margin-top: 25px;
+//         display: flex;
+//         flex-direction: column;
+//         // align-items: center;
+//         // border: 1px solid blue;
+//         height: 100%;
+//         width: 65%;
+
+
+//         .list-item{
+//             width: 100%;
+//             display: flex;
+//             align-items: center;
+//             padding: 10px 0;
+//             margin-bottom: 10px;
+//             cursor: pointer;
+//             transition: .2s;
+
+//             opacity: 50%;
+
+//             // border: 1px solid green;
+
+//             img, svg{
+//                 // color: black;
+//                 width: 25px;
+//                 height: 25px;
+//                 margin-right: 10px;
+//             }
+
+//             .item-text{
+//                 font-size: 1.5rem;
+//                 font-weight: 400;
+//             }
+
+//         }
+
+//         .list-item:hover{
+//             opacity: 1;
+//         }
+
+//         .active{
+//             opacity: 1;
+//         }
+
+//         .menu-header{
+//             font-size: 1rem;
+//             opacity: 50%;
+//             margin-bottom: 10px;
+//         }
+//     }
+
+
+
+//     .reversed{
+//         flex-direction: column-reverse;
+//         margin-bottom: 2.5rem;
+//     }
+// }
+
+// .content{
+//     // margin-left: 15vw;
+// //   flex-basis: calc(100% - 250px);
+// width: 100%;
+// //   background-color: whitesmoke;
+
+// //   border: 1px solid red;
+
+//     .content-header{
+//         // padding: 20px 50px;
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: center;
+//         // border: 1px solid red;
+//         height: 10%;
+
+//         margin: 0 40px;
+
+//         .header-text{
+//             // margin-left: 40px;
+//             font-size: 23px;
+//             // font-weight: 700;
+//         }
+
+//         svg{
+//             width: 30px;
+//             height: 30px;
+//         }
+//     }
+
+//     .grid{
+//         // border: 1px solid red;
+//         margin: 0 40px;
+//         grid-gap: 5rem;
+
+
+//         display: grid;
+//         grid-template-columns: repeat( auto-fill, minmax(400px, 1fr) );
+
+//         // grid-template-columns: repeat(300px auto-fill);
+
+        
+//     .box{
+//             font-family: 'Lato', sans-serif;
+
+   
+//         display:  grid;
+
+//         grid-template: "info info image"
+//                        "info info image"
+//                        "buttons buttons image"
+//         ;
+//         background-color: whitesmoke;
+//         border-radius: 30px;
+//         padding: 4rem;
+
+//         .info{
+//             grid-area: info;
+
+//             display: flex;
+//             flex-direction: column;
+//             // border: 1px solid red;
+//             margin-right: 2rem;
+
+//             .info-name{
+//                 font-size: 2rem;
+//             }
+
+//             .info-order{
+//                 margin: 1rem 0;
+//                 font-weight: 300;
+//             }
+
+//             .info-modify-date
+//             {
+//                 font-weight: 300;
+//             }
+//         }
+
+//         img{
+//             grid-area: image;
+//             border: 1px solid black;
+//             margin: 0 auto;
+//             height: 200px;
+//         }
+
+//         .buttons{
+//             display: flex;
+//             // justify-content: center;
+//             align-items: end;
+//             grid-area: buttons;
+//             // border: 1px solid red;
+
+//             button{
+//                 font-family: 'Lato', sans-serif;
+//                 padding: 1rem 2rem;
+//                 background: none;
+//                 border: none;
+//                 cursor: pointer;
+//                 margin-right: 1rem;
+//                 // border: 1px solid blue;
+//                 background: white;
+//                 border-radius: 1rem;
+//             }
+
+//         }
+//     }
+//     }
+
+// }
+

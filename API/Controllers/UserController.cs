@@ -28,10 +28,9 @@ public class UserController : ControllerBase
     {
         var user = _mapper.Map<ApplicationUser>(data);
 
-        var token = await _userManager.CreateSecurityTokenAsync(user);
-        await _userManager.ConfirmEmailAsync(user, token.ToString());
+        var result = await _userManager.CreateAsync(user, data.Password);
 
-        return Ok(token);
+        return Ok(result);
     }
 
     [HttpPost("confirmemail")]

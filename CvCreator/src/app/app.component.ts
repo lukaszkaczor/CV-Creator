@@ -9,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'CvCreator';
 
+  admin = true;
+
   constructor(private http: HttpClient) {}
   ngOnInit(): void {
     // this.http.get('https://localhost:7184/test/public').subscribe((data) => {

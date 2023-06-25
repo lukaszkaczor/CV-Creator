@@ -1,5 +1,6 @@
 ﻿using API.Models.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using Repository.Models;
@@ -7,7 +8,7 @@ using Repository.Models;
 namespace API.Controllers;
 
 [ApiController]
-//[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 [Route("[controller]")]
 public class CvTemplateController : ControllerBase
 {
@@ -22,7 +23,6 @@ public class CvTemplateController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> Get() => Ok(await _context.Templates.GetAllAsync());
- 
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
