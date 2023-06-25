@@ -9,7 +9,11 @@ import { ICvTemplate } from 'src/app/Interfaces/ICvTemplate';
 })
 export class TemplateListComponent implements OnInit {
 
+  showModal = false;
+  bgrLeft = "translateX(0)";
+
   templates: ICvTemplate[] = [];
+
 
 
   constructor(private http: HttpClient) { }
@@ -21,20 +25,25 @@ export class TemplateListComponent implements OnInit {
     })
   }
 
-  del(id:string){
+  delete(id:string){
   
     this.http.delete("https://localhost:7184/CvTemplate/"+ id).subscribe(
-    val=>{ 
-      console.log("val");
-      console.log(val); },
+    response=>{ 
+      const template = this.templates.find(t => t.id === id);
+      const index = this.templates.indexOf(template as ICvTemplate);
+      if(index !== -1)
+       this.templates.splice(index, 1);
+      
+       },
     error=>{
-      console.log("error");
       console.log(error);
     },
-    ()=>{
-      console.log("complete");
-    }
+ 
     )
+  }
+
+  toggleModal(event: boolean){
+    this.showModal = event
   }
 
 }

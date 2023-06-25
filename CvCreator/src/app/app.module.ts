@@ -29,6 +29,7 @@ import { TemplatesListComponent } from './Components/Admin/templates-list/templa
 import { AdminPanelComponent } from './Components/Admin/admin-panel/admin-panel.component';
 import { AdminSidebarComponent } from './Components/Admin/admin-sidebar/admin-sidebar.component';
 import { TemplateListComponent } from './Components/Admin/template-list/template-list.component';
+import { ModalComponent } from './Components/Admin/modal/modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -53,6 +54,7 @@ export function tokenGetter() {
     AdminPanelComponent,
     AdminSidebarComponent,
     TemplateListComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

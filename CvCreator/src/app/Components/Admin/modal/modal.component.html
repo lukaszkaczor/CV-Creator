@@ -1,0 +1,16 @@
+<div class="modal">
+    <div class="modal-frame">
+        <h1 class="modal-header">{{ header }}</h1>
+        <div class="modal-scroll scrollbox">
+            <div class="modal-content">
+                <ng-content></ng-content>
+            </div>
+        </div>
+        <div class="button-box">
+            <div class="button-holder">
+                <button class="button-save">Zapisz</button>
+                <button class="button-cancel" (click)="hide($event)">Anuluj</button>
+            </div>
+        </div>
+    </div>
+</div>

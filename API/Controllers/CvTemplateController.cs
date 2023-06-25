@@ -8,7 +8,7 @@ using Repository.Models;
 namespace API.Controllers;
 
 [ApiController]
-[Authorize(Roles = "Admin")]
+// [Authorize(Roles = "Admin")]
 [Route("[controller]")]
 public class CvTemplateController : ControllerBase
 {
