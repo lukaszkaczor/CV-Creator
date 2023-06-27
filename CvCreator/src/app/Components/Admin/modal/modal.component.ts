@@ -5,17 +5,34 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit {
-
+export class ModalComponent{
   @Input() header: string;
-  @Output() close = new EventEmitter();
+  @Output() onSave = new EventEmitter();
+  @Output() onShow = new EventEmitter();
+  @Output() onHide = new EventEmitter();
+  @Output() onToggle = new EventEmitter();
+  visible = false;
 
-  
-  constructor() { }
-  ngOnInit(): void {
+
+  save(){
+    this.onSave.emit();
   }
 
-  hide(data:any){
-    this.close.emit(false);
+  show(){
+    this.visible = true;
+    this.onShow.emit(this.visible);
+    document.body.style.overflow = "hidden"
+  }
+
+  hide(){
+    this.visible = false;
+    this.onHide.emit(this.visible);
+    document.body.style.overflow = "auto"
+  }
+
+  toggle(){
+    this.visible = !this.visible;
+    this.onToggle.emit(this.visible);
+    this.visible ?  document.body.style.overflow = "hidden" :  document.body.style.overflow = "auto"
   }
 }

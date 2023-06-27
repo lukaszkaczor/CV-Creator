@@ -187,118 +187,7 @@ align-items: center;
 }
 
 
-.modal{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    backdrop-filter: blur(2px);
-    background-color:rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    &-frame{
-        // border: 1px solid red;
-        display: flex;
-        flex-direction: column;
-        background: white;
-        border-radius: 3rem;
-        width: 75%;
-        height: 75%;
-        // max-width: 1000px;
-        // overflow-y: auto;
-        padding: 2rem;
-        
-        .modal-scroll{
-            width: 100%;
-            height: 100%;
-            // padding: 20px;
-            // border: 2px solid blue;
-            overflow-y: auto;
-        }
-
-        .modal-header{
-            // position: sticky;
-            // top: 0;
-            // border: 1px solid red;
-            width: 100%;
-            // text-align: center;
-            font-weight: 700;
-            font-size: 3rem;
-            background: white;
-            padding:  50px 50px 20px 50px;
-        }
-
-        .modal-content{
-            width: 100%;
-            // height: 1000px;
-            // padding: 20px;
-            // border: 2px solid green;
-            // background: beige;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content:flex-start;
-
-            form{
-                display: flex;
-                flex-direction: column;
-                padding:  20px 50px;
-                // border: 1px solid orange;
-                width: 100%;
-
-                label{
-                    font-size: 2rem;
-                    margin-bottom: 1rem;
-                    cursor: pointer;
-                }
-            }
-
-            .input-box{
-                display: flex;
-                flex-direction: column;
-                // border: 1px solid red;
-                margin-bottom: 5rem;
-
-                .input{
-                    height: 20rem;
-                    max-width: 100%;
-                    border: none;
-                    background: rgba(0,0,0,  .05);
-                    border-radius: 2rem;
-                    outline: none;
-                    padding: 20px;
-                    // border: 2px solid blue;
-                    // width: 100;
-                }
-
-                .input-text{
-                    height: 2rem;
-                    width: 100%
-                    // border: 1px solid red;
-                }
-            }
-
-            .input-checkbox{
-                display: flex;
-                align-items: center;
-                padding: 0 0 30px 0;
-                // border: 1px solid red;
-
-                input{
-                    margin-right: 1rem;
-                }
-
-                label{
-                    margin: 0;
-                }
-            }
-        }
-    }
-}
 
 .add-button{
     // margin-top: 20px;
@@ -355,24 +244,7 @@ align-items: center;
     }
 }
 
-.scrollbox {
-    overflow: auto;
-    width: 200px;
-    max-height: 100%;
-    // margin: 50px auto;
-    background: /* Shadow covers */
-    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
-    radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
-    background: /* Shadow covers */
-    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
-    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
-    background-repeat: no-repeat;
-    background-color: white;
-    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-    /* Opera doesn't support this in the shorthand */
-    background-attachment: local, local, scroll, scroll;
-  }
-  //
+
 
 
   form{
@@ -386,6 +258,12 @@ align-items: center;
         font-size: 2rem;
         margin-bottom: 1rem;
         cursor: pointer;
+    }
+    .error-message
+    {
+        margin-top: .5rem;
+        font-size: 1.2rem;
+        color: red;
     }
 }
 

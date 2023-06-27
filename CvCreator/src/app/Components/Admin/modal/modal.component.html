@@ -1,4 +1,4 @@
-<div class="modal">
+<div class="modal" *ngIf="visible">
     <div class="modal-frame">
         <h1 class="modal-header">{{ header }}</h1>
         <div class="modal-scroll scrollbox">
@@ -8,8 +8,8 @@
         </div>
         <div class="button-box">
             <div class="button-holder">
-                <button class="button-save">Zapisz</button>
-                <button class="button-cancel" (click)="hide($event)">Anuluj</button>
+                <button class="button-save" (click)="save()">Zapisz</button>
+                <button class="button-cancel" (click)="toggle()">Anuluj</button>
             </div>
         </div>
     </div>

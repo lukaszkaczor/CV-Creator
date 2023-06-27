@@ -39,8 +39,8 @@ public class CvTemplateController : ControllerBase
     {
         var templateDTO = _mapper.Map<CvTemplate>(template);
 
-        await _context.Templates.AddAsync(templateDTO);
-        var result = await _context.Complete();
+        var result  = await _context.Templates.AddAsync(templateDTO);
+         await _context.Complete();
 
         return Ok(result);
     }

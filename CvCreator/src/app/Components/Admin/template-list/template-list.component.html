@@ -1,15 +1,11 @@
 
 <div class="content">
     <div class="content-header">
-
-            <h1 class="header-text">Szablony</h1>
-
-    
-        
+        <h1 class="header-text">Szablony</h1>  
     </div>
 
     <div class="options">
-        <svg (click)="toggleModal(true)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+        <svg (click)="modal.show(); action = 'Dodaj nowy szablon'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
           </svg>
@@ -30,89 +26,48 @@
     <div class="grid">
 
 
-        <div class="box" *ngFor="let template of templates">
+        <div class="box" *ngFor="let template of templates; let i = index">
             <div class="info">
                 <h3 class="info-name">{{template.name}}</h3>
                 <h3 class="info-order">Numer w kolejce: 1</h3>
                 <h3 class="info-modify-date">Ostatnio modyfikowany 17/05/2023 16:30</h3>
             </div>
             <div class="buttons">
-                <button>Edytuj</button>
+                <button (click)="fill(template.id); action='Edytuj szablon'">Edytuj</button>
                 <button (click)="delete(template.id)">Usuń</button>
             </div>
             <!-- <img src="https://www.free-cv-design.com/wp-content/uploads/CV_To_Print.jpg" alt=""> -->
         </div>
-      
-     
+
     </div>
-    
 </div>
 
 
 
-<app-modal header="Dodaj nowy szablon" *ngIf="showModal" (close)="toggleModal($event)">
-    <form>
-                   
+<app-modal [header]="action" (onShow)="resetForm()" (onSave)="save()">
+    <form [formGroup]="form">
+        <input type="hidden" name="id" id="id" formControlName="id" >
+
         <div class="input-box">
             <label for="name">Nazwa</label>
-            <input type="text" class="input input-text" name="name" id="name" >
+            <input type="text" class="input input-text" name="name" id="name" formControlName="name" >
+            <!-- <label class="error-message" for="name">An error ocured</label> -->
         </div>
        
         <div class="input-box">
             <label for="html">Html</label>
-            <textarea class="input" name="html" id="html" ></textarea>
+            <textarea class="input" name="html" id="html"  formControlName="htmlContent" ></textarea>
         </div>
+
         <div class="input-box">
             <label for="styles">Style</label>
-            <textarea class="input" name="styles" id="styles" ></textarea>
+            <textarea class="input" name="styles" id="styles"   formControlName="styles"></textarea>
         </div>
   
         <div class="input-checkbox">
             <input type="checkbox" name="active" id="active">
             <label for="active">Aktywny</label>
         </div>
-
     </form>
 </app-modal>
 
-<!-- <div class="modal" *ngIf="showModal">
-    <div class="modal-frame">
-        <h1 class="modal-header">Dodaj nowy szablon</h1>
-        <div class="modal-scroll scrollbox">
-            <div class="modal-content">
-                <form>
-                   
-                    <div class="input-box">
-                        <label for="name">Nazwa</label>
-                        <input type="text" class="input input-text" name="name" id="name" >
-                    </div>
-                   
-                    <div class="input-box">
-                        <label for="html">Html</label>
-                        <textarea class="input" name="html" id="html" ></textarea>
-                    </div>
-                    <div class="input-box">
-                        <label for="styles">Style</label>
-                        <textarea class="input" name="styles" id="styles" ></textarea>
-                    </div>
-              
-                    <div class="input-checkbox">
-                        <input type="checkbox" name="active" id="active">
-                        <label for="active">Aktywny</label>
-                    </div>
-
-                </form>
-
-
-            </div>
-            
-        </div>
-        <div class="button-box">
-            <div class="inner">
-
-                <button class="button-save">Zapisz</button>
-                <button class="button-cancel" (click)="toggleModal()">Anuluj</button>
-            </div>
-        </div>
-    </div>
-</div> -->
