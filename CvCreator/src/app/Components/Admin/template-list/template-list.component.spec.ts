@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TemplateListComponent } from './template-list.component';
+import { TemplateListComponent } from "./template-list.component";
 
-describe('TemplateListComponent', () => {
+describe("TemplateListComponent", () => {
   let component: TemplateListComponent;
   let fixture: ComponentFixture<TemplateListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TemplateListComponent ]
-    })
-    .compileComponents();
+      declarations: [TemplateListComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('TemplateListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

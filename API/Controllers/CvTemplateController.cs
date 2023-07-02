@@ -38,9 +38,10 @@ public class CvTemplateController : ControllerBase
     public async Task<IActionResult> Post([FromBody] CvTemplateDTO template)
     {
         var templateDTO = _mapper.Map<CvTemplate>(template);
+        templateDTO.ModifyDate = DateTime.Now;
 
         var result  = await _context.Templates.AddAsync(templateDTO);
-         await _context.Complete();
+        await _context.Complete();
 
         return Ok(result);
     }
@@ -52,10 +53,11 @@ public class CvTemplateController : ControllerBase
 
         if(template == null) return NotFound();
 
-        _context.Templates.Update(id, _mapper.Map<CvTemplate>(data));
+        var result = await _context.Templates.Update(id, _mapper.Map<CvTemplate>(data));
+        result.ModifyDate = DateTime.Now;
         await _context.Complete();
 
-        return Ok(template);
+        return Ok(result);
     }
 
     [HttpDelete("{id}")]

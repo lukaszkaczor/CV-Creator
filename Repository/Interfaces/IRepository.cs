@@ -15,7 +15,7 @@ public interface IRepository<TEntity> where TEntity : class, IIdentificator
     Task<TEntity> AddAsync(TEntity entity);
     Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities);
 
-    void Update(Guid id, TEntity entity);
+    Task<TEntity> Update(Guid id, TEntity entity);
 
     void Remove(TEntity entity);
     void RemoveRange(IEnumerable<TEntity> entities);

@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  selector: "app-modal",
+  templateUrl: "./modal.component.html",
+  styleUrls: ["./modal.component.scss"],
 })
-export class ModalComponent{
+export class ModalComponent {
   @Input() header: string;
   @Output() onSave = new EventEmitter();
   @Output() onShow = new EventEmitter();
@@ -13,26 +13,25 @@ export class ModalComponent{
   @Output() onToggle = new EventEmitter();
   visible = false;
 
-
-  save(){
+  save() {
     this.onSave.emit();
   }
 
-  show(){
+  show() {
     this.visible = true;
     this.onShow.emit(this.visible);
-    document.body.style.overflow = "hidden"
+    document.body.style.overflow = "hidden";
   }
 
-  hide(){
+  hide() {
     this.visible = false;
     this.onHide.emit(this.visible);
-    document.body.style.overflow = "auto"
+    document.body.style.overflow = "auto";
   }
 
-  toggle(){
+  toggle() {
     this.visible = !this.visible;
     this.onToggle.emit(this.visible);
-    this.visible ?  document.body.style.overflow = "hidden" :  document.body.style.overflow = "auto"
+    this.visible ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
   }
 }

@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
@@ -50,10 +51,12 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, I
         Context.Set<TEntity>().RemoveRange(entities);
     }
 
-    public void Update(Guid id, TEntity entity)
+    public async Task<TEntity> Update(Guid id, TEntity entity)
     {
-        var entry = Context.Set<TEntity>().Find(id);
+        var entry = await Context.Set<TEntity>().FindAsync(id);
         entity.Id = id;
         Context.Entry(entry).CurrentValues.SetValues(entity);
+
+        return entry;
     }
 }

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ModalComponent } from "./modal.component";
+import { HorizontalSelectComponent } from "./horizontal-select.component";
 
-describe("ModalComponent", () => {
-  let component: ModalComponent;
-  let fixture: ComponentFixture<ModalComponent>;
+describe("HorizontalSelectComponent", () => {
+  let component: HorizontalSelectComponent;
+  let fixture: ComponentFixture<HorizontalSelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ModalComponent],
+      declarations: [HorizontalSelectComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalComponent);
+    fixture = TestBed.createComponent(HorizontalSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

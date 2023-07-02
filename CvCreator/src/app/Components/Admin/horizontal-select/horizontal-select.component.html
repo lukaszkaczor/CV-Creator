@@ -1,0 +1,7 @@
+<div class="select">
+  <div class="option" (click)="setStatus(HorizontalSelectStatus.All)">Wszystkie</div>
+  <div class="option" (click)="setStatus(HorizontalSelectStatus.Active)">Aktywne</div>
+  <div class="option" (click)="setStatus(HorizontalSelectStatus.Inactive)">Nieaktywne</div>
+
+  <div class="background" [style.transform]="transform"></div>
+</div>

@@ -54,5 +54,7 @@ public class AutoMapperProfile : Profile
             .ForMember(d=>d.HtmlContent, s=>s.MapFrom(d=>d.HtmlContent)).ReverseMap();
         CreateMap<CvTemplate, CvTemplateDTO>()
            .ForMember(d => d.Styles, s => s.MapFrom(d => d.Styles)).ReverseMap();
+        CreateMap<CvTemplate, CvTemplateDTO>()
+           .ForMember(d => d.IsActive, s => s.MapFrom(d => d.IsActive)).ReverseMap();
     }
 }
