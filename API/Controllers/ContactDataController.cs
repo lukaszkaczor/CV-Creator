@@ -66,7 +66,7 @@ public class ContactDataController : ControllerBase
 
         var contactData = await _context.ContactData.GetUserContactData(userId, id.ToString());
         var updatedData = _mapper.Map<ContactData>(data);
-        _context.ContactData.Update(contactData.Id, updatedData);
+        await _context.ContactData.Update(contactData.Id, updatedData);
         await _context.Complete();
 
         var result = _mapper.Map<ContactDataDTO>(contactData);

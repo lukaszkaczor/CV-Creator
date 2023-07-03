@@ -70,7 +70,7 @@ public class CvAddressController : ControllerBase
 
         var cvAddress = await _context.CvAddresses.GetUsersCvAddress(userId, id.ToString());
         var updatedData = _mapper.Map<CvAddress>(data);
-        _context.CvAddresses.Update(cvAddress.Id, updatedData);
+        await _context.CvAddresses.Update(cvAddress.Id, updatedData);
         await _context.Complete();
 
         var result = _mapper.Map<CvAddressDTO>(cvAddress);

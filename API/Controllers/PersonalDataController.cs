@@ -66,7 +66,7 @@ public class PersonalDataController : ControllerBase
 
         var personalData = await _context.PersonalData.GetUsersPersonalData(userId, id.ToString());
         var updatedData = _mapper.Map<PersonalData>(data);
-        _context.PersonalData.Update(personalData.Id, updatedData);
+        await _context.PersonalData.Update(personalData.Id, updatedData);
         await _context.Complete();
 
         var result = _mapper.Map<PersonalDataDTO>(personalData);

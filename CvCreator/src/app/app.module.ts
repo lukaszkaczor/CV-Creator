@@ -31,6 +31,7 @@ import { AdminSidebarComponent } from "./Components/Admin/admin-sidebar/admin-si
 import { TemplateListComponent } from "./Components/Admin/template-list/template-list.component";
 import { ModalComponent } from "./Components/Admin/modal/modal.component";
 import { HorizontalSelectComponent } from "./Components/Admin/horizontal-select/horizontal-select.component";
+import { ToastComponent } from './Components/Admin/toast/toast.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -57,6 +58,7 @@ export function tokenGetter() {
     TemplateListComponent,
     ModalComponent,
     HorizontalSelectComponent,
+    ToastComponent,
   ],
   imports: [
     BrowserModule,
