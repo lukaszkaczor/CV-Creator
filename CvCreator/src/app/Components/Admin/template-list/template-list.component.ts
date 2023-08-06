@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { ICvTemplate } from "src/app/Interfaces/ICvTemplate";
 import { ModalComponent } from "../modal/modal.component";
 import { HorizontalSelectStatus } from "../horizontal-select/horizontal-select.component";
+import { AdminPanelComponent } from "../admin-panel/admin-panel.component";
 
 @Component({
   selector: "app-template-list",
@@ -19,7 +20,7 @@ export class TemplateListComponent implements OnInit {
   action: string;
   filter: HorizontalSelectStatus = HorizontalSelectStatus.All;
 
-  constructor(private http: HttpClient, private builder: FormBuilder) {
+  constructor(private http: HttpClient, private builder: FormBuilder, private adminPanel: AdminPanelComponent) {
     this.form = builder.group({
       id: [],
       name: ["", Validators.required],
@@ -44,15 +45,16 @@ export class TemplateListComponent implements OnInit {
   post() {
     this.http.post("https://localhost:7184/CvTemplate/", this.form.value).subscribe(
       (response) => {
-        // this.templates.push(response as ICvTemplate);
       },
       (error) => {
         console.log(error);
+        this.adminPanel.showToastMessage('Wystąpił błąd. Odśwież stronę.')
       },
       () => {
         this.getData();
         this.modal.hide();
         this.resetForm();
+
       }
     );
   }
@@ -62,12 +64,15 @@ export class TemplateListComponent implements OnInit {
       (response) => {
         console.log(response);
       },
-      (error) => console.log(error),
+      (error) => {
+        console.log(error);
+        this.adminPanel.showToastMessage('Wystąpił błąd. Odśwież stronę.')
+      },
       () => {
-        console.log("complete");
         this.modal.hide();
         this.resetForm();
         this.getData();
+        this.adminPanel.showToastMessage('Zapisano.')
       }
     );
   }
@@ -77,6 +82,7 @@ export class TemplateListComponent implements OnInit {
       (response) => {},
       (error) => {
         console.log(error);
+        this.adminPanel.showToastMessage('Wystąpił błąd. Odśwież stronę.')
         this.getData();
       },
       () => {
