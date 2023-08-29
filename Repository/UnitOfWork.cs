@@ -14,6 +14,8 @@ public class UnitOfWork : IUnitOfWork
     public ICvAddressRepository CvAddresses { get; }
     public IContactDataRepository ContactData { get; }
     public ICvTemplateRepository Templates { get;  }
+    public ICvWorkExperienceRepository WorkExperience {get;}
+
 
     public UnitOfWork(DatabaseContext context)
     {
@@ -23,6 +25,7 @@ public class UnitOfWork : IUnitOfWork
         CvAddresses = new CvAddressRepository(_context);
         ContactData = new ContactDataRepository(_context);
         Templates = new CvTemplateRepository(_context);
+        WorkExperience = new CvWorkExperienceRepository(_context);
     }
 
     public async Task<int> Complete()

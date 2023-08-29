@@ -33,6 +33,8 @@ import { ModalComponent } from "./Components/Admin/modal/modal.component";
 import { HorizontalSelectComponent } from "./Components/Admin/horizontal-select/horizontal-select.component";
 import { ToastComponent } from './Components/Admin/toast/toast.component';
 import { ToastBoxComponent } from './Components/Admin/toast-box/toast-box.component';
+import { ExperienceComponent } from './Components/Creator/experience/experience.component';
+import { WorkExperienceComponent } from './Components/Creator/work-experience/work-experience.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -61,6 +63,8 @@ export function tokenGetter() {
     HorizontalSelectComponent,
     ToastComponent,
     ToastBoxComponent,
+    ExperienceComponent,
+    WorkExperienceComponent,
   ],
   imports: [
     BrowserModule,

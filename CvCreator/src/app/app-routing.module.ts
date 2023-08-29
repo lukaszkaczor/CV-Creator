@@ -14,6 +14,7 @@ import { TemplatesListComponent } from './Components/Admin/templates-list/templa
 import { AdminPanelComponent } from './Components/Admin/admin-panel/admin-panel.component';
 import { TemplateListComponent } from './Components/Admin/template-list/template-list.component';
 import { AdminGuard } from './Guards/admin.guard';
+import { ExperienceComponent } from './Components/Creator/experience/experience.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'content', component: CvContentComponent },
   // { path: 'test', component: TestComponent, canActivate: [AuthGuard] },
   { path: 'basic/:id', component: BasicInfoComponent },
+  { path: 'experience/:id', component: ExperienceComponent },
   {
     path: 'documents',
     component: DocumentListComponent,

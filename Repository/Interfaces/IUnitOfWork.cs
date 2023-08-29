@@ -8,6 +8,7 @@ public interface IUnitOfWork : IDisposable
     ICvAddressRepository CvAddresses { get; }
     IContactDataRepository ContactData { get; }
     ICvTemplateRepository Templates { get; }
+    ICvWorkExperienceRepository WorkExperience { get; }
     Task<int> Complete();
     // void Update<T>(T entry, T values) where T : IIdentificator;
 }

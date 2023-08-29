@@ -1,0 +1,100 @@
+<h1>Experience</h1>
+<form [formGroup]="form">
+  <div class="input-group">
+    <label for="name" class="input-group__label">Name</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="name"
+      id="name"
+      autofocus
+      formControlName="name"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="companyName" class="input-group__label">companyName</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="companyName"
+      id="companyName"
+      autofocus
+      formControlName="companyName"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="city" class="input-group__label">city</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="city"
+      id="city"
+      autofocus
+      formControlName="city"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="startDate" class="input-group__label">startDate</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="date"
+      name="startDate"
+      id="startDate"
+      autofocus
+      formControlName="startDate"
+    />
+  </div>
+ 
+
+  <div class="input-group">
+    <label for="endDate" class="input-group__label">endDate</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="date"
+      name="endDate"
+      id="endDate"
+      autofocus
+      formControlName="endDate"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="stillEmployed" class="input-group__label">stillEmployed</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="checkbox"
+      name="stillEmployed"
+      id="stillEmployed"
+      autofocus
+      formControlName="stillEmployed"
+    />
+  </div>
+
+
+  <div class="input-group">
+    <label for="description" class="input-group__label">description</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="description"
+      id="description"
+      autofocus
+      formControlName="description"
+    />
+  </div>
+
+  <input type="hidden" formControlName="curriculumVitaeId" />
+  <input type="hidden" formControlName="id" />
+
+  <button type="submit" class="button" (click)="submit()">send/save</button>
+</form>
