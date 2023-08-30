@@ -15,7 +15,7 @@ extends FormManager<WorkExperience>
 implements OnInit, OnChanges {
 
   @Input() curriculumVitaeId: string;
-  @Input() experience: WorkExperience;
+  @Input() experience: WorkExperience[];
 
   constructor(service: CvExperienceService ,builder: FormBuilder) {
     super(service, builder)
@@ -47,7 +47,9 @@ implements OnInit, OnChanges {
 
 
   ngOnChanges() {
+    console.log(this.experience)
+
     if (!this.experience) return;
-    this.initFormData(this.experience);
+    // this.initFormData(this.experience);
   }
 }

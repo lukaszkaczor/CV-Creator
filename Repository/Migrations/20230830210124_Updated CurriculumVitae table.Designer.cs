@@ -12,8 +12,8 @@ using Repository.DataContext;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230830202135_Add Education table")]
-    partial class AddEducationtable
+    [Migration("20230830210124_Updated CurriculumVitae table")]
+    partial class UpdatedCurriculumVitaetable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -465,12 +465,18 @@ namespace Repository.Migrations
                         .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(246)
+                        .HasColumnType("nvarchar(246)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SchoolName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Specialization")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
@@ -674,7 +680,7 @@ namespace Repository.Migrations
             modelBuilder.Entity("Repository.Models.CvEducation", b =>
                 {
                     b.HasOne("Repository.Models.CurriculumVitae", "CurriculumVitae")
-                        .WithMany()
+                        .WithMany("Education")
                         .HasForeignKey("CurriculumVitaeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -685,7 +691,7 @@ namespace Repository.Migrations
             modelBuilder.Entity("Repository.Models.CvWorkExperience", b =>
                 {
                     b.HasOne("Repository.Models.CurriculumVitae", "CurriculumVitae")
-                        .WithMany()
+                        .WithMany("WorkExperience")
                         .HasForeignKey("CurriculumVitaeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -710,7 +716,11 @@ namespace Repository.Migrations
 
                     b.Navigation("CvAddress");
 
+                    b.Navigation("Education");
+
                     b.Navigation("PersonalData");
+
+                    b.Navigation("WorkExperience");
                 });
 #pragma warning restore 612, 618
         }

@@ -21,7 +21,16 @@ public class CvEducationTypeConfiguration : IEntityTypeConfiguration<CvEducation
         .HasMaxLength(64);
 
         builder
+        .Property(d => d.Specialization)
+        .IsRequired()
+        .HasMaxLength(64);
+
+        builder
         .Property(d => d.StartDate)
         .IsRequired();
+
+        builder
+        .Property(d => d.Description)
+        .HasMaxLength(246);
     }
 }

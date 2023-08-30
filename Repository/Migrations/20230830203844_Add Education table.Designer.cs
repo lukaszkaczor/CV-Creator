@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository.DataContext;
 
@@ -11,9 +12,10 @@ using Repository.DataContext;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230830203844_Add Education table")]
+    partial class AddEducationtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -678,7 +680,7 @@ namespace Repository.Migrations
             modelBuilder.Entity("Repository.Models.CvEducation", b =>
                 {
                     b.HasOne("Repository.Models.CurriculumVitae", "CurriculumVitae")
-                        .WithMany("Education")
+                        .WithMany()
                         .HasForeignKey("CurriculumVitaeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -689,7 +691,7 @@ namespace Repository.Migrations
             modelBuilder.Entity("Repository.Models.CvWorkExperience", b =>
                 {
                     b.HasOne("Repository.Models.CurriculumVitae", "CurriculumVitae")
-                        .WithMany("WorkExperience")
+                        .WithMany()
                         .HasForeignKey("CurriculumVitaeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -714,11 +716,7 @@ namespace Repository.Migrations
 
                     b.Navigation("CvAddress");
 
-                    b.Navigation("Education");
-
                     b.Navigation("PersonalData");
-
-                    b.Navigation("WorkExperience");
                 });
 #pragma warning restore 612, 618
         }

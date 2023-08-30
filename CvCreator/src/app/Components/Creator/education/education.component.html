@@ -1,7 +1,7 @@
 <h1>Education</h1>
 <form [formGroup]="form">
   <div class="input-group">
-    <label for="schoolName" class="input-group__label">degree</label>
+    <label for="degree" class="input-group__label">degree</label>
     <!-- <div class="input-group__input-box"> -->
     <input
       class="input-group__input"
@@ -86,3 +86,5 @@
 
   <button type="submit" class="button" (click)="submit()">send/save</button>
 </form>
+
+<h1 *ngFor="let item of education">{{ item.degree}}</h1>

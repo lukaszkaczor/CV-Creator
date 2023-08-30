@@ -14,7 +14,7 @@ extends FormManager<Education>
 implements OnInit, OnChanges {
 
   @Input() curriculumVitaeId: string;
-  @Input() education: Education;
+  @Input() education: Education[];
 
   constructor(service: EducationService, builder: FormBuilder) {
     super(service, builder);
@@ -25,6 +25,7 @@ implements OnInit, OnChanges {
     this.initializeForm({
       id: [''],
       schoolName: [''],
+      degree: [''],
       specialization: [''],
       startDate: [''],
       endDate: [''],
@@ -36,6 +37,6 @@ implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.education) return;
-    this.initFormData(this.education);
+    // this.initFormData(this.education);
   }
 }

@@ -16,10 +16,11 @@ namespace Repository.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Degree = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     SchoolName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Specialization = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StillStudying = table.Column<bool>(type: "bit", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(246)", maxLength: 246, nullable: true),
                     CurriculumVitaeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

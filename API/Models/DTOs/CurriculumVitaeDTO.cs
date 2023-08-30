@@ -9,4 +9,6 @@ public class CurriculumVitaeDTO
     public PersonalDataDTO PersonalData { get; set; }
     public CvAddressDTO CvAddress { get; set; }
     public ContactDataDTO ContactData { get; set; }
+    public IEnumerable<CvWorkExperienceDTO> WorkExperience { get; set; }
+    public IEnumerable<CvEducationDTO> Education { get; set; }
 }
