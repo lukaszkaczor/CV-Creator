@@ -1,0 +1,88 @@
+<h1>Education</h1>
+<form [formGroup]="form">
+  <div class="input-group">
+    <label for="schoolName" class="input-group__label">degree</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="degree"
+      id="degree"
+      autofocus
+      formControlName="degree"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="schoolName" class="input-group__label">schoolName</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="schoolName"
+      id="schoolName"
+      autofocus
+      formControlName="schoolName"
+    />
+  </div>
+
+
+  <div class="input-group">
+    <label for="startDate" class="input-group__label">startDate</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="date"
+      name="startDate"
+      id="startDate"
+      autofocus
+      formControlName="startDate"
+    />
+  </div>
+ 
+
+  <div class="input-group">
+    <label for="endDate" class="input-group__label">endDate</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="date"
+      name="endDate"
+      id="endDate"
+      autofocus
+      formControlName="endDate"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="stillStudying" class="input-group__label">stillStudying</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="checkbox"
+      name="stillStudying"
+      id="stillStudying"
+      autofocus
+      formControlName="stillStudying"
+    />
+  </div>
+
+
+  <div class="input-group">
+    <label for="description" class="input-group__label">description</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="description"
+      id="description"
+      autofocus
+      formControlName="description"
+    />
+  </div>
+
+  <input type="hidden" formControlName="curriculumVitaeId" />
+  <input type="hidden" formControlName="id" />
+
+  <button type="submit" class="button" (click)="submit()">send/save</button>
+</form>

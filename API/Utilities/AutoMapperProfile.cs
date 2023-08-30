@@ -61,5 +61,10 @@ public class AutoMapperProfile : Profile
         CreateMap<CvWorkExperienceDTO, CvWorkExperience>()
         .ForMember(d => d.Id,
         opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id)).ReverseMap();
+
+
+        CreateMap<CvEducationDTO, CvEducation>()
+        .ForMember(d => d.Id,
+        opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id)).ReverseMap();
     }
 }
