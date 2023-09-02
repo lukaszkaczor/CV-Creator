@@ -45,5 +45,10 @@ public class CurriculumVitaeTypeConfiguration : IEntityTypeConfiguration<Curricu
         .HasMany<CvEducation>(d=>d.Education)
         .WithOne(d=>d.CurriculumVitae)
         .HasForeignKey(d=>d.CurriculumVitaeId);
+       
+        builder
+        .HasMany<Language>(d=>d.Languages)
+        .WithOne(d=>d.CurriculumVitae)
+        .HasForeignKey(d=>d.CurriculumVitaeId);
     }
 }

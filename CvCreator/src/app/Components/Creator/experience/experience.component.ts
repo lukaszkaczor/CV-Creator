@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Address } from 'src/app/Models/Address';
 import { ContactData } from 'src/app/Models/ContactData';
 import { Education } from 'src/app/Models/Education';
+import { Language } from 'src/app/Models/Language';
 import { PersonalData } from 'src/app/Models/PersonalData';
 import { WorkExperience } from 'src/app/Models/WorkExperience';
 import { CurriculumVitaeService } from 'src/app/Services/curriculum-vitae.service';
@@ -25,8 +26,9 @@ export class ExperienceComponent implements OnInit {
   contactData: ContactData;
   experience: WorkExperience[];
   education: Education[];
+  languages: Language[];
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.route.params.subscribe((params) => {
       this.curriculumVitaeId = params['id'];
     });
@@ -41,12 +43,9 @@ export class ExperienceComponent implements OnInit {
         this.contactData = data.contactData as ContactData;
         this.experience = data.workExperience as WorkExperience[];
         this.education = data.education  as Education[];
+        this.languages = data.languages as Language[]
 
-        let dd: WorkExperience[] = [];
-        dd =  data.workExperience as WorkExperience[];
-
-        console.log(dd)
-        console.log(data.workExperience)
+        console.log(data)
       },
       error: (err) => {
         this.router.navigate(['/404']);

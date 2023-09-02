@@ -11,4 +11,5 @@ public class CurriculumVitaeDTO
     public ContactDataDTO ContactData { get; set; }
     public IEnumerable<CvWorkExperienceDTO> WorkExperience { get; set; }
     public IEnumerable<CvEducationDTO> Education { get; set; }
+    public IEnumerable<CvLanguageDTO> Languages { get; set; }
 }

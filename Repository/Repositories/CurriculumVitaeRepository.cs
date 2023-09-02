@@ -26,6 +26,7 @@ public class CurriculumVitaeRepository : Repository<CurriculumVitae>, ICurriculu
         .Include(d => d.ContactData)
         .Include(d=>d.WorkExperience)
         .Include(d => d.Education)
+        .Include(d=>d.Languages)
         .Where(d => d.ApplicationUserId == userId)
         .FirstOrDefaultAsync(d => d.Id == Guid.Parse(cvId));
     }

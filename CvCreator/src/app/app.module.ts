@@ -36,6 +36,7 @@ import { ToastBoxComponent } from './Components/Admin/toast-box/toast-box.compon
 import { ExperienceComponent } from './Components/Creator/experience/experience.component';
 import { WorkExperienceComponent } from './Components/Creator/work-experience/work-experience.component';
 import { EducationComponent } from './Components/Creator/education/education.component';
+import { LanguageFormComponent } from './Components/Creator/language-form/language-form.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -67,6 +68,7 @@ export function tokenGetter() {
     ExperienceComponent,
     WorkExperienceComponent,
     EducationComponent,
+    LanguageFormComponent,
   ],
   imports: [
     BrowserModule,

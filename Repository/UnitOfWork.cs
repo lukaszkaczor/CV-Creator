@@ -16,7 +16,7 @@ public class UnitOfWork : IUnitOfWork
     public ICvTemplateRepository Templates { get;  }
     public ICvWorkExperienceRepository WorkExperience {get;}
     public ICvEducationRepository Education { get; }
-
+    public ILanguageRepository Languages {get;}
 
     public UnitOfWork(DatabaseContext context)
     {
@@ -28,6 +28,7 @@ public class UnitOfWork : IUnitOfWork
         Templates = new CvTemplateRepository(_context);
         WorkExperience = new CvWorkExperienceRepository(_context);
         Education = new CvEducationRepository(_context);
+        Languages = new LanguageRepository(_context);
     }
 
     public async Task<int> Complete()

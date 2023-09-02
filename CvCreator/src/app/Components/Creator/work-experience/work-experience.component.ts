@@ -47,8 +47,6 @@ implements OnInit, OnChanges {
 
 
   ngOnChanges() {
-    console.log(this.experience)
-
     if (!this.experience) return;
     // this.initFormData(this.experience);
   }

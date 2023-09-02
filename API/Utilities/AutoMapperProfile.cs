@@ -66,5 +66,9 @@ public class AutoMapperProfile : Profile
         CreateMap<CvEducationDTO, CvEducation>()
         .ForMember(d => d.Id,
         opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id)).ReverseMap();
+
+        CreateMap<CvLanguageDTO, Language>()
+        .ForMember(d => d.Id,
+        opt => opt.ConvertUsing(new StringToGuidConverter(), src => src.Id)).ReverseMap();
     }
 }

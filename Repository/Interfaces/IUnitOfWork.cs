@@ -10,6 +10,7 @@ public interface IUnitOfWork : IDisposable
     ICvTemplateRepository Templates { get; }
     ICvWorkExperienceRepository WorkExperience { get; }
     ICvEducationRepository Education{ get; }
+    ILanguageRepository Languages { get; }
 
     Task<int> Complete();
     // void Update<T>(T entry, T values) where T : IIdentificator;

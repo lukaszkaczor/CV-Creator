@@ -18,6 +18,7 @@ public class CurriculumVitae : IIdentificator
 
     public IEnumerable<CvWorkExperience> WorkExperience { get; set; }
     public IEnumerable<CvEducation> Education { get; set; }
+    public IEnumerable<Language> Languages { get; set; }
 
     // public Guid PersonalDataId { get; set; }
 }

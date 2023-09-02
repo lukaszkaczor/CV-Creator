@@ -1,0 +1,35 @@
+<h1>Language</h1>
+<form [formGroup]="form">
+  <div class="input-group">
+    <label for="languageName" class="input-group__label">languageName</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="languageName"
+      id="languageName"
+      autofocus
+      formControlName="languageName"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="level" class="input-group__label">level</label>
+    <!-- <div class="input-group__input-box"> -->
+    <input
+      class="input-group__input"
+      type="text"
+      name="level"
+      id="level"
+      autofocus
+      formControlName="level"
+    />
+  </div>
+
+  <input type="hidden" formControlName="curriculumVitaeId" />
+  <input type="hidden" formControlName="id" />
+
+  <button type="submit" class="button" (click)="submit()">send/save</button>
+</form>
+
+<h1 *ngFor="let item of languages">{{ item.languageName}}</h1>

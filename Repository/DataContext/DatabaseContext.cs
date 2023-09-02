@@ -16,6 +16,7 @@ public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
     public DbSet<CvTemplate> Templates { get; set; }
     public DbSet<CvWorkExperience> WorkExperience { get; set; }
     public DbSet<CvEducation> Education { get; set; }
+    public DbSet<Language> Languages { get; set; }
 
     public DatabaseContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
     {
@@ -31,6 +32,7 @@ public class DatabaseContext : ApiAuthorizationDbContext<ApplicationUser>
         builder.ApplyConfiguration(new ContactDataTypeConfiguration());
         builder.ApplyConfiguration(new CvWorkExperienceTypeConfiguration());
         builder.ApplyConfiguration(new CvEducationTypeConfiguration());
+        builder.ApplyConfiguration(new LanguageTypeConfiguration());
     }
 
     // public static OptionsBuild Options = new OptionsBuild();
