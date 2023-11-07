@@ -1,11 +1,7 @@
-<button (click)="toggle()" style="position: absolute; top: 0; left: 0">
-  toggle errors
-</button>
-
 <form action="" class="form" autocomplete="off" [formGroup]="form">
-  <h1 class="form__header">login</h1>
+  <h1 class="form__header">Logowanie</h1>
   <div class="input-group">
-    <label for="email" class="input-group__label">email</label>
+    <label for="email" class="input-group__label">Email</label>
     <!-- <div class="input-group__input-box"> -->
     <input
       class="input-group__input"
@@ -16,7 +12,7 @@
       autofocus
       formControlName="email"
     />
-    <!-- </div> -->
+
     <div
       class="input-group__errors"
       *ngIf="
@@ -29,13 +25,13 @@
       </p>
 
       <p class="error" *ngIf="email.touched && email.errors['email'] == true">
-        Email musi mieć format example@email.com
+        Email musi mieć format "example@email.com"
       </p>
     </div>
   </div>
 
   <div class="input-group">
-    <label for="password" class="input-group__label">password</label>
+    <label for="password" class="input-group__label">Hasło</label>
     <!-- <div class="input-group__input-box"> -->
     <input
       class="input-group__input"
@@ -59,6 +55,92 @@
       </p>
     </div>
     <!-- </div> -->
+  </div>
+
+  <div class="input-group flex_direction--row flex-align--center">
+    <input
+      class="input-group__input--checkbox"
+      type="checkbox"
+      name="rememberPassword"
+      id="rememberPassword"
+    />
+    <label class="input-group__label--checkbox" for="rememberPassword"
+      >Zapamiętaj mnie
+    </label>
+  </div>
+
+  <button type="submit" class="button" (click)="login()">login</button>
+
+  <div class="link-group">
+    <p class="link-group__option">
+      Nie pamiętasz hasła? <a href="#" class="link-group__link">Kliknij tutaj</a> aby je zresetować
+    </p>
+    <p class="link-group__option">
+      Nie masz konta? <a routerLink="/register" class="link-group__link">Zarejestruj się!</a>
+    </p>
+  </div>
+</form>
+
+
+
+<!-- 
+<form action="" class="form" autocomplete="off" [formGroup]="form">
+  <h1 class="form__header">login</h1>
+  <div class="input-group">
+    <label for="email" class="input-group__label">email</label>
+
+    <input
+      class="input-group__input"
+      type="email"
+      name="email"
+      id="email"
+      placeholder="email@example.com"
+      autofocus
+      formControlName="email"
+    />
+  
+    <div
+      class="input-group__errors"
+      *ngIf="
+        (email.touched && email.invalid && email.errors) ||
+        (formSubmitted && email.errors)
+      "
+    >
+      <p class="error" *ngIf="email.errors['required']">
+        Email nie może być pusty
+      </p>
+
+      <p class="error" *ngIf="email.touched && email.errors['email'] == true">
+        Email musi mieć format example@email.com
+      </p>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="password" class="input-group__label">password</label>
+
+    <input
+      class="input-group__input"
+      type="password"
+      name="password"
+      id="password"
+      placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+      autocomplete="on"
+      formControlName="password"
+    />
+
+    <div
+      class="input-group__errors"
+      *ngIf="
+        (password.touched && password.invalid && password.errors) ||
+        (formSubmitted && password.errors)
+      "
+    >
+      <p class="error" *ngIf="password.errors['required']">
+        Hasło nie moze być puste
+      </p>
+    </div>
+
   </div>
 
   <div class="input-group flex_direction--row flex-align--center">
@@ -108,4 +190,4 @@
       reset.
     </p>
   </div>
-</form>
+</form> -->

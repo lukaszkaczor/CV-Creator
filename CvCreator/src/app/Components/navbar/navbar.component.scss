@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+nav{
+    height: 75px;
+    font-family: 'Lato', sans-serif;
+
+    .nav-content{
+        margin: 0 auto;
+        width: 90%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.logo-box{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .logo-image{
+        width: 50px;
+        height: 50px;
+    }
+
+    .logo-text{
+        margin-left: 10px;
+        font-size: 25px;
+        letter-spacing: 4px;
+    }
+}
+
+.nav-menu{
+    display: flex;
+    align-items: center;
+    // border: 1px solid red;
+    height: 100%;
+
+    .menu-option{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        height: 100%;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 500;
+    }
+}
+
+
+// X-Small devices (portrait phones, less than 576px)
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { 
+    nav{
+        .nav-content{
+            width: 75%;
+        }
+    }
+ }
+
+// X-Large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }
+
+// XX-Large devices (larger desktops, 1400px and up)
+@media (min-width: 1400px) {  }

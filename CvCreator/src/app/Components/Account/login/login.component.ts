@@ -1,9 +1,6 @@
-import { CurriculumVitaeService } from './../../../Services/curriculum-vitae.service';
-import { CurriculumVitae } from 'src/app/Models/CurriculumVitae';
 import { AuthService } from './../../../Services/auth.service';
 import { LoginCreditentials } from './../../../Models/LoginCreditentials';
 import { FormManager } from './../../../Utilities/FormManager';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent
-  extends FormManager<CurriculumVitae>
+  extends FormManager<LoginCreditentials>
   implements OnInit
 {
   visible = false;
@@ -22,10 +19,9 @@ export class LoginComponent
     private auth: AuthService,
     private builder: FormBuilder,
     private router: Router,
-    private http: HttpClient,
-    private ss: CurriculumVitaeService
+    private authService: AuthService
   ) {
-    super(ss, builder);
+    super(authService, builder);
     this.form = builder.group({
       email: ['test@test.pl', [Validators.required, Validators.email]],
       password: ['Test1234!', [Validators.required]],
@@ -44,7 +40,11 @@ export class LoginComponent
       password: this.password.value,
     };
 
-    if (!this.form.valid) return;
+    if (!this.form.valid)
+    {
+      console.log("SS")
+      return;
+    } 
 
     this.auth.authorize(creditentials).subscribe({
       next: (response) => {

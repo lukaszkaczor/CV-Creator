@@ -1,0 +1,13 @@
+<nav>
+    <div class="nav-content">
+        <div class="logo-box" [routerLink]="['/']">
+            <img class="logo-image" src="../../../../assets/Icons/logo.png" alt="">
+            <h1 class="logo-text">creator.</h1>
+        </div>
+
+        <div class="nav-menu">
+            <div class="menu-option" *ngIf="service.isLoggedIn()" (click)="logout()">Wyloguj</div>
+            <div class="menu-option" *ngIf="!service.isLoggedIn()" routerLink="/login">Zaloguj</div>
+        </div>
+    </div>
+</nav>
