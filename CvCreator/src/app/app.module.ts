@@ -38,6 +38,7 @@ import { WorkExperienceComponent } from './Components/Creator/work-experience/wo
 import { EducationComponent } from './Components/Creator/education/education.component';
 import { LanguageFormComponent } from './Components/Creator/language-form/language-form.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -77,6 +78,7 @@ export function tokenGetter() {
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

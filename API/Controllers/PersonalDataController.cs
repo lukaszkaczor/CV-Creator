@@ -51,8 +51,8 @@ public class PersonalDataController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] PersonalDataDTO data)
     {
-        var personalDataa = _mapper.Map<PersonalData>(data);
-        var result = await _context.PersonalData.AddAsync(personalDataa);
+        var personalData = _mapper.Map<PersonalData>(data);
+        var result = await _context.PersonalData.AddAsync(personalData);
         await _context.Complete();
 
         var response = _mapper.Map<PersonalDataDTO>(result);
@@ -62,6 +62,7 @@ public class PersonalDataController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, PersonalDataDTO data)
     {
+                               Task.Delay(3000).Wait();
         var userId = CurrentUser.GetCurrentUser(_httpContextAccessor);
 
         var personalData = await _context.PersonalData.GetUsersPersonalData(userId, id.ToString());

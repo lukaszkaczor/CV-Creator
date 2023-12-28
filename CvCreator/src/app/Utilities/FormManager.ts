@@ -56,6 +56,7 @@ export class FormManager<T> {
 
       case DataStatus.ServerError:
         console.log('server error');
+        this._responseStatus = StatusCode.InternalServerError;
         break;
 
       default:

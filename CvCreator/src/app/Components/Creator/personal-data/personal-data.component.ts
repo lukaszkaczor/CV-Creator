@@ -3,11 +3,36 @@ import { PersonalData } from './../../../Models/PersonalData';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormManager } from './../../../Utilities/FormManager';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  // ...
+} from '@angular/animations';
 
 @Component({
   selector: 'personal-data',
   templateUrl: './personal-data.component.html',
   styleUrls: ['./personal-data.component.scss'],
+  animations: [
+    trigger('openClose', [
+      // ...
+      state('waitingForAction', style({
+        opacity: 1,
+      })),
+      state('waitingForResponse', style({
+        opacity: 0,
+      })),
+      transition('waitingForAction => waitingForResponse', [
+        animate('.3s')
+      ]),
+      transition('waitingForResponse => waitingForAction', [
+        animate('1s')
+      ]),
+    ]),
+  ]
 })
 export class PersonalDataComponent
   extends FormManager<PersonalData>
@@ -18,6 +43,12 @@ export class PersonalDataComponent
 
   constructor(dataService: PersonalDataService, builder: FormBuilder) {
     super(dataService, builder);
+  }
+
+  isOpen = true;
+
+  toggle() {
+    this.isOpen = !this.isOpen;
   }
 
   ngOnInit(): void {

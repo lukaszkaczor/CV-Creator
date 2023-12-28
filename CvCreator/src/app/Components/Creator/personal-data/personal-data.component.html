@@ -1,9 +1,11 @@
-<!-- <form> -->
+
+<h1 class="section-header">Dane personalne</h1>
+
 <form [formGroup]="form">
   <div class="input-group">
-    <label for="firstName" class="input-group__label">firstName</label>
-    <!-- <div class="input-group__input-box"> -->
+    <label for="firstName" class="input-group__label">Imię</label>
     <input
+      [class.error]="firstName.touched && firstName.errors"
       class="input-group__input"
       type="firstName"
       name="firstName"
@@ -11,23 +13,36 @@
       autofocus
       formControlName="firstName"
     />
+
+    <div class="error-list" *ngIf="firstName.touched">
+      <p class="input-error" *ngIf="firstName.touched && firstName.hasError('required')">Pole wymagane.</p>
+      <p class="input-error" *ngIf="firstName.touched && firstName.hasError('minlength')">Minimalna długość 2 znaki.</p>
+      <p class="input-error" *ngIf="firstName.touched && firstName.hasError('maxlength')">Maksymalna długość 32 znaki.</p>
+    </div>
   </div>
+
+
   <div class="input-group">
-    <label for="lastName" class="input-group__label">lastName</label>
-    <!-- <div class="input-group__input-box"> -->
+    <label for="lastName" class="input-group__label">Nazwisko</label>
     <input
+    [class.error]="lastName.touched && lastName.errors"
       class="input-group__input"
       type="lastName"
       name="lastName"
       id="lastName"
-      autofocus
       formControlName="lastName"
     />
+
+    <div class="error-list" *ngIf="lastName.touched">
+      <p class="input-error" *ngIf="lastName.touched && lastName.hasError('required')">Pole wymagane.</p>
+      <p class="input-error" *ngIf="lastName.touched && lastName.hasError('minlength')">Minimalna długość 2 znaki.</p>
+      <p class="input-error" *ngIf="lastName.touched && lastName.hasError('maxlength')">Maksymalna długość 32 znaki.</p>
+    </div>
   </div>
   <div class="input-group">
-    <label for="lastName" class="input-group__label">birthday</label>
-    <!-- <div class="input-group__input-box"> -->
+    <label for="birthday" class="input-group__label">Data urodzenia</label>
     <input
+      [class.error]="birthday.touched && birthday.errors"
       class="input-group__input"
       type="date"
       name="birthday"
@@ -35,10 +50,34 @@
       autofocus
       formControlName="birthday"
     />
+
+    <div class="error-list" *ngIf="birthday.touched">
+      <p class="input-error" *ngIf="birthday.touched && birthday.hasError('required')">Pole wymagane.</p>
+    </div>
   </div>
 
   <input type="hidden" formControlName="curriculumVitaeId" />
   <input type="hidden" formControlName="id" />
 
-  <button type="submit" class="button" (click)="submit()">send/save</button>
+  <div class="input-group">
+    <label for=""></label>
+    <button type="submit" class="button" (click)="submit()">
+      
+      
+      
+      
+      <span   [@openClose]="!formSubmitted ? 'waitingForAction' : 'waitingForResponse'">Zapisz</span>
+      
+      <span  [@openClose]="formSubmitted ? 'waitingForAction' : 'waitingForResponse'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+      </svg></span>
+    </button>
+    <!-- <button type="submit" class="button" (click)="submit()"><span *ngIf="!formSubmitted">Zapisz</span><span *ngIf="formSubmitted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+      </svg></span>
+    </button> -->
+
+  </div>
 </form>
