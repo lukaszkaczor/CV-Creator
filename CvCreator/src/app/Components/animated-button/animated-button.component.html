@@ -1,0 +1,26 @@
+<button type="submit" class="button" (click)="onClick()">
+      
+    <!-- czekanie na klik -->
+    <span   [@openClose]="status == 1 ? 'open' : 'close'">Zapisz</span>
+    
+    <!-- czekanie na odpowiedź serwera -->
+    <span  [@openClose]="status == 2  ? 'open' : 'close'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+      <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+    </svg></span>
+
+    <!-- odpowiedź pozytywna -->
+    <span  [@openClose]="status == 3 ? 'open' : 'close'">ok</span>
+
+    <!-- odpowiedź negatywna / brak odpowiedzi -->
+    <span  [@openClose]="status == 4  ? 'open' : 'close'">error</span>
+</button>
+
+
+<div class="box">
+    <button (click)="pushDataToQueue(1)">1</button>
+    <button (click)="pushDataToQueue(2)">2</button>
+    <button (click)="pushDataToQueue(3)">3</button>
+    <button (click)="pushDataToQueue(4)">4</button>
+    <button (click)="statusQueue()">4q</button>
+</div>

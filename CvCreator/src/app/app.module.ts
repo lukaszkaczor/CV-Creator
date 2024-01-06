@@ -39,6 +39,7 @@ import { EducationComponent } from './Components/Creator/education/education.com
 import { LanguageFormComponent } from './Components/Creator/language-form/language-form.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AnimatedButtonComponent } from './Components/animated-button/animated-button.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -72,6 +73,7 @@ export function tokenGetter() {
     EducationComponent,
     LanguageFormComponent,
     NavbarComponent,
+    AnimatedButtonComponent,
   ],
   imports: [
     BrowserModule,

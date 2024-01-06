@@ -62,7 +62,7 @@ public class PersonalDataController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, PersonalDataDTO data)
     {
-                               Task.Delay(3000).Wait();
+                            //    Task.Delay(3000).Wait();
         var userId = CurrentUser.GetCurrentUser(_httpContextAccessor);
 
         var personalData = await _context.PersonalData.GetUsersPersonalData(userId, id.ToString());

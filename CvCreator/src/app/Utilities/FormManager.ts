@@ -5,6 +5,7 @@ import { Identity } from './../Interfaces/Identity';
 import { DataStatus } from './DataStatus';
 import { Endpoint } from '../Interfaces/Endpoint';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormStatus } from './FormStatus';
 
 export class FormManager<T> {
   private _form: FormGroup;
@@ -13,6 +14,7 @@ export class FormManager<T> {
   private _itemIdentifier: string;
   private _responseStatus: StatusCode;
   public formSubmitted = false;
+  public formStatus = FormStatus.WaitingForAction;
 
   constructor(dataManager: Endpoint<T>, private _formBuilder: FormBuilder) {
     this._dataManager = dataManager;
@@ -35,19 +37,36 @@ export class FormManager<T> {
 
   public async submit() {
     this.formSubmitted = true;
+    this.formStatus = FormStatus.WaitingForResponse;
 
-    if (!this.formIsValid()) return;
+    if (!this.formIsValid()) 
+    {
+      // this.formStatus = FormStatus.NegativeResponse;
+      return;
+    };
 
     await this.runDataAction();
     this.setDataStatus();
+    // this.formStatus = 3;
 
-    if (this._responseStatus == StatusCode.Ok) this.formSubmitted = false;
+    // if (this._responseStatus == StatusCode.Ok) 
+    this.formSubmitted = false;
+    // this.formStatus = FormStatus.WaitingForResponse;
   }
 
   private async runDataAction() {
     switch (this._dataStatus) {
       case DataStatus.Exists:
         this._responseStatus = await this.updateData();
+
+        // console.log('sddd', this._responseStatus);
+
+        // // if(this._responseStatus == StatusCode.BadRequest)
+        // this.formStatus = FormStatus.NegativeResponse;
+
+        // console.log(this.formStatus, this.formSubmitted);
+        
+
         break;
 
       case DataStatus.DoesntExists:
@@ -69,10 +88,12 @@ export class FormManager<T> {
     switch (this._responseStatus) {
       case StatusCode.Ok:
         this._dataStatus = DataStatus.Exists;
+        this.formStatus = FormStatus.PositiveResponse;
         break;
 
       default:
         console.log('An error ocurred: ' + this._responseStatus);
+        this.formStatus = FormStatus.NegativeResponse;
         break;
     }
   }
@@ -121,5 +142,9 @@ export class FormManager<T> {
   }
   set cvId(val) {
     this.cvId?.setValue(val);
+  }
+
+  get responseStatus(): StatusCode{
+    return this._responseStatus;
   }
 }

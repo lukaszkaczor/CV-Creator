@@ -19,16 +19,16 @@ import {
   animations: [
     trigger('openClose', [
       // ...
-      state('waitingForAction', style({
+      state('open', style({
         opacity: 1,
       })),
-      state('waitingForResponse', style({
+      state('close', style({
         opacity: 0,
       })),
-      transition('waitingForAction => waitingForResponse', [
-        animate('.3s')
+      transition('open => close', [
+        animate('1s')
       ]),
-      transition('waitingForResponse => waitingForAction', [
+      transition('close => open', [
         animate('1s')
       ]),
     ]),
@@ -59,8 +59,8 @@ export class PersonalDataComponent
       firstName: [
         '',
         [
-          Validators.required,
-          Validators.minLength(2),
+          // Validators.required,
+          // Validators.minLength(2),
           Validators.maxLength(32),
         ],
       ],
