@@ -58,19 +58,10 @@ export class FormManager<T> {
     switch (this._dataStatus) {
       case DataStatus.Exists:
         this._responseStatus = await this.updateData();
-
-        // console.log('sddd', this._responseStatus);
-
-        // // if(this._responseStatus == StatusCode.BadRequest)
-        // this.formStatus = FormStatus.NegativeResponse;
-
-        // console.log(this.formStatus, this.formSubmitted);
-        
-
         break;
 
       case DataStatus.DoesntExists:
-        this._responseStatus = await this.createAndSetValuesToForm();
+        this._responseStatus = await this.postDataAndUpdateForm();
         break;
 
       case DataStatus.ServerError:
@@ -96,12 +87,18 @@ export class FormManager<T> {
         this.formStatus = FormStatus.NegativeResponse;
         break;
     }
+
+    setTimeout(() => {
+      this.formStatus = FormStatus.WaitingForAction;
+    }, 2000);
   }
 
-  private createAndSetValuesToForm(): Promise<any> {
+  // private createAndSetValuesToForm(): Promise<any> {
+  private postDataAndUpdateForm(): Promise<any> {
     return new Promise<any>((resolve, rejects) => {
       this._dataManager.post(this.form.value).subscribe({
         next: (data) => {
+          console.log(data);
           this._itemIdentifier = this.getItemIdentifier(data);
           this._form.setValue(data as any);
           resolve(StatusCode.Ok);

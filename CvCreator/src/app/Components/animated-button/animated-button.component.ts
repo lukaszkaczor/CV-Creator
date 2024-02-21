@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   trigger,
   state,
@@ -21,10 +21,10 @@ import { FormStatus } from 'src/app/Utilities/FormStatus';
         opacity: 0,
       })),
       transition('open => close', [
-        animate('1s')
+        animate('.3s')
       ]),
       transition('close => open', [
-        animate('.3s')
+        animate('1s')
       ]),
     ]),
   ]
@@ -32,12 +32,22 @@ import { FormStatus } from 'src/app/Utilities/FormStatus';
 export class AnimatedButtonComponent implements OnInit {
   @Output() myClick = new EventEmitter();
   queue: number[] = [];
-  status = FormStatus.WaitingForAction;
+  @Input() status = FormStatus.WaitingForAction;
 
   constructor() { }
 
   statusQueue(){
-  
+    // console.log("ddsa")
+    // console.log(this.status);
+
+    // if(this.status == 3 || this.status == 4)
+    // {
+    //   setTimeout(() => {
+    //     this.status = FormStatus.WaitingForResponse;
+    //   }, 2000);
+
+    //   console.log(this.status);
+    // }
   }
 
   private delay(ms: number = 2000) {

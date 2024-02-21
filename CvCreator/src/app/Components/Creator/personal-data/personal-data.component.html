@@ -59,43 +59,9 @@
   <input type="hidden" formControlName="curriculumVitaeId" />
   <input type="hidden" formControlName="id" />
 
+
   <div class="input-group">
-    <label for=""></label>
-    <!-- <app-animated-button (myClick)="submit()"></app-animated-button> -->
-    <button type="submit" class="button" (click)="submit()"> 
-      
-      <!-- czekanie na klik -->
-     <span   [@openClose]="!formSubmitted ? 'open' : 'close'">Zapisz</span>
-      
-      <!-- czekanie na odpowiedź serwera -->
-       <span  [@openClose]="formSubmitted ? 'open' : 'close'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
-      </svg></span> 
-
-      <!-- odpowiedź pozytywna -->
-      <span  [@openClose]="formStatus == 3 ? 'open' : 'close'">gites</span> 
-
-      <!-- odpowiedź negatywna / brak odpowiedzi -->
-       <span  [@openClose]="formStatus == 4 ? 'open' : 'close'">brak essy</span> 
-
-
-      <!-- <span   [@openClose]="!formSubmitted ? 'waitingForAction' : 'waitingForResponse'">Zapisz</span>
-      
-      <span  [@openClose]="formSubmitted ? 'waitingForAction' : 'waitingForResponse'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
-      </svg></span>
-
-      <span  [@openClose]="formSubmitted && responseStatus == 200 ? 'waitingForAction' : 'waitingForResponse'">
-        bagno
-      </span>  -->
-    </button>
-    <!-- <button type="submit" class="button" (click)="submit()"><span *ngIf="!formSubmitted">Zapisz</span><span *ngIf="formSubmitted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
-      </svg></span>
-    </button> -->
-
+    <app-animated-button (myClick)="submit()" [status]="formStatus"></app-animated-button>
   </div>
+
 </form>

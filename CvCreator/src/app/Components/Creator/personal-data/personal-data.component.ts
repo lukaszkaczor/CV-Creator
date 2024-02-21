@@ -3,36 +3,12 @@ import { PersonalData } from './../../../Models/PersonalData';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormManager } from './../../../Utilities/FormManager';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  // ...
-} from '@angular/animations';
+
 
 @Component({
   selector: 'personal-data',
   templateUrl: './personal-data.component.html',
   styleUrls: ['./personal-data.component.scss'],
-  animations: [
-    trigger('openClose', [
-      // ...
-      state('open', style({
-        opacity: 1,
-      })),
-      state('close', style({
-        opacity: 0,
-      })),
-      transition('open => close', [
-        animate('1s')
-      ]),
-      transition('close => open', [
-        animate('1s')
-      ]),
-    ]),
-  ]
 })
 export class PersonalDataComponent
   extends FormManager<PersonalData>
@@ -52,15 +28,13 @@ export class PersonalDataComponent
   }
 
   ngOnInit(): void {
-    // console.log(this.form);
-    // this.cvId.setValue(this.curriculumVitaeId);
     this.initializeForm({
       id: [''],
       firstName: [
         '',
         [
-          // Validators.required,
-          // Validators.minLength(2),
+          Validators.required,
+          Validators.minLength(2),
           Validators.maxLength(32),
         ],
       ],

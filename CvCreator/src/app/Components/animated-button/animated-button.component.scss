@@ -5,18 +5,9 @@ $primary: rgb(25, 121, 231);
 $background: rgba(0,0,0,0.04);
 $font: 'Roboto', sans-serif;
 
-.box{
-    margin: 30px 50px;
-    width: 100px;
-
-    button{
-        margin: 10px;
-    }
-}
-
 button{
     position: relative;
-    width: 100%;
+    width: 90vw;
     height: 3rem;
     padding: .9rem 1.5rem;
     border-radius: $border-radius;
@@ -28,9 +19,16 @@ button{
     letter-spacing: 0.05rem;
     transition: .3s;
     cursor: pointer;
-
+    
     &:hover{
         background: rgb(23, 103, 196)
+    }
+
+    span{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform:translateY(-50%) translateX(-50%);
     }
 
     svg{
@@ -42,6 +40,16 @@ button{
         height: 1.5rem;
 
         transform:translateY(-50%) translateX(-50%);
+        animation: fadeIn 1s 1;
+    }
+
+    .spinning{
         animation: fadeIn 1s 1, spin 2s infinite;
     }
 }
+
+@media (min-width: 992px) { 
+    button{
+        width: 20rem;
+    }
+ }
