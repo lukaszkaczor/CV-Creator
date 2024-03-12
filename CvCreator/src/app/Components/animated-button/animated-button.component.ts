@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import {
   trigger,
   state,
@@ -24,80 +24,28 @@ import { FormStatus } from 'src/app/Utilities/FormStatus';
         animate('.3s')
       ]),
       transition('close => open', [
-        animate('1s')
+        animate('.3s')
       ]),
     ]),
   ]
 })
-export class AnimatedButtonComponent implements OnInit {
+export class AnimatedButtonComponent implements OnChanges {
   @Output() myClick = new EventEmitter();
-  queue: number[] = [];
   @Input() status = FormStatus.WaitingForAction;
+  private timeout: number = 2000;
 
-  constructor() { }
+  ngOnChanges(changes: any) {
+    const currentFormStatus = changes["status"].currentValue;
 
-  statusQueue(){
-    // console.log("ddsa")
-    // console.log(this.status);
-
-    // if(this.status == 3 || this.status == 4)
-    // {
-    //   setTimeout(() => {
-    //     this.status = FormStatus.WaitingForResponse;
-    //   }, 2000);
-
-    //   console.log(this.status);
-    // }
-  }
-
-  private delay(ms: number = 2000) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-  }
-  // statusQueue(){
-  //   // this.queueIsEmpty() ? this.setDefaultStatus() : this.setFirstItemInQueueAsStatus();
-    
-  //   // !this.queueIsEmpty() ? this.setFirstItemInQueueAsStatus() : ; 
-  //   if(!this.queueIsEmpty()) this.setFirstItemInQueueAsStatus();
-
-  //   const timeout = setTimeout(()=>{
-  //     console.log("Queue:" + this.queue)
-
-  //     if(this.queueIsEmpty())
-  //     {
-  //       console.log("clear timeout")
-  //       clearTimeout(timeout);
-  //       this.setDefaultStatus();
-  //       return;
-  //     }
-
-  //     this.queue.shift();
-  //     this.statusQueue();
-
-  //   }, 2000)
-  // }
-
-  ngOnInit(): void {
+    if(currentFormStatus == FormStatus.PositiveResponse || currentFormStatus == FormStatus.NegativeResponse)
+      setTimeout(() => this.setDefaultFormStatus(), this.timeout);
   }
 
   onClick(){
     this.myClick.emit();
-    this.statusQueue();
   }
 
-  pushDataToQueue(status:number)
-  {
-    this.queue.push(status);
-  }
-
-  private queueIsEmpty(){
-    return this.queue.length <= 0;
-  }
-
-  private setFirstItemInQueueAsStatus(){
-    this.status = this.queue[0];
-  }
-
-  private setDefaultStatus(){
+  private setDefaultFormStatus(){
     this.status = FormStatus.WaitingForAction;
   }
 }

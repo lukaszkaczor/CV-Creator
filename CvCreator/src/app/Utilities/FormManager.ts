@@ -87,10 +87,6 @@ export class FormManager<T> {
         this.formStatus = FormStatus.NegativeResponse;
         break;
     }
-
-    setTimeout(() => {
-      this.formStatus = FormStatus.WaitingForAction;
-    }, 2000);
   }
 
   // private createAndSetValuesToForm(): Promise<any> {
