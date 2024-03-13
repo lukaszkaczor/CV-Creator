@@ -1,32 +1,54 @@
-<!-- <form> -->
-<h1>Contact data</h1>
+
+<h1 class="section-header">Dane kontaktowe</h1>
+
 <form [formGroup]="form">
+
+  
   <div class="input-group">
-    <label for="towm" class="input-group__label">email</label>
-    <!-- <div class="input-group__input-box"> -->
+    <label for="email" class="input-group__label">Email</label>
     <input
+    [class.error]="email.touched && email.errors"
       class="input-group__input"
       type="email"
       name="email"
       id="email"
-      autofocus
       formControlName="email"
     />
+
+    <div class="error-list" *ngIf="email.touched">
+      <p class="input-error" *ngIf="email.touched && email.hasError('required')">Pole wymagane.</p>
+      <p class="input-error" *ngIf="email.touched && email.hasError('email')">Email nieprawidłowy.</p>
+      <p class="input-error" *ngIf="phoneNumber.touched && phoneNumber.hasError('maxlength')">Maksymalna długość 32 znaki.</p>
+    </div>
   </div>
+
   <div class="input-group">
-    <label for="phoneNumber" class="input-group__label">phoneNumber</label>
-    <!-- <div class="input-group__input-box"> -->
+    <label for="phoneNumber" class="input-group__label">Numer telefonu</label>
     <input
+      [class.error]="phoneNumber.touched && phoneNumber.errors"
       class="input-group__input"
-      type="text"
+      type="phoneNumber"
       name="phoneNumber"
       id="phoneNumber"
+      autofocus
       formControlName="phoneNumber"
     />
+
+    <div class="error-list" *ngIf="phoneNumber.touched">
+      <p class="input-error" *ngIf="phoneNumber.touched && phoneNumber.hasError('required')">Pole wymagane.</p>
+      <p class="input-error" *ngIf="phoneNumber.touched && phoneNumber.hasError('minlength')">Minimalna długość 2 znaki.</p>
+      <p class="input-error" *ngIf="phoneNumber.touched && phoneNumber.hasError('maxlength')">Maksymalna długość 32 znaki.</p>
+    </div>
   </div>
+
+
 
   <input type="hidden" formControlName="curriculumVitaeId" />
   <input type="hidden" formControlName="id" />
 
-  <button type="submit" class="button" (click)="submit()">send/save</button>
+
+  <div class="input-group">
+    <app-animated-button (myClick)="submit()" [status]="formStatus"></app-animated-button>
+  </div>
+
 </form>

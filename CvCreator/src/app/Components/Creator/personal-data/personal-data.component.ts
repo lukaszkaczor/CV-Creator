@@ -8,7 +8,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 @Component({
   selector: 'personal-data',
   templateUrl: './personal-data.component.html',
-  styleUrls: ['./personal-data.component.scss'],
+  styleUrls: ['../../../../Styles/forms.scss'],
 })
 export class PersonalDataComponent
   extends FormManager<PersonalData>

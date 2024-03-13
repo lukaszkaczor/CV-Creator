@@ -1,57 +1,87 @@
-<!-- <form> -->
-<h1>Address</h1>
+
+<h1 class="section-header">Adres</h1>
+
 <form [formGroup]="form">
+
+  
   <div class="input-group">
-    <label for="towm" class="input-group__label">town</label>
-    <!-- <div class="input-group__input-box"> -->
+    <label for="zipCode" class="input-group__label">Kod pocztowy</label>
     <input
+    [class.error]="zipCode.touched && zipCode.errors"
       class="input-group__input"
-      type="text"
+      type="zipCode"
+      name="zipCode"
+      id="zipCode"
+      formControlName="zipCode"
+    />
+
+    <div class="error-list" *ngIf="zipCode.touched">
+      <p class="input-error" *ngIf="zipCode.touched && zipCode.hasError('required')">Pole wymagane.</p>
+      <p class="input-error" *ngIf="zipCode.touched && zipCode.hasError('minlength')">Minimalna długość 2 znaki.</p>
+      <p class="input-error" *ngIf="zipCode.touched && zipCode.hasError('maxlength')">Maksymalna długość 6 znaków.</p>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="town" class="input-group__label">Miejscowość</label>
+    <input
+      [class.error]="town.touched && town.errors"
+      class="input-group__input"
+      type="town"
       name="town"
       id="town"
       autofocus
       formControlName="town"
     />
+
+    <div class="error-list" *ngIf="town.touched">
+      <p class="input-error" *ngIf="town.touched && town.hasError('required')">Pole wymagane.</p>
+      <p class="input-error" *ngIf="town.touched && town.hasError('minlength')">Minimalna długość 2 znaki.</p>
+      <p class="input-error" *ngIf="town.touched && town.hasError('maxlength')">Maksymalna długość 32 znaki.</p>
+    </div>
   </div>
+
+
   <div class="input-group">
-    <label for="lastName" class="input-group__label">zipCode</label>
-    <!-- <div class="input-group__input-box"> -->
+    <label for="address" class="input-group__label">Ulica</label>
     <input
+    [class.error]="address.touched && address.errors"
       class="input-group__input"
-      type="text"
-      name="zipCode"
-      id="zipCode"
-      autofocus
-      formControlName="zipCode"
-    />
-  </div>
-  <div class="input-group">
-    <label for="address" class="input-group__label">address</label>
-    <!-- <div class="input-group__input-box"> -->
-    <input
-      class="input-group__input"
-      type="text"
+      type="address"
       name="address"
       id="address"
-      autofocus
       formControlName="address"
     />
+
+    <div class="error-list" *ngIf="address.touched">
+      <p class="input-error" *ngIf="address.touched && address.hasError('maxlength')">Maksymalna długość 32 znaki.</p>
+    </div>
   </div>
+
   <div class="input-group">
-    <label for="houseNumber" class="input-group__label">houseNumber</label>
-    <!-- <div class="input-group__input-box"> -->
+    <label for="houseNumber" class="input-group__label">Numer domu</label>
     <input
+    [class.error]="houseNumber.touched && houseNumber.errors"
       class="input-group__input"
-      type="text"
+      type="houseNumber"
       name="houseNumber"
       id="houseNumber"
-      autofocus
       formControlName="houseNumber"
     />
+
+    <div class="error-list" *ngIf="houseNumber.touched">
+      <p class="input-error" *ngIf="houseNumber.touched && houseNumber.hasError('maxlength')">Maksymalna długość 10 znaków.</p>
+    </div>
   </div>
+
 
   <input type="hidden" formControlName="curriculumVitaeId" />
   <input type="hidden" formControlName="id" />
 
-  <button type="submit" class="button" (click)="submit()">send/save</button>
+
+  <div class="input-group">
+    <app-animated-button (myClick)="submit()" [status]="formStatus"></app-animated-button>
+  </div>
+
 </form>
+

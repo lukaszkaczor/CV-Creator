@@ -1,0 +1,58 @@
+@mixin flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.container{
+    @include flex-center;
+    margin-bottom: 2rem;
+
+    button{
+        @include flex-center;
+        cursor: pointer;
+        width: 100%;
+        padding: .7rem;
+        border: none;
+        border-radius: .3rem;
+        background-color: #1979e7;
+        transition: .3s all;
+
+
+        svg{
+            width: 1.5rem;
+            height: 1.5rem;
+            color: white;
+        }
+
+        &:hover{
+            background-color: rgba(28, 93, 155,  .9);
+        }
+    }
+
+    
+    .left{
+        // background-color: rgb(22, 116, 22);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .right{
+        // background-color: rgb(28, 93, 155);
+        // background-color: rgb(28, 93, 155);
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0; 
+    }
+}
+
+
+
+@media (min-width: 992px) {
+    .container{
+        margin: 0 auto;
+        width: 20rem;
+        margin-bottom: 5rem;
+    }
+    
+}

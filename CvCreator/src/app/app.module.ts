@@ -40,6 +40,7 @@ import { LanguageFormComponent } from './Components/Creator/language-form/langua
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AnimatedButtonComponent } from './Components/animated-button/animated-button.component';
+import { NavigationArrowsComponent } from './Components/navigation-arrows/navigation-arrows.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -74,6 +75,7 @@ export function tokenGetter() {
     LanguageFormComponent,
     NavbarComponent,
     AnimatedButtonComponent,
+    NavigationArrowsComponent,
   ],
   imports: [
     BrowserModule,
