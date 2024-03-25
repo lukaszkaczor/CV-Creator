@@ -1,8 +1,147 @@
-<h1>Experience</h1>
+
+<h1 class="section-header">Doświadczenie zawodowe</h1>
+
+<form [formGroup]="form">
+
+  
+  <div class="input-group">
+    <label for="name" class="input-group__label">Stanowisko</label>
+    <input
+    [class.error]="name.touched && name.errors"
+      class="input-group__input"
+      type="text"
+      name="name"
+      id="name"
+      formControlName="name"
+    />
+
+    <div class="error-list" *ngIf="name.touched">
+      <p class="input-error" *ngIf="name.touched && name.hasError('required')">Pole wymagane.</p>
+      <p class="input-error" *ngIf="name.touched && name.hasError('minlength')">Minimalna długość 2 znaki.</p>
+      <p class="input-error" *ngIf="name.touched && name.hasError('maxlength')">Maksymalna długość 6 znaków.</p>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="companyName" class="input-group__label">Firma</label>
+    <input
+      [class.error]="companyName.touched && companyName.errors"
+      class="input-group__input"
+      type="text"
+      name="companyName"
+      id="companyName"
+      autofocus
+      formControlName="companyName"
+    />
+
+    <div class="error-list" *ngIf="companyName.touched">
+      <p class="input-error" *ngIf="companyName.touched && companyName.hasError('required')">Pole wymagane.</p>
+      <p class="input-error" *ngIf="companyName.touched && companyName.hasError('minlength')">Minimalna długość 2 znaki.</p>
+      <p class="input-error" *ngIf="companyName.touched && companyName.hasError('maxlength')">Maksymalna długość 32 znaki.</p>
+    </div>
+  </div>
+
+
+  <div class="input-group">
+    <label for="city" class="input-group__label">Miasto</label>
+    <input
+    [class.error]="city.touched && city.errors"
+      class="input-group__input"
+      type="text"
+      name="city"
+      id="city"
+      formControlName="city"
+    />
+
+    <div class="error-list" *ngIf="city.touched">
+      <p class="input-error" *ngIf="city.touched && city.hasError('maxlength')">Maksymalna długość 32 znaki.</p>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="startDate" class="input-group__label">Data rozpoczęcia</label>
+    <input
+    [class.error]="startDate.touched && startDate.errors"
+      class="input-group__input"
+      type="date"
+      name="startDate"
+      id="startDate"
+      formControlName="startDate"
+    />
+
+    <div class="error-list" *ngIf="startDate.touched">
+      <p class="input-error" *ngIf="startDate.touched && startDate.hasError('maxlength')">Maksymalna długość 10 znaków.</p>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="endDate" class="input-group__label">Data zakończenia</label>
+    <input
+    [class.error]="endDate.touched && endDate.errors"
+      class="input-group__input"
+      type="date"
+      name="endDate"
+      id="endDate"
+      formControlName="endDate"
+    />
+
+    <div class="error-list" *ngIf="endDate.touched">
+      <p class="input-error" *ngIf="endDate.touched && endDate.hasError('maxlength')">Maksymalna długość 10 znaków.</p>
+    </div>
+  </div>
+
+  <div class="input-group input-group--checkbox">
+    <label for="stillEmployed" class="input-group__label">Nadal pracuję</label>
+    <input
+    [class.error]="stillEmployed.touched && stillEmployed.errors"
+      class="input-group__input"
+      type="checkbox"
+      name="stillEmployed"
+      id="stillEmployed"
+      formControlName="stillEmployed"
+    />
+
+    <div class="error-list" *ngIf="stillEmployed.touched">
+      <p class="input-error" *ngIf="stillEmployed.touched && stillEmployed.hasError('maxlength')">Maksymalna długość 10 znaków.</p>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="description" class="input-group__label">Opis</label>
+   
+    <textarea
+    [class.error]="description.touched && description.errors"
+    class="input-group__input"
+    type="search"
+    name="description"
+    id="description"
+    formControlName="description"
+    ></textarea>
+
+    <div class="error-list" *ngIf="description.touched">
+      <p class="input-error" *ngIf="description.touched && description.hasError('maxlength')">Maksymalna długość 10 znaków.</p>
+    </div>
+  </div>
+
+
+  <input type="hidden" formControlName="curriculumVitaeId" />
+  <input type="hidden" formControlName="id" />
+
+
+  <div class="input-group">
+    <app-animated-button (myClick)="submit()" [status]="formStatus"></app-animated-button>
+  </div>
+
+</form>
+
+
+
+
+<!-- <h1>Experience</h1>
 <form [formGroup]="form">
   <div class="input-group">
     <label for="name" class="input-group__label">Name</label>
-    <!-- <div class="input-group__input-box"> -->
+ 
     <input
       class="input-group__input"
       type="text"
@@ -15,7 +154,7 @@
 
   <div class="input-group">
     <label for="companyName" class="input-group__label">companyName</label>
-    <!-- <div class="input-group__input-box"> -->
+
     <input
       class="input-group__input"
       type="text"
@@ -28,7 +167,7 @@
 
   <div class="input-group">
     <label for="city" class="input-group__label">city</label>
-    <!-- <div class="input-group__input-box"> -->
+
     <input
       class="input-group__input"
       type="text"
@@ -41,7 +180,6 @@
 
   <div class="input-group">
     <label for="startDate" class="input-group__label">startDate</label>
-    <!-- <div class="input-group__input-box"> -->
     <input
       class="input-group__input"
       type="date"
@@ -55,7 +193,6 @@
 
   <div class="input-group">
     <label for="endDate" class="input-group__label">endDate</label>
-    <!-- <div class="input-group__input-box"> -->
     <input
       class="input-group__input"
       type="date"
@@ -68,7 +205,6 @@
 
   <div class="input-group">
     <label for="stillEmployed" class="input-group__label">stillEmployed</label>
-    <!-- <div class="input-group__input-box"> -->
     <input
       class="input-group__input"
       type="checkbox"
@@ -82,7 +218,6 @@
 
   <div class="input-group">
     <label for="description" class="input-group__label">description</label>
-    <!-- <div class="input-group__input-box"> -->
     <input
       class="input-group__input"
       type="text"
@@ -97,6 +232,6 @@
   <input type="hidden" formControlName="id" />
 
   <button type="submit" class="button" (click)="submit()">send/save</button>
-</form>
+</form> -->
 
 <h1 *ngFor="let item of experience">{{ item.name}}</h1>

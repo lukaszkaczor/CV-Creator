@@ -80,6 +80,8 @@ form{
     align-items: flex-start;
     margin: 1.2rem 0;
 
+
+
     label{
         font-size: .8rem;
         font-weight: 400;
@@ -89,19 +91,20 @@ form{
         color: rgba(0,0,0, .85);
     }
 
-    input{
+    input, textarea{
         width: 100%;
         padding: .8rem;
         background-color: $background;
         border: none;
         outline: none;
         border-radius: $border-radius;
+        resize: vertical;
 
         font-family: $font;
         font-size: 1rem;
         letter-spacing: .05rem;
         font-weight: 400;
-        transition: 1s;
+        transition: background-color 1s;
         color: rgba(0,0,0, .7);
 
         &:focus{
@@ -110,8 +113,25 @@ form{
         }
     }
 
+
+
     .error{
         outline: .2rem solid rgba(255, 31, 31, 0.7);
+    }
+
+    &--checkbox{
+        flex-direction: row;
+        justify-content: space-between;
+      
+        label{
+            margin: 0;;
+        }
+
+        input{
+            cursor: pointer;
+            margin-right: 1rem;
+            width: auto;
+        }
     }
 }
 
